@@ -1,12 +1,11 @@
 class Scene2 extends Phaser.Scene {
 	constructor() {
-		super("playGame");
+		super("screenPlay1");
 		var status;
 	} 
 
 	create() {
-		this.back = this.add.image(40, 20, "backbutton");
-
+		
 		for (var i =0; i<21; i++) {
 			
 			if (i % 5 == 0) {
@@ -24,7 +23,10 @@ class Scene2 extends Phaser.Scene {
 
 		this.input.on('pointerdown', this.startDrag, this);
 
-		this.back.setInteractive().on('pointerdown', () => this.scene.start("bootGame"));
+		this.back = this.add.sprite(40, 20, "buttonback").setInteractive();
+		this.back.on('pointerover', () => this.back.setFrame(1));
+		this.back.on('pointerout', () => this.back.setFrame(0));
+		this.back.on('pointerdown', () => this.scene.start("screenMain"));
 
 
 	}
