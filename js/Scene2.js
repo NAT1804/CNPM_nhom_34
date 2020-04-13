@@ -5,29 +5,58 @@ class Scene2 extends Phaser.Scene {
 	} 
 
 	create() {
-		
-		for (var i =0; i<21; i++) {
-			
-			if (i % 5 == 0) {
-				this.add.bitmapText(i*28+20, config.height/2 - 12, "pixelFont", "|", 22);
-				this.add.bitmapText(i*28+20, config.height/2+5, "pixelFont", i, 16);
-			} else {
-				this.add.bitmapText(i*28+20, config.height/2 - 10, "pixelFont", "|", 16);
-			}
-		
-		}
+		//background
+		this.khungtrang = this.add.image(0, 30, "khungtrang");
+		this.khungtrang.setOrigin(0, 0);
 
-		this.khoitao();
-		
-		this.statusLabel = this.add.bitmapText(config.width/2, config.height*3/4, "pixelFont", "STATUS: ", 16);
-
-		this.input.on('pointerdown', this.startDrag, this);
-
-		this.back = this.add.sprite(40, 20, "buttonback").setInteractive();
+		// header
+		this.add.text(420, 85, "Place the ball on the number line", {
+			color: '#000000',
+			fontSize: '30px',
+			stroke: '#000',
+			strokeThickness: 3 
+		})
+		//back button
+		this.back = this.add.sprite(40, 50, "buttonback").setInteractive({cursor: 'pointer'});
 		this.back.on('pointerover', () => this.back.setFrame(1));
 		this.back.on('pointerout', () => this.back.setFrame(0));
 		this.back.on('pointerdown', () => this.scene.start("screenMain"));
 
+
+		//thanh chay
+		this.thanhbar = this.add.image(400, 30, "thanhbar").setScale(0.5);
+		this.thanhbar.setOrigin(0, 0);
+		this.greenball1 = this.add.image(402, 33 , "greenball").setScale(0.5);
+		this.greenball1.setOrigin(0, 0);
+		this.greenball2 = this.add.image(446, 33 , "greenball").setScale(0.5);
+		this.greenball2.setOrigin(0, 0);
+		this.greenball3 = this.add.image(490, 33 , "greenball").setScale(0.5);
+		this.greenball3.setOrigin(0, 0);
+		this.greenball4 = this.add.image(534, 33 , "greenball").setScale(0.5);
+		this.greenball4.setOrigin(0, 0);
+
+		// status green ball
+		this.greenball4.statusRight = true;
+		this.greenball3.statusRight = false;
+		this.greenball2.statusRight = false;
+		this.greenball1.statusRight = false;
+		this.greenball4.statusLeft = false;
+		this.greenball3.statusLeft = false;
+		this.greenball2.statusLeft = false;
+		this.greenball1.statusLeft = false;
+
+		// am thanh
+		this.loa = this.add.image(280, 60, "loa").setScale(0.2);
+		this.loa.setOrigin(0, 0);
+		this.loa.setInteractive({cursor: 'pointer'});
+		this.music = this.sound.add('sound');
+		this.loa.on('pointerdown', () => this.music.play());
+
+		this.khoitao();
+		
+		this.input.on('pointerdown', this.startDrag, this);
+
+		
 
 	}
 
@@ -35,16 +64,49 @@ class Scene2 extends Phaser.Scene {
 		this.time.addEvent({
 		    delay: 1000,
 		    callback: ()=>{
-		        var xx  = Phaser.Math.Between(20, config.width-20);
-				do {
-					this.number = Phaser.Math.Between(1,19);
-				} while (this.number % 5 == 0);
-			
-				this.numberObj = this.add.image(xx, 80, "number"+this.number);
-				this.numberObj.setInteractive();
+		    	this.countCorrect = 0;
+		        // number line
+				this.numberline = this.add.image(100, 300, "numberline");
+				this.numberline.setOrigin(0, 0);
+
+				//random number
+				 this.randomNumber();
+
+				//status
+				this.statusLabel = this.add.bitmapText(config.width/2-100, config.height*3/4-25, "pixelFont", "STATUS: ", 30);
+				this.end = false;
+				
 		    },
 		    loop: false
 		})
+	}
+
+	randomNumber() {
+		if (this.countCorrect == 0) {
+			var xx  = Phaser.Math.Between(100, config.width-100);
+			do {
+				this.number = Phaser.Math.Between(1,7);
+			} while (this.number % 5 == 0);
+
+			this.numberObj1 = this.add.image(xx, 200, "number"+this.number).setInteractive({cursor: 'pointer'});
+		}
+		if (this.countCorrect == 1) {
+			var xx  = Phaser.Math.Between(100, config.width-100);
+			do {
+				this.number = Phaser.Math.Between(8,13);
+			} while (this.number % 5 == 0);
+
+			this.numberObj2 = this.add.image(xx, 200, "number"+this.number).setInteractive({cursor: 'pointer'});
+		}
+		if (this.countCorrect == 2) {
+			var xx  = Phaser.Math.Between(100, config.width-100);
+			do {
+				this.number = Phaser.Math.Between(14,19);
+			} while (this.number % 5 == 0);
+
+			this.numberObj3 = this.add.image(xx, 200, "number"+this.number).setInteractive({cursor: 'pointer'});
+		}
+		
 	}
 
 	startDrag(pointer, targets) {
@@ -57,9 +119,13 @@ class Scene2 extends Phaser.Scene {
 
 	doDrag(pointer) {
 		if (this.dragObj != null) {
-			if (this.dragObj.x > 20 || this.dragObj.x < config.width - 20) {
+			if (this.dragObj.x > 100 || this.dragObj.x < config.width - 100) {
 				this.dragObj.x = pointer.x;
-				this.dragObj.y = 80;
+				this.dragObj.y = 200;
+			}
+			else {
+				this.dragObj.x = 100;
+				this.dragObj.y = 200;
 			}
 		}
 	}
@@ -68,22 +134,22 @@ class Scene2 extends Phaser.Scene {
 		this.input.on('pointerdown', this.startDrag, this);
 		this.input.off('pointermove', this.doDrag, this);
 		this.input.off('pointerup', this.stopDrag, this);
+		//console.log(this.dragObj.x);
 		this.fillNumber(this.number);
 		
 	}
 
 	fillNumber(number) {
 		
-		if (this.dragObj != null) {
+		if (this.dragObj != null && this.dragObj != this.loa) {
 			// vi tri cua so 0
-			if (this.dragObj.x > 6 && this.dragObj.x <= 34) {
+			if (this.dragObj.x > 155 && this.dragObj.x <= 200) {
 				this.wrongAnswer();
 				return;
 			}
 			// vi tri cua so 1
-			if (this.dragObj.x > 34 && this.dragObj.x <= 62) {
+			if (this.dragObj.x > 200 && this.dragObj.x <= 250) {
 				if (number == 1) {
-					this.add.bitmapText(1*28+20, config.height/2+5, "pixelFont", 1, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -93,9 +159,8 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 2
-			if (this.dragObj.x > 62 && this.dragObj.x <= 90) {
+			if (this.dragObj.x > 250 && this.dragObj.x <= 300) {
 				if (number == 2) {
-					this.add.bitmapText(2*28+20, config.height/2+5, "pixelFont", 2, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -105,9 +170,8 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 3
-			if (this.dragObj.x > 90 && this.dragObj.x <= 118) {
+			if (this.dragObj.x > 300 && this.dragObj.x <= 350) {
 				if (number == 3) {
-					this.add.bitmapText(3*28+20, config.height/2+5, "pixelFont", 3, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -117,9 +181,8 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 4
-			if (this.dragObj.x > 118 && this.dragObj.x <= 146) {
+			if (this.dragObj.x > 350 && this.dragObj.x <= 400) {
 				if (number == 4) {
-					this.add.bitmapText(4*28+20, config.height/2+5, "pixelFont", 4, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -129,14 +192,13 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 5
-			if (this.dragObj.x >146 && this.dragObj.x <= 174) {
+			if (this.dragObj.x > 400 && this.dragObj.x <= 450) {
 				this.wrongAnswer();
 				return;
 			}
 			// vi tri cua so 6
-			if (this.dragObj.x > 174 && this.dragObj.x <= 202) {
+			if (this.dragObj.x > 450 && this.dragObj.x <= 500) {
 				if (number == 6) {
-					this.add.bitmapText(6*28+20, config.height/2+5, "pixelFont", 6, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -146,9 +208,8 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 7
-			if (this.dragObj.x > 202 && this.dragObj.x <= 230) {
+			if (this.dragObj.x > 500 && this.dragObj.x <= 550) {
 				if (number == 7) {
-					this.add.bitmapText(7*28+20, config.height/2+5, "pixelFont", 7, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -158,9 +219,8 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 8
-			if (this.dragObj.x > 230 && this.dragObj.x <= 258) {
+			if (this.dragObj.x > 550 && this.dragObj.x <= 600) {
 				if (number == 8) {
-					this.add.bitmapText(8*28+20, config.height/2+5, "pixelFont", 8, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -170,9 +230,8 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 9
-			if (this.dragObj.x > 258 && this.dragObj.x <= 286) {
+			if (this.dragObj.x > 600 && this.dragObj.x <= 650) {
 				if (number == 9) {
-					this.add.bitmapText(9*28+20, config.height/2+5, "pixelFont", 9, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -182,14 +241,13 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 10
-			if (this.dragObj.x > 286 && this.dragObj.x <= 314) {
+			if (this.dragObj.x > 650 && this.dragObj.x <= 700) {
 				this.wrongAnswer();
 				return;
 			}
 			// vi tri cua so 11
-			if (this.dragObj.x > 314 && this.dragObj.x <= 342) {
+			if (this.dragObj.x > 700 && this.dragObj.x <= 750) {
 				if (number == 11) {
-					this.add.bitmapText(11*28+20, config.height/2+5, "pixelFont", 11, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -199,9 +257,8 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 12
-			if (this.dragObj.x > 342 && this.dragObj.x <= 370) {
+			if (this.dragObj.x > 750 && this.dragObj.x <= 800) {
 				if (number == 12) {
-				this.add.bitmapText(12*28+20, config.height/2+5, "pixelFont", 12, 16);
 				this.correctAnswer();
 				return;
 				} else {
@@ -211,9 +268,8 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 13
-			if (this.dragObj.x > 370 && this.dragObj.x <= 398) {
+			if (this.dragObj.x > 800 && this.dragObj.x <= 850) {
 				if (number == 13) {
-					this.add.bitmapText(13*28+20, config.height/2+5, "pixelFont", 13, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -223,9 +279,8 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 14
-			if (this.dragObj.x > 398 && this.dragObj.x <= 426) {
+			if (this.dragObj.x > 850 && this.dragObj.x <= 900) {
 				if (number == 14) {
-					this.add.bitmapText(14*28+20, config.height/2+5, "pixelFont", 14, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -235,14 +290,13 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 15
-			if (this.dragObj.x > 426 && this.dragObj.x <= 454) {
+			if (this.dragObj.x > 900 && this.dragObj.x <= 950) {
 				this.wrongAnswer();
 				return;
 			}
 			// vi tri cua so 16
-			if (this.dragObj.x > 454 && this.dragObj.x <= 482) {
+			if (this.dragObj.x > 950 && this.dragObj.x <= 1000) {
 				if (number == 16) {
-					this.add.bitmapText(16*28+20, config.height/2+5, "pixelFont", 16, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -252,9 +306,8 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 17
-			if (this.dragObj.x > 482 && this.dragObj.x <= 510) {
+			if (this.dragObj.x > 1000 && this.dragObj.x <= 1050) {
 				if (number == 17) {
-					this.add.bitmapText(17*28+20, config.height/2+5, "pixelFont", 17, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -264,9 +317,8 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 18
-			if (this.dragObj.x > 510 && this.dragObj.x <= 538) {
+			if (this.dragObj.x > 1050 && this.dragObj.x <= 1100) {
 				if (number == 18) {
-					this.add.bitmapText(18*28+20, config.height/2+5, "pixelFont", 18, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -276,9 +328,8 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 19
-			if (this.dragObj.x > 538 && this.dragObj.x <= 566) {
+			if (this.dragObj.x > 1100 && this.dragObj.x <= 1150) {
 				if (number == 19) {
-					this.add.bitmapText(19*28+20, config.height/2+5, "pixelFont", 19, 16);
 					this.correctAnswer();
 					return;
 				} else {
@@ -288,7 +339,7 @@ class Scene2 extends Phaser.Scene {
 				
 			}
 			// vi tri cua so 20
-			if (this.dragObj.x > 566 && this.dragObj.x <= 594) {
+			if (this.dragObj.x > 1150 && this.dragObj.x <= 1200) {
 				this.wrongAnswer();
 				return;
 			}
@@ -301,22 +352,215 @@ class Scene2 extends Phaser.Scene {
 	wrongAnswer() {
 		status = "WRONG";
 		this.statusLabel.text = "STATUS: "+status;
-		this.numberObj.destroy();
-		this.khoitao();
+		
+		
+		if (this.greenball4.statusLeft) {
+			this.greenballMoveLeft(this.greenball4, 4);
+			this.greenball4.statusLeft = false;
+			this.greenball3.statusRight = false;
+			this.greenball4.statusRight = true;
+		}
+		if (this.greenball3.statusLeft) {
+			this.greenballMoveLeft(this.greenball3, 3);
+			this.greenball3.statusLeft = false;
+			this.greenball2.statusRight = false;
+			this.greenball4.statusLeft = true;
+			this.greenball3.statusRight = true;
+		}
+		if (this.greenball2.statusLeft) {
+			this.greenballMoveLeft(this.greenball2, 2);
+			this.greenball2.statusLeft = false;
+			this.greenball1.statusRight = false;
+			this.greenball3.statusLeft = true;
+			this.greenball2.statusRight = true;
+		}
+
+		this.move = this.time.addEvent({
+			delay: 0,
+			callback: () => {
+				if (this.countCorrect == 0) {
+					this.numberObj1.y -= 2;
+					if (this.numberObj1.y < config.height/4-70) {
+						this.move.remove();
+					}
+				}
+				if (this.countCorrect == 1) {
+					this.numberObj2.y -= 2;
+					if (this.numberObj2.y < config.height/4-70) {
+						this.move.remove();
+					}
+				}
+				if (this.countCorrect == 2) {
+					this.numberObj3.y -= 2;
+					if (this.numberObj3.y < config.height/4-70) {
+						this.move.remove();
+					}
+				}
+				
+			},
+			loop: true
+		})
+
+		this.time.addEvent({
+			delay: 1000,
+			callback: () => {
+				if (this.countCorrect == 0) {
+					this.numberObj1.destroy();
+				}
+				if (this.countCorrect == 1) {
+					this.numberObj1.destroy();
+					this.numberObj2.destroy();
+				}
+				if (this.countCorrect == 2) {
+					this.numberObj1.destroy();
+					this.numberObj2.destroy();
+					this.numberObj3.destroy();
+				}				
+
+				this.numberline.destroy();
+				this.khoitao();
+			},
+			loop: false
+		})
+		
 	}
 
 	correctAnswer() {
+		this.countCorrect++;
 		status = "CORRECT";
 		this.statusLabel.text = "STATUS: "+status;
-		while(this.numberObj.y < config.height) {
-			this.numberObj.y+=1;
+
+		this.move = this.time.addEvent({
+			delay: 0,
+			callback: () => {
+				if (this.countCorrect == 1) {
+					this.numberObj1.y += 15;
+					if (this.numberObj1.y > config.height/2+50) {
+						this.move.remove();
+					}
+				}
+				if (this.countCorrect == 2) {
+					this.numberObj2.y += 15;
+					if (this.numberObj2.y > config.height/2+50) {
+						this.move.remove();
+					}
+				}
+				if (this.countCorrect == 3) {
+					this.numberObj3.y += 15;
+					if (this.numberObj3.y > config.height/2+50) {
+						this.move.remove();
+					}
+				}
+				
+			},
+			loop: true
+		})
+
+		if (this.countCorrect == 3) {
+			
+			if (this.greenball1.statusRight) {
+				this.greenballMoveRight(this.greenball1, 1);
+				this.greenball1.statusRight = false;
+				this.greenball1.statusLeft = true;
+
+				this.end = true;
+				this.time.addEvent({
+					delay: 3000,
+					callback: () => {
+						this.finishScreen = this.add.image(0, 30, "khungfinish");
+						this.finishScreen.setOrigin(0, 0);
+						this.buttonfinish = this.add.image(770, 500, "finishbutton").setInteractive({cursor: 'pointer'});
+						this.buttonfinish.on('pointerdown', () => this.scene.start("screenMain"));
+					}
+				})
+			}
+			if (this.greenball2.statusRight) {
+				this.greenballMoveRight(this.greenball2, 2);
+				this.greenball2.statusRight = false;
+				this.greenball2.statusLeft = true;
+				this.greenball1.statusRight = true;
+				this.greenball3.statusLeft = false;
+			}
+			if (this.greenball3.statusRight) {
+				this.greenballMoveRight(this.greenball3, 3);
+				this.greenball3.statusRight = false;
+				this.greenball3.statusLeft = true;
+				this.greenball2.statusRight = true;
+				this.greenball4.statusLeft = false;
+			}
+			if (this.greenball4.statusRight) {
+				this.greenballMoveRight(this.greenball4, 4);
+				this.greenball4.statusRight = false;
+				this.greenball4.statusLeft = true;
+				this.greenball3.statusRight = true;
+			}
+
+			if (!this.end) {
+
+				this.time.addEvent({
+					delay: 1500,
+					callback: () => {
+						this.numberObj1.destroy();
+						this.numberObj2.destroy();
+						this.numberObj3.destroy();
+						this.numberline.destroy();
+						this.khoitao();
+					},
+					loop: false
+				})
+			}
+
 		}
-		this.numberObj.destroy();
-		this.khoitao();
+		else {
+			this.time.addEvent({
+				delay: 1000,
+				callback: () => {
+					this.randomNumber();
+				},
+				loop: false
+			})	
+		}
+
 	}
 
-	update() {
-
+	greenballMoveRight(ball, i){
+		var run = this.time.addEvent({
+			delay: 0,
+			callback: () => { 
+				if (i == 4 || i == 3) {
+					if (ball.x > 992 - (4-i)*50) run.remove();
+				}
+				else if (i == 2) {
+					if (ball.x > 900) run.remove();
+				}
+				else if (i == 1) {
+					if (ball.x > 860) run.remove();
+				}
+				ball.x += 10;
+			},
+			loop: true
+		})
 	}
+
+	greenballMoveLeft(ball, i){
+		var run = this.time.addEvent({
+			delay: 0,
+			callback: () => {
+				if (i == 4) {
+					if (ball.x < 550) run.remove();
+				}
+				else if (i == 3) {
+					if (ball.x < 510) run.remove();
+				}
+				else if (i == 2) {
+					if (ball.x < 460) run.remove();
+				}
+				
+				ball.x -= 10;
+			},
+			loop: true
+		})
+	}
+
 
 }
