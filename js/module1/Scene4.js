@@ -72,6 +72,7 @@ class Scene4 extends Phaser.Scene {
 		this.duongray8.setScale(.4);
 
 		this.input.on('pointerdown', this.startDrag, this);
+		
 	}
 
 	khoitao() {
@@ -230,7 +231,7 @@ class Scene4 extends Phaser.Scene {
 					this.bodytrain5.y = 495;
 					this.bodytrain5.disableInteractive();
 					this.bodytrain5.status = false;
-					this.explosion = this.add.sprite(120, config.height*3/4-150,"explosion");
+					this.explosion = this.add.sprite(120, config.height*3/4-150,"explosion").setScale(2.5);
 					this.explosion.play('explode');
 					this.time.addEvent({
 						delay: 1000,

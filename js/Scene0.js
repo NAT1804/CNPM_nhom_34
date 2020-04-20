@@ -101,7 +101,7 @@ class Scene0 extends Phaser.Scene {
 		this.anims.create({
 			key: "explode",
 			frames: this.anims.generateFrameNumbers("explosion"),
-			frameRate: 20, // 20 frames per second
+			frameRate: 5, // 20 frames per second
 			repeat: 0,
 			hideOnComplete: true
 		});
