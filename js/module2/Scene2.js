@@ -66,10 +66,8 @@ class Scene2 extends Phaser.Scene {
 		        // number line
 				this.numberline = this.add.image(100, 300, "numberline");
 				this.numberline.setOrigin(0, 0);
-
 				//random number
 				 this.randomNumber();
-
 				//status
 				this.statusLabel = this.add.bitmapText(config.width/2-100, config.height*3/4-25, "pixelFont", "STATUS: ", 30);
 				this.end = false;
@@ -85,24 +83,21 @@ class Scene2 extends Phaser.Scene {
 			do {
 				this.number = Phaser.Math.Between(1,7);
 			} while (this.number % 5 == 0);
-			//this.numberObj1 = this.add.sprite(xx, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
-			this.numberObj1 = this.add.image(xx, 200, "number"+this.number).setScale(1.5).setInteractive({cursor: 'pointer'});
+			this.numberObj1 = this.add.sprite(xx, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		if (this.countCorrect == 1) {
 			var xx  = Phaser.Math.Between(100, config.width-100);
 			do {
 				this.number = Phaser.Math.Between(8,13);
 			} while (this.number % 5 == 0);
-
-			this.numberObj2 = this.add.image(xx, 200, "number"+this.number).setScale(1.5).setInteractive({cursor: 'pointer'});
+			this.numberObj2 = this.add.sprite(xx, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		if (this.countCorrect == 2) {
 			var xx  = Phaser.Math.Between(100, config.width-100);
 			do {
 				this.number = Phaser.Math.Between(14,19);
 			} while (this.number % 5 == 0);
-
-			this.numberObj3 = this.add.image(xx, 200, "number"+this.number).setScale(1.5).setInteractive({cursor: 'pointer'});
+			this.numberObj3 = this.add.sprite(xx, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		
 	}
@@ -119,11 +114,11 @@ class Scene2 extends Phaser.Scene {
 			this.dragObj.setFrame(1);
 			if (this.dragObj.x > 100 || this.dragObj.x < config.width - 100) {
 				this.dragObj.x = pointer.x;
-				this.dragObj.y = 200;
+				this.dragObj.y = 250;
 			}
 			else {
 				this.dragObj.x = 100;
-				this.dragObj.y = 200;
+				this.dragObj.y = 250;
 			}
 		}
 	}
@@ -244,7 +239,9 @@ class Scene2 extends Phaser.Scene {
 	}
 
 	wrongAnswer() {
-		this.numberObj1.setFrame(3);
+		if (this.countCorrect == 0) this.numberObj1.setFrame(3);
+		if (this.countCorrect == 1) this.numberObj2.setFrame(3);
+		if (this.countCorrect == 2) this.numberObj3.setFrame(3);
 		status = "WRONG";
 		this.statusLabel.text = "STATUS: "+status;
 		
@@ -321,7 +318,9 @@ class Scene2 extends Phaser.Scene {
 	}
 
 	correctAnswer() {
-		this.numberObj1.setFrame(2);
+		if (this.countCorrect == 0) this.numberObj1.setFrame(2);
+		if (this.countCorrect == 1) this.numberObj2.setFrame(2);
+		if (this.countCorrect == 2) this.numberObj3.setFrame(2);
 		this.countCorrect++;
 		status = "CORRECT";
 		this.statusLabel.text = "STATUS: "+status;
@@ -331,30 +330,30 @@ class Scene2 extends Phaser.Scene {
 			callback: () => {
 				if (this.countCorrect == 1) {
 					this.numberObj1.y += 15;
-					if (this.numberObj1.y > config.height/2+50) {
+					if (this.numberObj1.y > config.height/2+190) {
 						this.move.remove();
 						this.numberObj1.disableInteractive();
-						this.numberObj1.y = config.height/2+70;
-						this.numberObj1.x = 225 + 50*(this.number - 1);
+						this.numberObj1.y = config.height/2+190;
+						this.numberObj1.x = 227 + 50*(this.number - 1);
 
 					}
 				}
 				if (this.countCorrect == 2) {
 					this.numberObj2.y += 15;
-					if (this.numberObj2.y > config.height/2+50) {
+					if (this.numberObj2.y > config.height/2+190) {
 						this.move.remove();
-						this.numberObj1.disableInteractive();
-						this.numberObj2.y = config.height/2+70;
-						this.numberObj2.x = 225 + 50*(this.number - 1);
+						this.numberObj2.disableInteractive();
+						this.numberObj2.y = config.height/2+190;
+						this.numberObj2.x = 227 + 50*(this.number - 1);
 					}
 				}
 				if (this.countCorrect == 3) {
 					this.numberObj3.y += 15;
-					if (this.numberObj3.y > config.height/2+50) {
+					if (this.numberObj3.y > config.height/2+190) {
 						this.move.remove();
-						this.numberObj1.disableInteractive();
-						this.numberObj3.y = config.height/2+70;
-						this.numberObj3.x = 225 + 50*(this.number - 1);
+						this.numberObj3.disableInteractive();
+						this.numberObj3.y = config.height/2+190;
+						this.numberObj3.x = 227 + 50*(this.number - 1);
 					}
 				}
 				
