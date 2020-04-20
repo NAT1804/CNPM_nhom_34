@@ -56,8 +56,6 @@ class Scene2 extends Phaser.Scene {
 		
 		this.input.on('pointerdown', this.startDrag, this);
 
-		
-
 	}
 
 	khoitao() {
@@ -84,12 +82,11 @@ class Scene2 extends Phaser.Scene {
 	randomNumber() {
 		if (this.countCorrect == 0) {
 			var xx  = Phaser.Math.Between(100, config.width-100);
-			// do {
-			// 	this.number = Phaser.Math.Between(1,7);
-			// } while (this.number % 5 == 0);
-			this.number = 1;
-			this.numberObj1 = this.add.sprite(xx, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
-			//this.numberObj1.setOrigin(0, 0);
+			do {
+				this.number = Phaser.Math.Between(1,7);
+			} while (this.number % 5 == 0);
+			//this.numberObj1 = this.add.sprite(xx, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
+			this.numberObj1 = this.add.image(xx, 200, "number"+this.number).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		if (this.countCorrect == 1) {
 			var xx  = Phaser.Math.Between(100, config.width-100);
@@ -111,7 +108,6 @@ class Scene2 extends Phaser.Scene {
 	}
 
 	startDrag(pointer, targets) {
-		
 		this.input.off('pointerdown', this.startDrag, this);
 		this.dragObj = targets[0];
 		this.input.on('pointermove', this.doDrag, this);
@@ -123,11 +119,11 @@ class Scene2 extends Phaser.Scene {
 			this.dragObj.setFrame(1);
 			if (this.dragObj.x > 100 || this.dragObj.x < config.width - 100) {
 				this.dragObj.x = pointer.x;
-				this.dragObj.y = 250;
+				this.dragObj.y = 200;
 			}
 			else {
 				this.dragObj.x = 100;
-				this.dragObj.y = 250;
+				this.dragObj.y = 200;
 			}
 		}
 	}
@@ -136,12 +132,11 @@ class Scene2 extends Phaser.Scene {
 		this.input.on('pointerdown', this.startDrag, this);
 		this.input.off('pointermove', this.doDrag, this);
 		this.input.off('pointerup', this.stopDrag, this);
-		//console.log(this.dragObj.x);
-		this.fillNumber(this.number);
+		this.fillNumber();
 		
 	}
 
-	fillNumber(number) {
+	fillNumber() {
 		
 		if (this.dragObj != null && this.dragObj != this.loa) {
 			// vi tri cua so 0
@@ -151,44 +146,19 @@ class Scene2 extends Phaser.Scene {
 			}
 			// vi tri cua so 1
 			if (this.dragObj.x > 200 && this.dragObj.x <= 250) {
-				if (number == 1) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}
-				
+				this.check(this.number, 1);
 			}
 			// vi tri cua so 2
 			if (this.dragObj.x > 250 && this.dragObj.x <= 300) {
-				if (number == 2) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}	
+				this.check(this.number, 2);	
 			}
 			// vi tri cua so 3
 			if (this.dragObj.x > 300 && this.dragObj.x <= 350) {
-				if (number == 3) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}	
+				this.check(this.number, 3);	
 			}
 			// vi tri cua so 4
 			if (this.dragObj.x > 350 && this.dragObj.x <= 400) {
-				if (number == 4) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();			
-					return;
-				}	
+				this.check(this.number, 4);	
 			}
 			// vi tri cua so 5
 			if (this.dragObj.x > 400 && this.dragObj.x <= 450) {
@@ -197,43 +167,19 @@ class Scene2 extends Phaser.Scene {
 			}
 			// vi tri cua so 6
 			if (this.dragObj.x > 450 && this.dragObj.x <= 500) {
-				if (number == 6) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}	
+				this.check(this.number, 6);	
 			}
 			// vi tri cua so 7
 			if (this.dragObj.x > 500 && this.dragObj.x <= 550) {
-				if (number == 7) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}	
+				this.check(this.number, 7);	
 			}
 			// vi tri cua so 8
 			if (this.dragObj.x > 550 && this.dragObj.x <= 600) {
-				if (number == 8) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}
+				this.check(this.number, 8);
 			}
 			// vi tri cua so 9
 			if (this.dragObj.x > 600 && this.dragObj.x <= 650) {
-				if (number == 9) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}	
+				this.check(this.number, 9);	
 			}
 			// vi tri cua so 10
 			if (this.dragObj.x > 650 && this.dragObj.x <= 700) {
@@ -242,43 +188,19 @@ class Scene2 extends Phaser.Scene {
 			}
 			// vi tri cua so 11
 			if (this.dragObj.x > 700 && this.dragObj.x <= 750) {
-				if (number == 11) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}	
+				this.check(this.number, 11);	
 			}
 			// vi tri cua so 12
 			if (this.dragObj.x > 750 && this.dragObj.x <= 800) {
-				if (number == 12) {
-				this.correctAnswer();
-				return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}	
+				this.check(this.number, 12);	
 			}
 			// vi tri cua so 13
 			if (this.dragObj.x > 800 && this.dragObj.x <= 850) {
-				if (number == 13) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}	
+				this.check(this.number, 13);	
 			}
 			// vi tri cua so 14
 			if (this.dragObj.x > 850 && this.dragObj.x <= 900) {
-				if (number == 14) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}	
+				this.check(this.number, 14);	
 			}
 			// vi tri cua so 15
 			if (this.dragObj.x > 900 && this.dragObj.x <= 950) {
@@ -287,51 +209,38 @@ class Scene2 extends Phaser.Scene {
 			}
 			// vi tri cua so 16
 			if (this.dragObj.x > 950 && this.dragObj.x <= 1000) {
-				if (number == 16) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}	
+				this.check(this.number, 16);	
 			}
 			// vi tri cua so 17
 			if (this.dragObj.x > 1000 && this.dragObj.x <= 1050) {
-				if (number == 17) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}	
+				this.check(this.number, 17);	
 			}
 			// vi tri cua so 18
 			if (this.dragObj.x > 1050 && this.dragObj.x <= 1100) {
-				if (number == 18) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}	
+				this.check(this.number, 18);	
 			}
 			// vi tri cua so 19
 			if (this.dragObj.x > 1100 && this.dragObj.x <= 1150) {
-				if (number == 19) {
-					this.correctAnswer();
-					return;
-				} else {
-					this.wrongAnswer();
-					return;
-				}	
+				this.check(this.number, 19);	
 			}
 			// vi tri cua so 20
 			if (this.dragObj.x > 1150 && this.dragObj.x <= 1200) {
 				this.wrongAnswer();
 				return;
-			}	
+			}
+
 		}
 			
+	}
+
+	check(number, tmp) {
+		if (number == tmp) {
+			this.correctAnswer();
+			return;
+		} else {
+			this.wrongAnswer();
+			return;
+		}
 	}
 
 	wrongAnswer() {
@@ -424,18 +333,28 @@ class Scene2 extends Phaser.Scene {
 					this.numberObj1.y += 15;
 					if (this.numberObj1.y > config.height/2+50) {
 						this.move.remove();
+						this.numberObj1.disableInteractive();
+						this.numberObj1.y = config.height/2+70;
+						this.numberObj1.x = 225 + 50*(this.number - 1);
+
 					}
 				}
 				if (this.countCorrect == 2) {
 					this.numberObj2.y += 15;
 					if (this.numberObj2.y > config.height/2+50) {
 						this.move.remove();
+						this.numberObj1.disableInteractive();
+						this.numberObj2.y = config.height/2+70;
+						this.numberObj2.x = 225 + 50*(this.number - 1);
 					}
 				}
 				if (this.countCorrect == 3) {
 					this.numberObj3.y += 15;
 					if (this.numberObj3.y > config.height/2+50) {
 						this.move.remove();
+						this.numberObj1.disableInteractive();
+						this.numberObj3.y = config.height/2+70;
+						this.numberObj3.x = 225 + 50*(this.number - 1);
 					}
 				}
 				
