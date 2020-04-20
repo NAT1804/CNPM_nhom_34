@@ -134,7 +134,7 @@ class Scene6 extends Phaser.Scene {
 		this.input.off('pointermove', this.doObject, this);
 		this.input.off('pointerup', this.stopObject, this);
 
-		this.checkColor();
+		this.checkResult();
 	}
 
 	changeColor() {
@@ -192,223 +192,23 @@ class Scene6 extends Phaser.Scene {
 		}
 	}
 
-	checkColor() {
+	checkResult() {
 		if (this.dragObject != null) {
 			// vi tri so thu nhat
-			if (this.dragObject.x > 350 && this.dragObject.x <= 550 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3
-				&& this.bodytrain1.status == true) {
-				if (this.dragObject == this.bodytrain1) {
-					this.duongray3.setFrame(0);
-					this.bodytrain1.x = 430;
-					this.bodytrain1.y = 495;
-					this.bodytrain1.disableInteractive();
-					this.duongray4.setFrame(0);
-					this.bodytrain1.status = false;
-					this.bodytrain2.status = true;
-				} else {
-					this.imagewrong = this.add.image(430, 700, "imagewrong");
-					if (this.count < 1) this.count+=2;
-					if (this.checkfalse == true) {
-						if (this.greenball4.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball4, 4);
-							this.greenball4.statusLeft = false;
-							this.greenball4.statusRight = true;
-							this.greenball3.statusRight = false;
-						}
-						if (this.greenball3.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball3, 3);
-							this.greenball3.statusLeft = false;
-							this.greenball3.statusRight = true;
-							this.greenball2.statusRight = false;
-						}
-						if (this.greenball2.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball2, 2);
-							this.greenball2.statusLeft = false;
-							this.greenball2.statusRight = true;
-							this.greenball1.statusRight = false;
-						}
-						if (this.greenball1.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball1, 1);
-							this.greenball1.statusLeft = false;
-							this.greenball1.statusRight = true;
-						}
-						this.checkfalse = false;
-					}
-					this.duongray3.setFrame(1);
-					this.dragObject.x = 430;
-					this.dragObject.y = 495;
-					this.time.addEvent({
-						delay: 1000,
-						callback: () => {
-							this.dragObject.y -= 100;
-							this.duongray3.setFrame(0);
-							this.imagewrong.destroy();
-						},
-						loop: false
-					})
-				}
+			if (this.dragObject.x > 350 && this.dragObject.x <= 550 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3 && this.bodytrain1.status == true) {
+				this.checkTurn(1, this.bodytrain1, this.bodytrain2, this.duongray3, this.duongray4, this.greenball4, this.greenball3, this.greenball2, this.greenball1);
 			}
 			//vi tri thu hai
-			if (this.dragObject.x > 550 && this.dragObject.x <= 725 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3
-				&& this.bodytrain2.status == true) {
-				if (this.dragObject == this.bodytrain2) {
-					this.duongray4.setFrame(0);
-					this.bodytrain2.x = 625;
-					this.bodytrain2.y = 495;
-					this.bodytrain2.disableInteractive();
-					this.duongray5.setFrame(0);
-					this.bodytrain2.status = false;
-					this.bodytrain3.status = true;
-				} else {
-					this.imagewrong = this.add.image(625, 700, "imagewrong");
-					if (this.count < 1) this.count+=2;
-					if (this.checkfalse == true) {
-						if (this.greenball4.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball4, 4);
-							this.greenball4.statusLeft = false;
-							this.greenball4.statusRight = true;
-							this.greenball3.statusRight = false;
-						}
-						if (this.greenball3.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball3, 3);
-							this.greenball3.statusLeft = false;
-							this.greenball3.statusRight = true;
-							this.greenball2.statusRight = false;
-						}
-						if (this.greenball2.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball2, 2);
-							this.greenball2.statusLeft = false;
-							this.greenball2.statusRight = true;
-							this.greenball1.statusRight = false;
-						}
-						if (this.greenball1.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball1, 1);
-							this.greenball1.statusLeft = false;
-							this.greenball1.statusRight = true;
-						}
-						this.checkfalse = false;
-					}
-					this.duongray4.setFrame(1);
-					this.dragObject.x = 625;
-					this.dragObject.y = 495;
-					this.time.addEvent({
-						delay: 1000,
-						callback: () => {
-							this.dragObject.y -= 100;
-							this.duongray4.setFrame(0);
-							this.imagewrong.destroy();
-						},
-						loop: false
-					})
-				}
+			if (this.dragObject.x > 550 && this.dragObject.x <= 725 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3 && this.bodytrain2.status == true) {
+				this.checkTurn(2, this.bodytrain2, this.bodytrain3, this.duongray4, this.duongray5, this.greenball4, this.greenball3, this.greenball2, this.greenball1);
 			}
 			// vi tri thu ba
-			if (this.dragObject.x > 725 && this.dragObject.x <= 940 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3
-				&& this.bodytrain3.status == true) {
-				if (this.dragObject == this.bodytrain3) {
-					this.duongray5.setFrame(0);
-					this.bodytrain3.x = 820;
-					this.bodytrain3.y = 495;
-					this.bodytrain3.disableInteractive();
-					this.duongray6.setFrame(0);
-					this.bodytrain3.status = false;
-					this.bodytrain4.status = true;
-				} else {
-					this.imagewrong = this.add.image(820, 700, "imagewrong");
-					if (this.count < 1) this.count+=2;
-					if (this.checkfalse == true) {
-						if (this.greenball4.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball4, 4);
-							this.greenball4.statusLeft = false;
-							this.greenball4.statusRight = true;
-							this.greenball3.statusRight = false;
-						}
-						if (this.greenball3.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball3, 3);
-							this.greenball3.statusLeft = false;
-							this.greenball3.statusRight = true;
-							this.greenball2.statusRight = false;
-						}
-						if (this.greenball2.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball2, 2);
-							this.greenball2.statusLeft = false;
-							this.greenball2.statusRight = true;
-							this.greenball1.statusRight = false;
-						}
-						if (this.greenball1.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball1, 1);
-							this.greenball1.statusLeft = false;
-							this.greenball1.statusRight = true;
-						}
-						this.checkfalse = false;
-					}
-					this.duongray5.setFrame(1);
-					this.dragObject.x = 820;
-					this.dragObject.y = 495;
-					this.time.addEvent({
-						delay: 1000,
-						callback: () => {
-							this.dragObject.y -= 100;
-							this.duongray5.setFrame(0);
-							this.imagewrong.destroy();
-						},
-						loop: false
-					})
-				}
+			if (this.dragObject.x > 725 && this.dragObject.x <= 940 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3 && this.bodytrain3.status == true) {
+				this.checkTurn(3, this.bodytrain3, this.bodytrain4, this.duongray5, this.duongray6, this.greenball4, this.greenball3, this.greenball2, this.greenball1);
 			}
 			// vi tri thu tu
-			if (this.dragObject.x > 940 && this.dragObject.x <= 1120 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3
-				&& this.bodytrain4.status == true) {
-				if (this.dragObject == this.bodytrain4) {
-					this.duongray6.setFrame(0);
-					this.bodytrain4.x = 1015;
-					this.bodytrain4.y = 495;
-					this.bodytrain4.disableInteractive();
-					this.duongray7.setFrame(0);
-					this.bodytrain4.status = false;
-					this.bodytrain5.status = true;
-				} else {
-					this.imagewrong = this.add.image(1015, 700, "imagewrong");
-					if (this.count < 1) this.count+=2;
-					if (this.checkfalse == true) {
-						if (this.greenball4.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball4, 4);
-							this.greenball4.statusLeft = false;
-							this.greenball4.statusRight = true;
-							this.greenball3.statusRight = false;
-						}
-						if (this.greenball3.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball3, 3);
-							this.greenball3.statusLeft = false;
-							this.greenball3.statusRight = true;
-							this.greenball2.statusRight = false;
-						}
-						if (this.greenball2.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball2, 2);
-							this.greenball2.statusLeft = false;
-							this.greenball2.statusRight = true;
-							this.greenball1.statusRight = false;
-						}
-						if (this.greenball1.statusLeft == true) {
-							this.greenballMoveLeft(this.greenball1, 1);
-							this.greenball1.statusLeft = false;
-							this.greenball1.statusRight = true;
-						}
-						this.checkfalse = false;
-					}
-					this.duongray6.setFrame(1);
-					this.dragObject.x = 1015;
-					this.dragObject.y = 495;
-					this.time.addEvent({
-						delay: 1000,
-						callback: () => {
-							this.dragObject.y -= 100;
-							this.duongray6.setFrame(0);
-							this.imagewrong.destroy();
-						},
-						loop: false
-					})
-				}
+			if (this.dragObject.x > 940 && this.dragObject.x <= 1120 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3 && this.bodytrain4.status == true) {
+				this.checkTurn(4, this.bodytrain4, this.bodytrain5, this.duongray6, this.duongray7, this.greenball4, this.greenball3, this.greenball2, this.greenball1);
 			}
 			// vi tri thu nam
 			if (this.dragObject.x > 1120 && this.dragObject.x <= 1320 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3
@@ -499,8 +299,60 @@ class Scene6 extends Phaser.Scene {
 		}
 	}
 
+	checkTurn(numberOfTurn, bodytrain, bodytrain2, duongray, duongray2, greenball4, greenball3, greenball2, greenball1) {
+		if (this.dragObject == bodytrain) {
+					duongray.setFrame(0);
+					bodytrain.x = 430 + 195*(numberOfTurn-1);
+					bodytrain.y = 495;
+					bodytrain.disableInteractive();
+					duongray2.setFrame(0);
+					bodytrain.status = false;
+					bodytrain2.status = true;
+		} else {
+			this.imagewrong = this.add.image(430, 700, "imagewrong");
+			if (this.count < 1) this.count+=2;
+			if (this.checkfalse == true) {
+				if (greenball4.statusLeft == true) {
+					this.greenballMoveLeft(greenball4, 4);
+					greenball4.statusLeft = false;
+					greenball4.statusRight = true;
+					greenball3.statusRight = false;
+				}
+				if (greenball3.statusLeft == true) {
+					this.greenballMoveLeft(greenball3, 3);
+					greenball3.statusLeft = false;
+					greenball3.statusRight = true;
+					greenball2.statusRight = false;
+				}
+				if (greenball2.statusLeft == true) {
+					this.greenballMoveLeft(greenball2, 2);
+					greenball2.statusLeft = false;
+					greenball2.statusRight = true;
+					greenball1.statusRight = false;
+				}
+				if (greenball1.statusLeft == true) {
+					this.greenballMoveLeft(greenball1, 1);
+					greenball1.statusLeft = false;
+					greenball1.statusRight = true;
+				}
+				this.checkfalse = false;
+			}
+			duongray.setFrame(1);
+			this.dragObject.x = 430 + 195*(numberOfTurn-1);
+			this.dragObject.y = 495;
+			this.time.addEvent({
+				delay: 1000,
+				callback: () => {
+					this.dragObject.y -= 100;
+					duongray.setFrame(0);
+					this.imagewrong.destroy();
+				},
+				loop: false
+			})
+		}
+	}
+
 	trainMove() {
-		console.log('hello')
 		var move = this.time.addEvent({
 			delay: 0,
 			callback: () => {
