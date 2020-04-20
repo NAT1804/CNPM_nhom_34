@@ -84,11 +84,12 @@ class Scene2 extends Phaser.Scene {
 	randomNumber() {
 		if (this.countCorrect == 0) {
 			var xx  = Phaser.Math.Between(100, config.width-100);
-			do {
-				this.number = Phaser.Math.Between(1,7);
-			} while (this.number % 5 == 0);
-
-			this.numberObj1 = this.add.image(xx, 200, "number"+this.number).setInteractive({cursor: 'pointer'});
+			// do {
+			// 	this.number = Phaser.Math.Between(1,7);
+			// } while (this.number % 5 == 0);
+			this.number = 1;
+			this.numberObj1 = this.add.sprite(xx, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
+			//this.numberObj1.setOrigin(0, 0);
 		}
 		if (this.countCorrect == 1) {
 			var xx  = Phaser.Math.Between(100, config.width-100);
@@ -96,7 +97,7 @@ class Scene2 extends Phaser.Scene {
 				this.number = Phaser.Math.Between(8,13);
 			} while (this.number % 5 == 0);
 
-			this.numberObj2 = this.add.image(xx, 200, "number"+this.number).setInteractive({cursor: 'pointer'});
+			this.numberObj2 = this.add.image(xx, 200, "number"+this.number).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		if (this.countCorrect == 2) {
 			var xx  = Phaser.Math.Between(100, config.width-100);
@@ -104,7 +105,7 @@ class Scene2 extends Phaser.Scene {
 				this.number = Phaser.Math.Between(14,19);
 			} while (this.number % 5 == 0);
 
-			this.numberObj3 = this.add.image(xx, 200, "number"+this.number).setInteractive({cursor: 'pointer'});
+			this.numberObj3 = this.add.image(xx, 200, "number"+this.number).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		
 	}
@@ -119,13 +120,14 @@ class Scene2 extends Phaser.Scene {
 
 	doDrag(pointer) {
 		if (this.dragObj != null) {
+			this.dragObj.setFrame(1);
 			if (this.dragObj.x > 100 || this.dragObj.x < config.width - 100) {
 				this.dragObj.x = pointer.x;
-				this.dragObj.y = 200;
+				this.dragObj.y = 250;
 			}
 			else {
 				this.dragObj.x = 100;
-				this.dragObj.y = 200;
+				this.dragObj.y = 250;
 			}
 		}
 	}
@@ -166,8 +168,7 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 3
 			if (this.dragObj.x > 300 && this.dragObj.x <= 350) {
@@ -177,8 +178,7 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 4
 			if (this.dragObj.x > 350 && this.dragObj.x <= 400) {
@@ -188,8 +188,7 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();			
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 5
 			if (this.dragObj.x > 400 && this.dragObj.x <= 450) {
@@ -204,8 +203,7 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 7
 			if (this.dragObj.x > 500 && this.dragObj.x <= 550) {
@@ -215,8 +213,7 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 8
 			if (this.dragObj.x > 550 && this.dragObj.x <= 600) {
@@ -227,7 +224,6 @@ class Scene2 extends Phaser.Scene {
 					this.wrongAnswer();
 					return;
 				}
-				
 			}
 			// vi tri cua so 9
 			if (this.dragObj.x > 600 && this.dragObj.x <= 650) {
@@ -237,8 +233,7 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 10
 			if (this.dragObj.x > 650 && this.dragObj.x <= 700) {
@@ -253,8 +248,7 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 12
 			if (this.dragObj.x > 750 && this.dragObj.x <= 800) {
@@ -264,8 +258,7 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 13
 			if (this.dragObj.x > 800 && this.dragObj.x <= 850) {
@@ -275,8 +268,7 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 14
 			if (this.dragObj.x > 850 && this.dragObj.x <= 900) {
@@ -286,8 +278,7 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 15
 			if (this.dragObj.x > 900 && this.dragObj.x <= 950) {
@@ -302,8 +293,7 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 17
 			if (this.dragObj.x > 1000 && this.dragObj.x <= 1050) {
@@ -313,8 +303,7 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 18
 			if (this.dragObj.x > 1050 && this.dragObj.x <= 1100) {
@@ -324,8 +313,7 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 19
 			if (this.dragObj.x > 1100 && this.dragObj.x <= 1150) {
@@ -335,21 +323,19 @@ class Scene2 extends Phaser.Scene {
 				} else {
 					this.wrongAnswer();
 					return;
-				}
-				
+				}	
 			}
 			// vi tri cua so 20
 			if (this.dragObj.x > 1150 && this.dragObj.x <= 1200) {
 				this.wrongAnswer();
 				return;
-			}
-			
+			}	
 		}
-		
-		
+			
 	}
 
 	wrongAnswer() {
+		this.numberObj1.setFrame(3);
 		status = "WRONG";
 		this.statusLabel.text = "STATUS: "+status;
 		
@@ -426,6 +412,7 @@ class Scene2 extends Phaser.Scene {
 	}
 
 	correctAnswer() {
+		this.numberObj1.setFrame(2);
 		this.countCorrect++;
 		status = "CORRECT";
 		this.statusLabel.text = "STATUS: "+status;

@@ -61,6 +61,10 @@ class Scene0 extends Phaser.Scene {
 
 		// bai 2
 		this.load.image("numberline", "../assets/images/numberline.png");
+		this.load.spritesheet("ball1", "../assets/images/Ball1.png", {
+			frameWidth: 33,
+			frameHeight: 166
+		});
 		for (var i = 1; i<=19; i++) {
 			if (i%5!=0) {
 				this.load.image("number"+i,"../assets/images/Number"+i+".png");
