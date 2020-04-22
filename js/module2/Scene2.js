@@ -1,3 +1,4 @@
+//jshint esversion: 6
 class Scene2 extends Phaser.Scene {
 	constructor() {
 		super("screenPlay1");
@@ -6,66 +7,61 @@ class Scene2 extends Phaser.Scene {
 
 	create() {
 		//background
-		this.khungtrang = this.add.image(0, 30, "khungtrang");
-		this.khungtrang.setOrigin(0, 0);
-
+		this.background = this.add.image(0, 30, "khungtrang");
+		this.background.setOrigin(0, 0);
 		// header
 		this.add.text(420, 85, "Place the ball on the number line", {
 			color: '#000000',
 			fontSize: '30px',
 			stroke: '#000',
 			strokeThickness: 3 
-		})
+		});
 		//back button
-		this.back = this.add.sprite(40, 50, "buttonback").setInteractive({cursor: 'pointer'});
-		this.back.on('pointerover', () => this.back.setFrame(1));
-		this.back.on('pointerout', () => this.back.setFrame(0));
-		this.back.on('pointerdown', () => this.scene.start("screenMain"));
-
-
-		//thanh chay
-		this.thanhbar = this.add.image(400, 30, "thanhbar").setScale(0.5);
-		this.thanhbar.setOrigin(0, 0);
-		this.greenball1 = this.add.image(402, 33 , "greenball").setScale(0.5);
-		this.greenball1.setOrigin(0, 0);
-		this.greenball2 = this.add.image(446, 33 , "greenball").setScale(0.5);
-		this.greenball2.setOrigin(0, 0);
-		this.greenball3 = this.add.image(490, 33 , "greenball").setScale(0.5);
-		this.greenball3.setOrigin(0, 0);
-		this.greenball4 = this.add.image(534, 33 , "greenball").setScale(0.5);
-		this.greenball4.setOrigin(0, 0);
-
+		this.backButton = this.add.sprite(40, 50, "buttonback").setInteractive({cursor: 'pointer'});
+		this.backButton.on('pointerover', () => this.backButton.setFrame(1));
+		this.backButton.on('pointerout', () => this.backButton.setFrame(0));
+		this.backButton.on('pointerdown', () => this.scene.start("screenMain"));
+		//bar
+		this.bar = this.add.image(400, 30, "thanhbar").setScale(0.5);
+		this.bar.setOrigin(0, 0);
+		this.greenBall1 = this.add.image(402, 33 , "greenball").setScale(0.5);
+		this.greenBall1.setOrigin(0, 0);
+		this.greenBall2 = this.add.image(446, 33 , "greenball").setScale(0.5);
+		this.greenBall2.setOrigin(0, 0);
+		this.greenBall3 = this.add.image(490, 33 , "greenball").setScale(0.5);
+		this.greenBall3.setOrigin(0, 0);
+		this.greenBall4 = this.add.image(534, 33 , "greenball").setScale(0.5);
+		this.greenBall4.setOrigin(0, 0);
 		// status green ball
-		this.greenball4.statusRight = true;
-		this.greenball3.statusRight = false;
-		this.greenball2.statusRight = false;
-		this.greenball1.statusRight = false;
-		this.greenball4.statusLeft = false;
-		this.greenball3.statusLeft = false;
-		this.greenball2.statusLeft = false;
-		this.greenball1.statusLeft = false;
-
-		// am thanh
-		this.loa = this.add.image(280, 60, "loa").setScale(0.2);
-		this.loa.setOrigin(0, 0);
-		this.loa.setInteractive({cursor: 'pointer'});
+		this.greenBall4.statusRight = true;
+		this.greenBall3.statusRight = false;
+		this.greenBall2.statusRight = false;
+		this.greenBall1.statusRight = false;
+		this.greenBall4.statusLeft = false;
+		this.greenBall3.statusLeft = false;
+		this.greenBall2.statusLeft = false;
+		this.greenBall1.statusLeft = false;
+		// sound
+		this.speaker = this.add.image(280, 60, "loa").setScale(0.2);
+		this.speaker.setOrigin(0, 0);
+		this.speaker.setInteractive({cursor: 'pointer'});
 		this.music = this.sound.add('sound');
-		this.loa.on('pointerdown', () => this.music.play());
-
-		this.khoitao();
-		
+		this.speaker.on('pointerdown', () => this.music.play());
+		// init
+		this.initial();
+		// drag object
 		this.input.on('pointerdown', this.startDrag, this);
-
 	}
 
-	khoitao() {
+	initial() {
 		this.time.addEvent({
 		    delay: 1000,
 		    callback: ()=>{
+		    	// number of correct sentences
 		    	this.countCorrect = 0;
 		        // number line
-				this.numberline = this.add.image(100, 300, "numberline");
-				this.numberline.setOrigin(0, 0);
+				this.numberLine = this.add.image(100, 300, "numberline");
+				this.numberLine.setOrigin(0, 0);
 				//random number
 				 this.randomNumber();
 				//status
@@ -74,30 +70,30 @@ class Scene2 extends Phaser.Scene {
 				
 		    },
 		    loop: false
-		})
+		});
 	}
 
 	randomNumber() {
 		if (this.countCorrect == 0) {
-			var xx  = Phaser.Math.Between(100, config.width-100);
+			let posX  = Phaser.Math.Between(100, config.width-100);
 			do {
 				this.number = Phaser.Math.Between(1,7);
 			} while (this.number % 5 == 0);
-			this.numberObj1 = this.add.sprite(xx, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
+			this.numberObj1 = this.add.sprite(posX, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		if (this.countCorrect == 1) {
-			var xx  = Phaser.Math.Between(100, config.width-100);
+			let posX  = Phaser.Math.Between(100, config.width-100);
 			do {
 				this.number = Phaser.Math.Between(8,13);
 			} while (this.number % 5 == 0);
-			this.numberObj2 = this.add.sprite(xx, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
+			this.numberObj2 = this.add.sprite(posX, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		if (this.countCorrect == 2) {
-			var xx  = Phaser.Math.Between(100, config.width-100);
+			let posX  = Phaser.Math.Between(100, config.width-100);
 			do {
 				this.number = Phaser.Math.Between(14,19);
 			} while (this.number % 5 == 0);
-			this.numberObj3 = this.add.sprite(xx, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
+			this.numberObj3 = this.add.sprite(posX, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		
 	}
@@ -133,7 +129,7 @@ class Scene2 extends Phaser.Scene {
 
 	fillNumber() {
 		
-		if (this.dragObj != null && this.dragObj != this.loa) {
+		if (this.dragObj != null && this.dragObj != this.speaker) {
 			// vi tri cua so 0
 			if (this.dragObj.x > 155 && this.dragObj.x <= 200) {
 				this.wrongAnswer();
@@ -246,25 +242,25 @@ class Scene2 extends Phaser.Scene {
 		this.statusLabel.text = "STATUS: "+status;
 		
 		
-		if (this.greenball4.statusLeft) {
-			this.greenballMoveLeft(this.greenball4, 4);
-			this.greenball4.statusLeft = false;
-			this.greenball3.statusRight = false;
-			this.greenball4.statusRight = true;
+		if (this.greenBall4.statusLeft) {
+			this.greenballMoveLeft(this.greenBall4, 4);
+			this.greenBall4.statusLeft = false;
+			this.greenBall3.statusRight = false;
+			this.greenBall4.statusRight = true;
 		}
-		if (this.greenball3.statusLeft) {
-			this.greenballMoveLeft(this.greenball3, 3);
-			this.greenball3.statusLeft = false;
-			this.greenball2.statusRight = false;
-			this.greenball4.statusLeft = true;
-			this.greenball3.statusRight = true;
+		if (this.greenBall3.statusLeft) {
+			this.greenballMoveLeft(this.greenBall3, 3);
+			this.greenBall3.statusLeft = false;
+			this.greenBall2.statusRight = false;
+			this.greenBall4.statusLeft = true;
+			this.greenBall3.statusRight = true;
 		}
-		if (this.greenball2.statusLeft) {
-			this.greenballMoveLeft(this.greenball2, 2);
-			this.greenball2.statusLeft = false;
-			this.greenball1.statusRight = false;
-			this.greenball3.statusLeft = true;
-			this.greenball2.statusRight = true;
+		if (this.greenBall2.statusLeft) {
+			this.greenballMoveLeft(this.greenBall2, 2);
+			this.greenBall2.statusLeft = false;
+			this.greenBall1.statusRight = false;
+			this.greenBall3.statusLeft = true;
+			this.greenBall2.statusRight = true;
 		}
 
 		this.move = this.time.addEvent({
@@ -291,7 +287,7 @@ class Scene2 extends Phaser.Scene {
 				
 			},
 			loop: true
-		})
+		});
 
 		this.time.addEvent({
 			delay: 1000,
@@ -309,11 +305,11 @@ class Scene2 extends Phaser.Scene {
 					this.numberObj3.destroy();
 				}				
 
-				this.numberline.destroy();
-				this.khoitao();
+				this.numberLine.destroy();
+				this.initial();
 			},
 			loop: false
-		})
+		});
 		
 	}
 
@@ -359,14 +355,14 @@ class Scene2 extends Phaser.Scene {
 				
 			},
 			loop: true
-		})
+		});
 
 		if (this.countCorrect == 3) {
 			
-			if (this.greenball1.statusRight) {
-				this.greenballMoveRight(this.greenball1, 1);
-				this.greenball1.statusRight = false;
-				this.greenball1.statusLeft = true;
+			if (this.greenBall1.statusRight) {
+				this.greenballMoveRight(this.greenBall1, 1);
+				this.greenBall1.statusRight = false;
+				this.greenBall1.statusLeft = true;
 
 				this.end = true;
 				this.time.addEvent({
@@ -377,27 +373,27 @@ class Scene2 extends Phaser.Scene {
 						this.buttonfinish = this.add.image(770, 500, "finishbutton").setInteractive({cursor: 'pointer'});
 						this.buttonfinish.on('pointerdown', () => this.scene.start("screenMain"));
 					}
-				})
+				});
 			}
-			if (this.greenball2.statusRight) {
-				this.greenballMoveRight(this.greenball2, 2);
-				this.greenball2.statusRight = false;
-				this.greenball2.statusLeft = true;
-				this.greenball1.statusRight = true;
-				this.greenball3.statusLeft = false;
+			if (this.greenBall2.statusRight) {
+				this.greenballMoveRight(this.greenBall2, 2);
+				this.greenBall2.statusRight = false;
+				this.greenBall2.statusLeft = true;
+				this.greenBall1.statusRight = true;
+				this.greenBall3.statusLeft = false;
 			}
-			if (this.greenball3.statusRight) {
-				this.greenballMoveRight(this.greenball3, 3);
-				this.greenball3.statusRight = false;
-				this.greenball3.statusLeft = true;
-				this.greenball2.statusRight = true;
-				this.greenball4.statusLeft = false;
+			if (this.greenBall3.statusRight) {
+				this.greenballMoveRight(this.greenBall3, 3);
+				this.greenBall3.statusRight = false;
+				this.greenBall3.statusLeft = true;
+				this.greenBall2.statusRight = true;
+				this.greenBall4.statusLeft = false;
 			}
-			if (this.greenball4.statusRight) {
-				this.greenballMoveRight(this.greenball4, 4);
-				this.greenball4.statusRight = false;
-				this.greenball4.statusLeft = true;
-				this.greenball3.statusRight = true;
+			if (this.greenBall4.statusRight) {
+				this.greenballMoveRight(this.greenBall4, 4);
+				this.greenBall4.statusRight = false;
+				this.greenBall4.statusLeft = true;
+				this.greenBall3.statusRight = true;
 			}
 
 			if (!this.end) {
@@ -408,11 +404,11 @@ class Scene2 extends Phaser.Scene {
 						this.numberObj1.destroy();
 						this.numberObj2.destroy();
 						this.numberObj3.destroy();
-						this.numberline.destroy();
-						this.khoitao();
+						this.numberLine.destroy();
+						this.initial();
 					},
 					loop: false
-				})
+				});
 			}
 
 		}
@@ -423,7 +419,7 @@ class Scene2 extends Phaser.Scene {
 					this.randomNumber();
 				},
 				loop: false
-			})	
+			});	
 		}
 
 	}
@@ -444,7 +440,7 @@ class Scene2 extends Phaser.Scene {
 				ball.x += 10;
 			},
 			loop: true
-		})
+		});
 	}
 
 	greenballMoveLeft(ball, i){
@@ -464,7 +460,7 @@ class Scene2 extends Phaser.Scene {
 				ball.x -= 10;
 			},
 			loop: true
-		})
+		});
 	}
 
 

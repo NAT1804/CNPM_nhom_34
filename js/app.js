@@ -10,6 +10,6 @@ var config = {
 			debug: false
 		}
 	}
-}
+};
 
 var game = new Phaser.Game(config);
