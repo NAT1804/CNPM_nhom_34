@@ -15,7 +15,7 @@ class Scene5 extends Phaser.Scene {
 		this.startButton.on('pointerdown', () => this.scene.start("screenPlay3"));
 
 		//back button
-		this.backButton = this.add.sprite(40, 20, "buttonback").setInteractive({cursor:'pointer'});
+		this.backButton = this.add.sprite(155, 50, "buttonback").setInteractive({cursor:'pointer'});
 		this.backButton.on('pointerover', () => this.backButton.setFrame(1));
 		this.backButton.on('pointerout', () => this.backButton.setFrame(0));
 		this.backButton.on('pointerdown', () => this.scene.start("screenMain"));

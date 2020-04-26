@@ -6,7 +6,7 @@ class Scene6 extends Phaser.Scene {
 
 	create() {
 		//background
-		this.background = this.add.image(0, 30, "khungtrang");
+		this.background = this.add.image(106, 30, "khungtrang");
 		this.background.setOrigin(0, 0);
 		//header
 		this.add.text(300, 85, "Put the train cars from the greatest to the smallest", {
@@ -16,7 +16,7 @@ class Scene6 extends Phaser.Scene {
 			strokeThickness: 3 
 		});
 		//back button
-		this.backButton = this.add.sprite(40, 50, "buttonback").setInteractive({cursor: 'pointer'});
+		this.backButton = this.add.sprite(155, 50, "buttonback").setInteractive({cursor: 'pointer'});
 		this.backButton.on('pointerover', () => this.backButton.setFrame(1));
 		this.backButton.on('pointerout', () => this.backButton.setFrame(0));
 		this.backButton.on('pointerdown', () => this.scene.start("screenMain"))
@@ -47,22 +47,22 @@ class Scene6 extends Phaser.Scene {
 		this.music = this.sound.add('sound');
 		this.speaker.on('pointerdown', () => this.music.play());
 		// track
-		this.track1 = this.add.sprite(50, config.height*3/4, "duong-ray").setFrame(4);
+		//this.track1 = this.add.sprite(50, config.height*3/4, "duong-ray").setFrame(4);
 		this.track2 = this.add.sprite(250, config.height*3/4, "duong-ray").setFrame(4);
 		this.track3 = this.add.sprite(450, config.height*3/4, "duong-ray").setFrame(4);
 		this.track4 = this.add.sprite(650, config.height*3/4, "duong-ray").setFrame(4);
 		this.track5 = this.add.sprite(850, config.height*3/4 , "duong-ray").setFrame(4);
 		this.track6 = this.add.sprite(1050, config.height*3/4, "duong-ray").setFrame(4);
 		this.track7 = this.add.sprite(1250, config.height*3/4, "duong-ray").setFrame(4);
-		this.track8 = this.add.sprite(1450, config.height*3/4, "duong-ray").setFrame(4);
-		this.track1.setScale(0.4);
+		//this.track8 = this.add.sprite(1450, config.height*3/4, "duong-ray").setFrame(4);
+		//this.track1.setScale(0.4);
 		this.track2.setScale(0.4);
 		this.track3.setScale(0.4);
 		this.track4.setScale(0.4);
 		this.track5.setScale(0.4);
 		this.track6.setScale(0.4);
 		this.track7.setScale(0.4);
-		this.track8.setScale(0.4);
+		//this.track8.setScale(0.4);
 		//init
 		this.initial();
 		//drag object
@@ -90,11 +90,11 @@ class Scene6 extends Phaser.Scene {
 				this.number4 = Phaser.Math.Between(4, 7);
 				this.number5 = Phaser.Math.Between(1, 3);
 				// train body
-				this.trainBody5 = this.add.image(Phaser.Math.Between(100, config.width-100), Phaser.Math.Between(200, config.height/2), "body-train" + this.number5).setInteractive({cursor:'pointer'});
-				this.trainBody4 = this.add.image(Phaser.Math.Between(100, config.width-100), Phaser.Math.Between(200, config.height/2), "body-train" + this.number4).setInteractive({cursor:'pointer'});
-				this.trainBody3 = this.add.image(Phaser.Math.Between(100, config.width-100), Phaser.Math.Between(200, config.height/2), "body-train" + this.number3).setInteractive({cursor:'pointer'});
-				this.trainBody2 = this.add.image(Phaser.Math.Between(100, config.width-100), Phaser.Math.Between(200, config.height/2), "body-train" + this.number2).setInteractive({cursor:'pointer'});
-				this.trainBody1 = this.add.image(Phaser.Math.Between(100, config.width-100), Phaser.Math.Between(200, config.height/2), "body-train" + this.number1).setInteractive({cursor:'pointer'});
+				this.trainBody5 = this.add.image(Phaser.Math.Between(200, config.width-200), Phaser.Math.Between(200, config.height/2), "body-train" + this.number5).setInteractive({cursor:'pointer'});
+				this.trainBody4 = this.add.image(Phaser.Math.Between(200, config.width-200), Phaser.Math.Between(200, config.height/2), "body-train" + this.number4).setInteractive({cursor:'pointer'});
+				this.trainBody3 = this.add.image(Phaser.Math.Between(200, config.width-200), Phaser.Math.Between(200, config.height/2), "body-train" + this.number3).setInteractive({cursor:'pointer'});
+				this.trainBody2 = this.add.image(Phaser.Math.Between(200, config.width-200), Phaser.Math.Between(200, config.height/2), "body-train" + this.number2).setInteractive({cursor:'pointer'});
+				this.trainBody1 = this.add.image(Phaser.Math.Between(200, config.width-200), Phaser.Math.Between(200, config.height/2), "body-train" + this.number1).setInteractive({cursor:'pointer'});
 				this.trainBody1.setScale(0.8);
 				this.trainBody2.setScale(0.8);
 				this.trainBody3.setScale(0.8);
@@ -107,7 +107,7 @@ class Scene6 extends Phaser.Scene {
 				this.trainBody4.status = false;
 				this.trainBody5.status = false;
 				// train head
-				this.trainHead20 = this.add.image(210, config.height*3/4 - 95, "head-train20");
+				this.trainHead20 = this.add.image(237, config.height*3/4 - 95, "head-train20");
 				this.trainHead20.setScale(0.8);
 				
 				this.end = false;

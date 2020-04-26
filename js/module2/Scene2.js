@@ -7,7 +7,7 @@ class Scene2 extends Phaser.Scene {
 
 	create() {
 		//background
-		this.background = this.add.image(0, 30, "khungtrang");
+		this.background = this.add.image(106, 30, "khungtrang");
 		this.background.setOrigin(0, 0);
 		// header
 		this.add.text(420, 85, "Place the ball on the number line", {
@@ -17,7 +17,7 @@ class Scene2 extends Phaser.Scene {
 			strokeThickness: 3 
 		});
 		//back button
-		this.backButton = this.add.sprite(40, 50, "buttonback").setInteractive({cursor: 'pointer'});
+		this.backButton = this.add.sprite(155, 50, "buttonback").setInteractive({cursor: 'pointer'});
 		this.backButton.on('pointerover', () => this.backButton.setFrame(1));
 		this.backButton.on('pointerout', () => this.backButton.setFrame(0));
 		this.backButton.on('pointerdown', () => this.scene.start("screenMain"));
