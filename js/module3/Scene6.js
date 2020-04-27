@@ -41,11 +41,7 @@ class Scene6 extends Phaser.Scene {
 		this.greenBall2.statusLeft = false;
 		this.greenBall1.statusLeft = false;
 		// sound
-		this.speaker = this.add.image(200, 60, "loa").setScale(0.2);
-		this.speaker.setOrigin(0, 0);
-		this.speaker.setInteractive({cursor: 'pointer'});
-		this.music = this.sound.add('sound3');
-		this.speaker.on('pointerdown', () => this.music.play());
+		this.initSpeaker();
 		// track
 		//this.track1 = this.add.sprite(50, config.height*3/4, "duong-ray").setFrame(4);
 		this.track2 = this.add.sprite(250, config.height*3/4, "duong-ray").setFrame(4);
@@ -116,6 +112,23 @@ class Scene6 extends Phaser.Scene {
 		});
 	}
 
+	initSpeaker() {
+		this.speaker = this.add.image(200, 60, "loa").setScale(0.2);
+		this.speaker.setOrigin(0, 0);
+		this.speaker.setInteractive({cursor: 'pointer'});
+		this.music = this.sound.add('sound3');
+		this.speaker.on('pointerdown', () => {
+			this.music.play();
+			this.speaker.destroy();
+			this.time.addEvent({
+				delay: 3600,
+				callback: () => {
+					this.initSpeaker();
+				}
+			});
+		});
+	}
+
 	startDrag(pointer, targets) {
 		this.input.off('pointerdown', this.startDrag, this);
 		this.dragObject = targets[0];
@@ -134,8 +147,8 @@ class Scene6 extends Phaser.Scene {
 
 	stopDrag() {
 		this.input.on('pointerdown', this.startDrag, this);
-		this.input.off('pointermove', this.doObject, this);
-		this.input.off('pointerup', this.stopObject, this);
+		this.input.off('pointermove', this.doDrag, this);
+		this.input.off('pointerup', this.stopDrag, this);
 
 		this.checkResult();
 	}

@@ -42,11 +42,7 @@ class Scene2 extends Phaser.Scene {
 		this.greenBall2.statusLeft = false;
 		this.greenBall1.statusLeft = false;
 		// sound
-		this.speaker = this.add.image(280, 60, "loa").setScale(0.2);
-		this.speaker.setOrigin(0, 0);
-		this.speaker.setInteractive({cursor: 'pointer'});
-		this.music = this.sound.add('sound2');
-		this.speaker.on('pointerdown', () => this.music.play());
+		this.initSpeaker();
 		// init
 		this.initial();
 		// drag object
@@ -96,6 +92,23 @@ class Scene2 extends Phaser.Scene {
 			this.numberObj3 = this.add.sprite(posX, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		
+	}
+
+	initSpeaker() {
+		this.speaker = this.add.image(290, 60, "loa").setScale(0.2);
+		this.speaker.setOrigin(0, 0);
+		this.speaker.setInteractive({cursor: 'pointer'});
+		this.music = this.sound.add('sound2');
+		this.speaker.on('pointerdown', () => {
+			this.music.play();
+			this.speaker.destroy();
+			this.time.addEvent({
+				delay: 2000,
+				callback: () => {
+					this.initSpeaker();
+				}
+			});
+		});
 	}
 
 	startDrag(pointer, targets) {
