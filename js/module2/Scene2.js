@@ -331,7 +331,8 @@ class Scene2 extends Phaser.Scene {
 						this.numberObj1.disableInteractive();
 						this.numberObj1.y = config.height/2+190;
 						this.numberObj1.x = 227 + 50*(this.number - 1);
-
+						status = "";
+						this.statusLabel.text = "STATUS: "+status;
 					}
 				}
 				if (this.countCorrect == 2) {
@@ -341,6 +342,8 @@ class Scene2 extends Phaser.Scene {
 						this.numberObj2.disableInteractive();
 						this.numberObj2.y = config.height/2+190;
 						this.numberObj2.x = 227 + 50*(this.number - 1);
+						status = "";
+						this.statusLabel.text = "STATUS: "+status;
 					}
 				}
 				if (this.countCorrect == 3) {
@@ -350,6 +353,8 @@ class Scene2 extends Phaser.Scene {
 						this.numberObj3.disableInteractive();
 						this.numberObj3.y = config.height/2+190;
 						this.numberObj3.x = 227 + 50*(this.number - 1);
+						status = "";
+						this.statusLabel.text = "STATUS: "+status;
 					}
 				}
 				
@@ -370,8 +375,10 @@ class Scene2 extends Phaser.Scene {
 					callback: () => {
 						this.finishScreen = this.add.image(0, 30, "khungfinish");
 						this.finishScreen.setOrigin(0, 0);
-						this.buttonfinish = this.add.image(770, 500, "finishbutton").setInteractive({cursor: 'pointer'});
-						this.buttonfinish.on('pointerdown', () => this.scene.start("screenMain"));
+						this.finishButton = this.add.sprite(770, 500, "finishbutton").setInteractive({cursor: 'pointer'});
+						this.finishButton.on('pointerover', () => this.finishButton.setFrame(1));
+						this.finishButton.on('pointerout', () => this.finishButton.setFrame(0));
+						this.finishButton.on('pointerdown', () => this.scene.start("screenMain"));
 					}
 				});
 			}

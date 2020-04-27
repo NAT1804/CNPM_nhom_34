@@ -248,7 +248,9 @@ class Scene4 extends Phaser.Scene {
 										callback: () => {
 											this.finishScreen = this.add.image(0, 30, "khungfinish");
 											this.finishScreen.setOrigin(0, 0);
-											this.finishButton = this.add.image(770, 500, "finishbutton").setInteractive({cursor: 'pointer'});
+											this.finishButton = this.add.sprite(770, 500, "finishbutton").setInteractive({cursor: 'pointer'});
+											this.finishButton.on('pointerover', () => this.finishButton.setFrame(1));
+											this.finishButton.on('pointerout', () => this.finishButton.setFrame(0));
 											this.finishButton.on('pointerdown', () => this.scene.start("screenMain"));
 										}
 									});
@@ -318,7 +320,11 @@ class Scene4 extends Phaser.Scene {
 			this.speaker.setOrigin(0, 0);
 			this.speaker.setInteractive({cursor: 'pointer'});
 			this.soundWrong = this.sound.add('sound4');
-			this.speaker.on('pointerdown', () => this.soundWrong.play());
+			this.speaker.on('pointerdown', () => {
+				this.soundWrong.play();
+				this.speaker.destroy();
+				this.imageWrong.destroy();
+			});
 			if (this.count == 0) this.count+=2;
 			if (this.checkFalse == true) {
 				if (greenBall4.statusLeft == true) {
@@ -349,12 +355,22 @@ class Scene4 extends Phaser.Scene {
 			track.setFrame(1);
 			this.dragObject.x = 430 + 195*(numberOfTurn-1);
 			this.dragObject.y = 495;
-			this.time.addEvent({
+
+			var objectTurnBack = this.time.addEvent({
 				delay: 1000,
 				callback: () => {
 					this.dragObject.y -= 100;
+					
+				},
+				loop: false
+			});
+			
+			var deleteNotification = this.time.addEvent({
+				delay: 2000,
+				callback: () => {
 					track.setFrame(0);
 					this.imageWrong.destroy();
+					this.speaker.destroy();
 				},
 				loop: false
 			});

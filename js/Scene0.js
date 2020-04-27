@@ -29,7 +29,10 @@ class Scene0 extends Phaser.Scene {
 			frameWidth: 16,
 			frameHeight: 16
 		});
-		this.load.image("finishbutton", "../assets/images/finishbutton.png");
+		this.load.spritesheet("finishbutton", "../assets/images/finishbutton.png",{
+			frameWidth: 492,
+			frameHeight: 87
+		});
 		this.load.image("khungfinish", "../assets/images/khungfinish.png");
 		this.load.image("imagewrong", "../assets/images/imagewrong.png");
 		this.load.audio("sound", ["../assets/sounds/pickup.ogg","../assets/sounds/pickup.mp3"]);
