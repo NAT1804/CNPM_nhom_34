@@ -45,7 +45,7 @@ class Scene4 extends Phaser.Scene {
 		this.speaker = this.add.image(200, 60, "loa").setScale(0.2);
 		this.speaker.setOrigin(0, 0);
 		this.speaker.setInteractive({cursor: 'pointer'});
-		this.music = this.sound.add('sound');
+		this.music = this.sound.add('sound1');
 		this.speaker.on('pointerdown', () => this.music.play());
 		// track
 		//this.track1 = this.add.sprite(50, config.height*3/4, "duong-ray").setFrame(4);
@@ -314,6 +314,11 @@ class Scene4 extends Phaser.Scene {
 					trainBody2.status = true;
 		} else {
 			this.imageWrong = this.add.image(430 + 195*(numberOfTurn-1), 700, "imagewrong");
+			this.speaker = this.add.image(200 + 195*(numberOfTurn-1), 665, "loa").setScale(0.2);
+			this.speaker.setOrigin(0, 0);
+			this.speaker.setInteractive({cursor: 'pointer'});
+			this.soundWrong = this.sound.add('sound4');
+			this.speaker.on('pointerdown', () => this.soundWrong.play());
 			if (this.count == 0) this.count+=2;
 			if (this.checkFalse == true) {
 				if (greenBall4.statusLeft == true) {

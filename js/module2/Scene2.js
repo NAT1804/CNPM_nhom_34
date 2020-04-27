@@ -45,7 +45,7 @@ class Scene2 extends Phaser.Scene {
 		this.speaker = this.add.image(280, 60, "loa").setScale(0.2);
 		this.speaker.setOrigin(0, 0);
 		this.speaker.setInteractive({cursor: 'pointer'});
-		this.music = this.sound.add('sound');
+		this.music = this.sound.add('sound2');
 		this.speaker.on('pointerdown', () => this.music.play());
 		// init
 		this.initial();

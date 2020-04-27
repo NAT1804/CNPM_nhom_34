@@ -32,7 +32,11 @@ class Scene0 extends Phaser.Scene {
 		this.load.image("finishbutton", "../assets/images/finishbutton.png");
 		this.load.image("khungfinish", "../assets/images/khungfinish.png");
 		this.load.image("imagewrong", "../assets/images/imagewrong.png");
-		this.load.audio("sound", ["../assets/images/pickup.ogg","../assets/images/pickup.mp3"]);
+		this.load.audio("sound", ["../assets/sounds/pickup.ogg","../assets/sounds/pickup.mp3"]);
+		this.load.audio("sound1", "../assets/sounds/sound1.mp3");
+		this.load.audio("sound2", "../assets/sounds/sound2.mp3");
+		this.load.audio("sound3", "../assets/sounds/sound3.mp3");
+		this.load.audio("sound4", "../assets/sounds/sound4.mp3");
 
 		// module 1 and module 3
 		for (var i=1; i<=20; i++) {
