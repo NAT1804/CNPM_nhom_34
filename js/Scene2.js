@@ -7,8 +7,11 @@ class Scene2 extends Phaser.Scene {
 
 	create() {
 		//background
-		this.background = this.add.image(90, 30, "khungtrang");
-		this.background.setOrigin(0, 0);
+		this.background = this.add.image(0, 0, "background").setOrigin(0, 0);
+
+		//box
+		this.box = this.add.image(90, 30, "khungtrang");
+		this.box.setOrigin(0, 0);
 		// header
 		this.add.text(404, 85, "Place the ball on the number line", {
 			color: '#000000',
@@ -61,9 +64,9 @@ class Scene2 extends Phaser.Scene {
 			callback: () => {
 				this.startBackground = this.add.image(90, 85, "start");
 				this.startBackground.setOrigin(0, 0);
-				this.startButton = this.add.sprite(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, "buttonstart").setInteractive({cursor: 'pointer'});
-				this.startButton.on('pointerover', () => this.startButton.setFrame(1));
-				this.startButton.on('pointerout', () => this.startButton.setFrame(0));
+				this.startButton = this.add.sprite(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, "startlabel").setInteractive({cursor: 'pointer'}).setFrame(1);
+				this.startButton.on('pointerover', () => this.startButton.setFrame(0));
+				this.startButton.on('pointerout', () => this.startButton.setFrame(1));
 				this.startButton.on('pointerdown', () => {
 					this.startBackground.destroy();
 					this.startButton.destroy();
@@ -404,6 +407,7 @@ class Scene2 extends Phaser.Scene {
 				this.time.addEvent({
 					delay: 3000,
 					callback: () => {
+						this.speaker.disableInteractive();
 						this.finishScreen = this.add.image(0, 30, "khungfinish");
 						this.finishScreen.setOrigin(0, 0);
 						this.finishButton = this.add.sprite(770, 500, "finishbutton").setInteractive({cursor: 'pointer'});

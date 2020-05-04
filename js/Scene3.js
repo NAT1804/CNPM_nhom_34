@@ -6,8 +6,11 @@ class Scene3 extends Phaser.Scene {
 
 	create() {
 		//background
-		this.background = this.add.image(90, 30, "khungtrang");
-		this.background.setOrigin(0, 0);
+		this.background = this.add.image(0, 0, "background").setOrigin(0, 0);
+
+		//box
+		this.box = this.add.image(90, 30, "khungtrang");
+		this.box.setOrigin(0, 0);
 		//header
 		this.add.text(284, 85, "Put the train cars from the greatest to the smallest", {
 			color: '#000000',
@@ -82,9 +85,9 @@ class Scene3 extends Phaser.Scene {
 			callback: () => {
 				this.startBackground = this.add.image(90, 85, "start");
 				this.startBackground.setOrigin(0, 0);
-				this.startButton = this.add.sprite(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, "buttonstart").setInteractive({cursor: 'pointer'});
-				this.startButton.on('pointerover', () => this.startButton.setFrame(1));
-				this.startButton.on('pointerout', () => this.startButton.setFrame(0));
+				this.startButton = this.add.sprite(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, "startlabel").setInteractive({cursor: 'pointer'}).setFrame(1);
+				this.startButton.on('pointerover', () => this.startButton.setFrame(0));
+				this.startButton.on('pointerout', () => this.startButton.setFrame(1));
 				this.startButton.on('pointerdown', () => {
 					this.startBackground.destroy();
 					this.startButton.destroy();
@@ -142,6 +145,8 @@ class Scene3 extends Phaser.Scene {
 				// train head
 				this.trainHead20 = this.add.image(237, DEFAULT_HEIGHT*3/4 - 95, "head-train20");
 				this.trainHead20.setScale(0.8);
+				//background bonus
+				this.backgroundBonus = this.add.image(0, 360, "backgroundBonus").setOrigin(0, 0).setScale(0.78);
 				
 				this.end = false;
 			},
@@ -289,9 +294,11 @@ class Scene3 extends Phaser.Scene {
 									this.time.addEvent({
 										delay: 5000,
 										callback: () => {
+											this.speaker.disableInteractive();
 											this.finishScreen = this.add.image(0, 30, "khungfinish");
-											this.finishScreen.setOrigin(0, 0);
+											this.finishScreen.setPosition(this.cameras.main.centerX, this.cameras.main.centerY-58);
 											this.finishButton = this.add.sprite(770, 500, "finishbutton").setInteractive({cursor: 'pointer'});
+											this.finishButton.setPosition(this.cameras.main.centerX, this.cameras.main.centerY);
 											this.finishButton.on('pointerover', () => this.finishButton.setFrame(1));
 											this.finishButton.on('pointerout', () => this.finishButton.setFrame(0));
 											this.finishButton.on('pointerdown', () => this.scene.start("screenMain"));

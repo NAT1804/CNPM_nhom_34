@@ -42,6 +42,12 @@ class Scene0 extends Phaser.Scene {
 		this.load.audio("sound4", "../assets/sounds/sound4.mp3");
 
 		this.load.image("start", "../assets/images/startButton.png");
+		this.load.image("background", "../assets/images/background.png");
+		this.load.image("backgroundBonus", "../assets/images/banva.png");
+		this.load.spritesheet("startlabel", "../assets/images/startlabel3.png",{
+			frameWidth: 300,
+			frameHeight: 300
+		});
 
 		// module 1 and module 3
 		for (var i=1; i<=20; i++) {
@@ -90,8 +96,9 @@ class Scene0 extends Phaser.Scene {
 	}
 
 	create() {
-		this.background = this.add.image(0, 30, "khungmain");
-		this.background.setPosition(this.cameras.main.centerX, this.cameras.main.centerY);
+		this.background = this.add.image(0, 0, "background").setOrigin(0, 0);
+		this.box = this.add.image(0, 30, "khungmain");
+		this.box.setPosition(this.cameras.main.centerX, this.cameras.main.centerY);
 
 		this.imageModule2 = this.add.sprite(550, 220,"khung1").setInteractive({cursor: 'pointer'});	
 		this.imageModule2.setPosition(this.cameras.main.centerX, this.cameras.main.centerY+30);
