@@ -41,6 +41,8 @@ class Scene0 extends Phaser.Scene {
 		this.load.audio("sound3", "../assets/sounds/sound3.mp3");
 		this.load.audio("sound4", "../assets/sounds/sound4.mp3");
 
+		this.load.image("start", "../assets/images/startButton.png");
+
 		// module 1 and module 3
 		for (var i=1; i<=20; i++) {
 			this.load.image("body-train"+i, "../assets/images/body-train"+i+".png");
@@ -89,22 +91,25 @@ class Scene0 extends Phaser.Scene {
 
 	create() {
 		this.background = this.add.image(0, 30, "khungmain");
-		this.background.setOrigin(0, 0);
-		this.imageModule2 = this.add.sprite(550, 150,"khung1").setInteractive({cursor: 'pointer'});
-		this.imageModule2.setOrigin(0, 0);		
+		this.background.setPosition(this.cameras.main.centerX, this.cameras.main.centerY);
+
+		this.imageModule2 = this.add.sprite(550, 220,"khung1").setInteractive({cursor: 'pointer'});	
+		this.imageModule2.setPosition(this.cameras.main.centerX, this.cameras.main.centerY+30);
 		this.imageModule2.on('pointerover', () => this.imageModule2.setFrame(1));
 		this.imageModule2.on('pointerout', () => this.imageModule2.setFrame(0));
-		this.imageModule2.on('pointerdown', () => this.scene.start('screenStart1'));
-		this.imageModule1 = this.add.sprite(50, 150,"khung2").setInteractive({cursor: 'pointer'}); 
-		this.imageModule1.setOrigin(0, 0);		
+		this.imageModule2.on('pointerdown', () => this.scene.start('screenPlay1'));
+
+		this.imageModule1 = this.add.sprite(50, 220,"khung2").setInteractive({cursor: 'pointer'}); 
+		this.imageModule1.setPosition(this.cameras.main.centerX/2-80, this.cameras.main.centerY+30);
 		this.imageModule1.on('pointerover', () => this.imageModule1.setFrame(1));
 		this.imageModule1.on('pointerout', () => this.imageModule1.setFrame(0));
-		this.imageModule1.on('pointerdown', () => this.scene.start('screenStart2'));
-		this.imageModule3 = this.add.sprite(1050, 150,"khung3").setInteractive({cursor: 'pointer'});
-		this.imageModule3.setOrigin(0, 0);		
+		this.imageModule1.on('pointerdown', () => this.scene.start('screenPlay2'));
+
+		this.imageModule3 = this.add.sprite(1050, 220,"khung3").setInteractive({cursor: 'pointer'});
+		this.imageModule3.setPosition(this.cameras.main.centerX*3/2+80, this.cameras.main.centerY+30);		
 		this.imageModule3.on('pointerover', () => this.imageModule3.setFrame(1));
 		this.imageModule3.on('pointerout', () => this.imageModule3.setFrame(0));
-		this.imageModule3.on('pointerdown', () => this.scene.start('screenStart3'));
+		this.imageModule3.on('pointerdown', () => this.scene.start('screenPlay3'));
 
 		this.anims.create({
 			key: "explode",

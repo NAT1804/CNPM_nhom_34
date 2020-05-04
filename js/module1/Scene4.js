@@ -41,16 +41,8 @@ class Scene4 extends Phaser.Scene {
 		this.greenBall3.statusLeft = false;
 		this.greenBall2.statusLeft = false;
 		this.greenBall1.statusLeft = false;
+		
 		// sound
-		// this.speaker = this.add.image(200, 60, "loa").setScale(0.2);
-		// this.speaker.setOrigin(0, 0);
-		// this.speaker.setInteractive({cursor: 'pointer'});
-		// this.music = this.sound.add('sound1');
-		// this.speaker.on('pointerdown', () => {
-		// 	this.music.play();
-		// 	this.speaker.destroy();
-		// 	this.initSpeaker();
-		// });
 		this.initSpeaker();
 		
 		// track
@@ -72,6 +64,42 @@ class Scene4 extends Phaser.Scene {
 		//this.track8.setScale(0.4);
 		//init
 		this.initial();
+
+		//
+		this.time.addEvent({
+			delay: 0,
+			callback: () => {
+				this.trainBody1.disableInteractive();
+				this.trainBody2.disableInteractive();
+				this.trainBody3.disableInteractive();
+				this.trainBody4.disableInteractive();
+				this.trainBody5.disableInteractive();
+				this.speaker.disableInteractive();
+			}
+		});
+		
+		// start button
+		this.time.addEvent({
+			delay: 0,
+			callback: () => {
+				this.startBackground = this.add.image(106, 85, "start");
+				this.startBackground.setOrigin(0, 0);
+				this.startButton = this.add.sprite(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, "buttonstart").setInteractive({cursor: 'pointer'});
+				this.startButton.on('pointerover', () => this.startButton.setFrame(1));
+				this.startButton.on('pointerout', () => this.startButton.setFrame(0));
+				this.startButton.on('pointerdown', () => {
+					this.startBackground.destroy();
+					this.startButton.destroy();
+					this.trainBody1.setInteractive({cursor: 'pointer'});
+					this.trainBody2.setInteractive({cursor: 'pointer'});
+					this.trainBody3.setInteractive({cursor: 'pointer'});
+					this.trainBody4.setInteractive({cursor: 'pointer'});
+					this.trainBody5.setInteractive({cursor: 'pointer'});
+					this.speaker.setInteractive({cursor: 'pointer'});
+				});
+			}
+		});
+
 		// drag object
 		this.input.on('pointerdown', this.startDrag, this);
 		
@@ -79,7 +107,7 @@ class Scene4 extends Phaser.Scene {
 
 	initial() {
 		this.time.addEvent({
-			delay: 1000,
+			delay: 0,
 			callback: () => {
 				// The number of turns it takes for a green ball to run to the right
 				this.count = 0;

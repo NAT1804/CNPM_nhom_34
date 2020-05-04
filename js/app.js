@@ -1,6 +1,18 @@
+// jshint esversion: 6
+const ratio = Math.max(window.innerWidth / window.innerHeight, window.innerHeight / window.innerWidth);
+const DEFAULT_HEIGHT = 780; 
+const DEFAULT_WIDTH = ratio * DEFAULT_HEIGHT;
+
 var config = {
-	width: 1455,
-	height: 780,
+	type: Phaser.AUTO,
+	type: Phaser.AUTO,
+	scale: {
+		mode: Phaser.Scale.FIT,
+		parent: 'phaser-example',
+		autoCenter: Phaser.Scale.CENTER_BOTH,
+		width: DEFAULT_WIDTH,
+		height: DEFAULT_HEIGHT
+	},
 	backgroundColor: '#182d3b',
 	scene: [Scene0, Scene1, Scene2, Scene3, Scene4, Scene5, Scene6],
 	pixelArt: true,

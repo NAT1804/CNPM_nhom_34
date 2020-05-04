@@ -45,13 +45,49 @@ class Scene2 extends Phaser.Scene {
 		this.initSpeaker();
 		// init
 		this.initial();
+
+		//
+		this.time.addEvent({
+			delay: 0,
+			callback: () => {
+				this.trainBody1.disableInteractive();
+				this.trainBody2.disableInteractive();
+				this.trainBody3.disableInteractive();
+				this.trainBody4.disableInteractive();
+				this.trainBody5.disableInteractive();
+				this.speaker.disableInteractive();
+			}
+		});
+		
+		// start button
+		this.time.addEvent({
+			delay: 0,
+			callback: () => {
+				this.startBackground = this.add.image(106, 85, "start");
+				this.startBackground.setOrigin(0, 0);
+				this.startButton = this.add.sprite(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, "buttonstart").setInteractive({cursor: 'pointer'});
+				this.startButton.on('pointerover', () => this.startButton.setFrame(1));
+				this.startButton.on('pointerout', () => this.startButton.setFrame(0));
+				this.startButton.on('pointerdown', () => {
+					this.startBackground.destroy();
+					this.startButton.destroy();
+					this.trainBody1.setInteractive({cursor: 'pointer'});
+					this.trainBody2.setInteractive({cursor: 'pointer'});
+					this.trainBody3.setInteractive({cursor: 'pointer'});
+					this.trainBody4.setInteractive({cursor: 'pointer'});
+					this.trainBody5.setInteractive({cursor: 'pointer'});
+					this.speaker.setInteractive({cursor: 'pointer'});
+				});
+			}
+		});
+
 		// drag object
 		this.input.on('pointerdown', this.startDrag, this);
 	}
 
 	initial() {
 		this.time.addEvent({
-		    delay: 1000,
+		    delay: 0,
 		    callback: ()=>{
 		    	// number of correct sentences
 		    	this.countCorrect = 0;
