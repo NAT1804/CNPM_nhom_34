@@ -5,7 +5,6 @@ const DEFAULT_WIDTH = ratio * DEFAULT_HEIGHT;
 
 var config = {
 	type: Phaser.AUTO,
-	type: Phaser.AUTO,
 	scale: {
 		mode: Phaser.Scale.FIT,
 		parent: 'phaser-example',
@@ -14,7 +13,7 @@ var config = {
 		height: DEFAULT_HEIGHT
 	},
 	backgroundColor: '#182d3b',
-	scene: [Scene0, Scene1, Scene2, Scene3, Scene4, Scene5, Scene6],
+	scene: [Scene0, Scene1, Scene2, Scene3],
 	pixelArt: true,
 	physics: {
 		default: "arcade",
