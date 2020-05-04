@@ -7,30 +7,30 @@ class Scene2 extends Phaser.Scene {
 
 	create() {
 		//background
-		this.background = this.add.image(106, 30, "khungtrang");
+		this.background = this.add.image(90, 30, "khungtrang");
 		this.background.setOrigin(0, 0);
 		// header
-		this.add.text(420, 85, "Place the ball on the number line", {
+		this.add.text(404, 85, "Place the ball on the number line", {
 			color: '#000000',
 			fontSize: '30px',
 			stroke: '#000',
 			strokeThickness: 3 
 		});
 		//back button
-		this.backButton = this.add.sprite(155, 50, "buttonback").setInteractive({cursor: 'pointer'});
+		this.backButton = this.add.sprite(140, 50, "buttonback").setInteractive({cursor: 'pointer'});
 		this.backButton.on('pointerover', () => this.backButton.setFrame(1));
 		this.backButton.on('pointerout', () => this.backButton.setFrame(0));
 		this.backButton.on('pointerdown', () => this.scene.start("screenMain"));
 		//bar
-		this.bar = this.add.image(400, 30, "thanhbar").setScale(0.5);
+		this.bar = this.add.image(384, 33, "thanhbar").setScale(0.5);
 		this.bar.setOrigin(0, 0);
-		this.greenBall1 = this.add.image(402, 33 , "greenball").setScale(0.5);
+		this.greenBall1 = this.add.image(386, 36, "greenball").setScale(0.5);
 		this.greenBall1.setOrigin(0, 0);
-		this.greenBall2 = this.add.image(446, 33 , "greenball").setScale(0.5);
+		this.greenBall2 = this.add.image(430, 36, "greenball").setScale(0.5);
 		this.greenBall2.setOrigin(0, 0);
-		this.greenBall3 = this.add.image(490, 33 , "greenball").setScale(0.5);
+		this.greenBall3 = this.add.image(474, 36, "greenball").setScale(0.5);
 		this.greenBall3.setOrigin(0, 0);
-		this.greenBall4 = this.add.image(534, 33 , "greenball").setScale(0.5);
+		this.greenBall4 = this.add.image(518, 36, "greenball").setScale(0.5);
 		this.greenBall4.setOrigin(0, 0);
 		// status green ball
 		this.greenBall4.statusRight = true;
@@ -46,15 +46,11 @@ class Scene2 extends Phaser.Scene {
 		// init
 		this.initial();
 
-		//
+		//disable interactive object
 		this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				this.trainBody1.disableInteractive();
-				this.trainBody2.disableInteractive();
-				this.trainBody3.disableInteractive();
-				this.trainBody4.disableInteractive();
-				this.trainBody5.disableInteractive();
+				this.numberObj1.disableInteractive();
 				this.speaker.disableInteractive();
 			}
 		});
@@ -63,7 +59,7 @@ class Scene2 extends Phaser.Scene {
 		this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				this.startBackground = this.add.image(106, 85, "start");
+				this.startBackground = this.add.image(90, 85, "start");
 				this.startBackground.setOrigin(0, 0);
 				this.startButton = this.add.sprite(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, "buttonstart").setInteractive({cursor: 'pointer'});
 				this.startButton.on('pointerover', () => this.startButton.setFrame(1));
@@ -71,11 +67,7 @@ class Scene2 extends Phaser.Scene {
 				this.startButton.on('pointerdown', () => {
 					this.startBackground.destroy();
 					this.startButton.destroy();
-					this.trainBody1.setInteractive({cursor: 'pointer'});
-					this.trainBody2.setInteractive({cursor: 'pointer'});
-					this.trainBody3.setInteractive({cursor: 'pointer'});
-					this.trainBody4.setInteractive({cursor: 'pointer'});
-					this.trainBody5.setInteractive({cursor: 'pointer'});
+					this.numberObj1.setInteractive({cursor:'pointer'});
 					this.speaker.setInteractive({cursor: 'pointer'});
 				});
 			}
@@ -92,12 +84,12 @@ class Scene2 extends Phaser.Scene {
 		    	// number of correct sentences
 		    	this.countCorrect = 0;
 		        // number line
-				this.numberLine = this.add.image(100, 300, "numberline");
+				this.numberLine = this.add.image(123, 300, "numberline");
 				this.numberLine.setOrigin(0, 0);
 				//random number
 				 this.randomNumber();
 				//status
-				this.statusLabel = this.add.bitmapText(config.width/2-100, config.height*3/4-25, "pixelFont", "STATUS: ", 30);
+				this.statusLabel = this.add.bitmapText(DEFAULT_WIDTH/2-100, DEFAULT_HEIGHT*3/4-25, "pixelFont", "STATUS: ", 30);
 				this.end = false;
 				
 		    },
@@ -107,21 +99,21 @@ class Scene2 extends Phaser.Scene {
 
 	randomNumber() {
 		if (this.countCorrect == 0) {
-			let posX  = Phaser.Math.Between(100, config.width-100);
+			let posX  = Phaser.Math.Between(100, DEFAULT_WIDTH-100);
 			do {
 				this.number = Phaser.Math.Between(1,7);
 			} while (this.number % 5 == 0);
 			this.numberObj1 = this.add.sprite(posX, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		if (this.countCorrect == 1) {
-			let posX  = Phaser.Math.Between(100, config.width-100);
+			let posX  = Phaser.Math.Between(100, DEFAULT_WIDTH-100);
 			do {
 				this.number = Phaser.Math.Between(8,13);
 			} while (this.number % 5 == 0);
 			this.numberObj2 = this.add.sprite(posX, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		if (this.countCorrect == 2) {
-			let posX  = Phaser.Math.Between(100, config.width-100);
+			let posX  = Phaser.Math.Between(100, DEFAULT_WIDTH-100);
 			do {
 				this.number = Phaser.Math.Between(14,19);
 			} while (this.number % 5 == 0);
@@ -131,7 +123,7 @@ class Scene2 extends Phaser.Scene {
 	}
 
 	initSpeaker() {
-		this.speaker = this.add.image(290, 60, "loa").setScale(0.2);
+		this.speaker = this.add.image(320, 85, "loa").setScale(0.1);
 		this.speaker.setOrigin(0, 0);
 		this.speaker.setInteractive({cursor: 'pointer'});
 		this.music = this.sound.add('sound2');
@@ -157,7 +149,7 @@ class Scene2 extends Phaser.Scene {
 	doDrag(pointer) {
 		if (this.dragObj != null) {
 			this.dragObj.setFrame(1);
-			if (this.dragObj.x > 100 || this.dragObj.x < config.width - 100) {
+			if (this.dragObj.x > 100 || this.dragObj.x < DEFAULT_WIDTH - 100) {
 				this.dragObj.x = pointer.x;
 				this.dragObj.y = 250;
 			}
@@ -292,20 +284,20 @@ class Scene2 extends Phaser.Scene {
 		
 		
 		if (this.greenBall4.statusLeft) {
-			this.greenballMoveLeft(this.greenBall4, 4);
+			this.greenBallMoveLeft(this.greenBall4, 4);
 			this.greenBall4.statusLeft = false;
 			this.greenBall3.statusRight = false;
 			this.greenBall4.statusRight = true;
 		}
 		if (this.greenBall3.statusLeft) {
-			this.greenballMoveLeft(this.greenBall3, 3);
+			this.greenBallMoveLeft(this.greenBall3, 3);
 			this.greenBall3.statusLeft = false;
 			this.greenBall2.statusRight = false;
 			this.greenBall4.statusLeft = true;
 			this.greenBall3.statusRight = true;
 		}
 		if (this.greenBall2.statusLeft) {
-			this.greenballMoveLeft(this.greenBall2, 2);
+			this.greenBallMoveLeft(this.greenBall2, 2);
 			this.greenBall2.statusLeft = false;
 			this.greenBall1.statusRight = false;
 			this.greenBall3.statusLeft = true;
@@ -317,47 +309,37 @@ class Scene2 extends Phaser.Scene {
 			callback: () => {
 				if (this.countCorrect == 0) {
 					this.numberObj1.y -= 2;
-					if (this.numberObj1.y < config.height/4-70) {
+					if (this.numberObj1.y < DEFAULT_HEIGHT/4-70) {
 						this.move.remove();
+						this.numberObj1.destroy();
+						//this.numberLine.destroy();
+						this.initial();
 					}
 				}
 				if (this.countCorrect == 1) {
 					this.numberObj2.y -= 2;
-					if (this.numberObj2.y < config.height/4-70) {
+					if (this.numberObj2.y < DEFAULT_HEIGHT/4-70) {
 						this.move.remove();
+						this.numberObj1.destroy();
+						this.numberObj2.destroy();
+						//this.numberLine.destroy();
+						this.initial();
 					}
 				}
 				if (this.countCorrect == 2) {
 					this.numberObj3.y -= 2;
-					if (this.numberObj3.y < config.height/4-70) {
+					if (this.numberObj3.y < DEFAULT_HEIGHT/4-70) {
 						this.move.remove();
+						this.numberObj1.destroy();
+						this.numberObj2.destroy();
+						this.numberObj3.destroy();
+						//this.numberLine.destroy();
+						this.initial();
 					}
 				}
 				
 			},
 			loop: true
-		});
-
-		this.time.addEvent({
-			delay: 1000,
-			callback: () => {
-				if (this.countCorrect == 0) {
-					this.numberObj1.destroy();
-				}
-				if (this.countCorrect == 1) {
-					this.numberObj1.destroy();
-					this.numberObj2.destroy();
-				}
-				if (this.countCorrect == 2) {
-					this.numberObj1.destroy();
-					this.numberObj2.destroy();
-					this.numberObj3.destroy();
-				}				
-
-				this.numberLine.destroy();
-				this.initial();
-			},
-			loop: false
 		});
 		
 	}
@@ -375,10 +357,10 @@ class Scene2 extends Phaser.Scene {
 			callback: () => {
 				if (this.countCorrect == 1) {
 					this.numberObj1.y += 15;
-					if (this.numberObj1.y > config.height/2+190) {
+					if (this.numberObj1.y > DEFAULT_HEIGHT/2+190) {
 						this.move.remove();
 						this.numberObj1.disableInteractive();
-						this.numberObj1.y = config.height/2+190;
+						this.numberObj1.y = DEFAULT_HEIGHT/2+190;
 						this.numberObj1.x = 227 + 50*(this.number - 1);
 						status = "";
 						this.statusLabel.text = "STATUS: "+status;
@@ -386,10 +368,10 @@ class Scene2 extends Phaser.Scene {
 				}
 				if (this.countCorrect == 2) {
 					this.numberObj2.y += 15;
-					if (this.numberObj2.y > config.height/2+190) {
+					if (this.numberObj2.y > DEFAULT_HEIGHT/2+190) {
 						this.move.remove();
 						this.numberObj2.disableInteractive();
-						this.numberObj2.y = config.height/2+190;
+						this.numberObj2.y = DEFAULT_HEIGHT/2+190;
 						this.numberObj2.x = 227 + 50*(this.number - 1);
 						status = "";
 						this.statusLabel.text = "STATUS: "+status;
@@ -397,10 +379,10 @@ class Scene2 extends Phaser.Scene {
 				}
 				if (this.countCorrect == 3) {
 					this.numberObj3.y += 15;
-					if (this.numberObj3.y > config.height/2+190) {
+					if (this.numberObj3.y > DEFAULT_HEIGHT/2+190) {
 						this.move.remove();
 						this.numberObj3.disableInteractive();
-						this.numberObj3.y = config.height/2+190;
+						this.numberObj3.y = DEFAULT_HEIGHT/2+190;
 						this.numberObj3.x = 227 + 50*(this.number - 1);
 						status = "";
 						this.statusLabel.text = "STATUS: "+status;
@@ -414,7 +396,7 @@ class Scene2 extends Phaser.Scene {
 		if (this.countCorrect == 3) {
 			
 			if (this.greenBall1.statusRight) {
-				this.greenballMoveRight(this.greenBall1, 1);
+				this.greenBallMoveRight(this.greenBall1, 1);
 				this.greenBall1.statusRight = false;
 				this.greenBall1.statusLeft = true;
 
@@ -432,21 +414,21 @@ class Scene2 extends Phaser.Scene {
 				});
 			}
 			if (this.greenBall2.statusRight) {
-				this.greenballMoveRight(this.greenBall2, 2);
+				this.greenBallMoveRight(this.greenBall2, 2);
 				this.greenBall2.statusRight = false;
 				this.greenBall2.statusLeft = true;
 				this.greenBall1.statusRight = true;
 				this.greenBall3.statusLeft = false;
 			}
 			if (this.greenBall3.statusRight) {
-				this.greenballMoveRight(this.greenBall3, 3);
+				this.greenBallMoveRight(this.greenBall3, 3);
 				this.greenBall3.statusRight = false;
 				this.greenBall3.statusLeft = true;
 				this.greenBall2.statusRight = true;
 				this.greenBall4.statusLeft = false;
 			}
 			if (this.greenBall4.statusRight) {
-				this.greenballMoveRight(this.greenBall4, 4);
+				this.greenBallMoveRight(this.greenBall4, 4);
 				this.greenBall4.statusRight = false;
 				this.greenBall4.statusLeft = true;
 				this.greenBall3.statusRight = true;
@@ -460,7 +442,7 @@ class Scene2 extends Phaser.Scene {
 						this.numberObj1.destroy();
 						this.numberObj2.destroy();
 						this.numberObj3.destroy();
-						this.numberLine.destroy();
+						//this.numberLine.destroy();
 						this.initial();
 					},
 					loop: false
@@ -480,18 +462,18 @@ class Scene2 extends Phaser.Scene {
 
 	}
 
-	greenballMoveRight(ball, i){
+	greenBallMoveRight(ball, i){
 		var run = this.time.addEvent({
 			delay: 0,
 			callback: () => { 
 				if (i == 4 || i == 3) {
-					if (ball.x > 992 - (4-i)*50) run.remove();
+					if (ball.x > 976 - (4-i)*50) run.remove();
 				}
 				else if (i == 2) {
-					if (ball.x > 900) run.remove();
+					if (ball.x > 884) run.remove();
 				}
 				else if (i == 1) {
-					if (ball.x > 860) run.remove();
+					if (ball.x > 844) run.remove();
 				}
 				ball.x += 10;
 			},
@@ -499,18 +481,18 @@ class Scene2 extends Phaser.Scene {
 		});
 	}
 
-	greenballMoveLeft(ball, i){
+	greenBallMoveLeft(ball, i){
 		var run = this.time.addEvent({
 			delay: 0,
 			callback: () => {
 				if (i == 4) {
-					if (ball.x < 550) run.remove();
+					if (ball.x < 534) run.remove();
 				}
 				else if (i == 3) {
-					if (ball.x < 510) run.remove();
+					if (ball.x < 494) run.remove();
 				}
 				else if (i == 2) {
-					if (ball.x < 460) run.remove();
+					if (ball.x < 444) run.remove();
 				}
 				
 				ball.x -= 10;

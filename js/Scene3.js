@@ -6,30 +6,30 @@ class Scene3 extends Phaser.Scene {
 
 	create() {
 		//background
-		this.background = this.add.image(106, 30, "khungtrang");
+		this.background = this.add.image(90, 30, "khungtrang");
 		this.background.setOrigin(0, 0);
 		//header
-		this.add.text(300, 85, "Put the train cars from the greatest to the smallest", {
+		this.add.text(284, 85, "Put the train cars from the greatest to the smallest", {
 			color: '#000000',
 			fontSize: '30px',
 			stroke: '#000',
 			strokeThickness: 3 
 		});
 		//back button
-		this.backButton = this.add.sprite(155, 50, "buttonback").setInteractive({cursor: 'pointer'});
+		this.backButton = this.add.sprite(140, 50, "buttonback").setInteractive({cursor: 'pointer'});
 		this.backButton.on('pointerover', () => this.backButton.setFrame(1));
 		this.backButton.on('pointerout', () => this.backButton.setFrame(0));
 		this.backButton.on('pointerdown', () => this.scene.start("screenMain"));
 		//bar
-		this.bar = this.add.image(400, 30, "thanhbar").setScale(0.5);
+		this.bar = this.add.image(384, 33, "thanhbar").setScale(0.5);
 		this.bar.setOrigin(0, 0);
-		this.greenBall1 = this.add.image(402, 33 , "greenball").setScale(0.5);
+		this.greenBall1 = this.add.image(386, 36, "greenball").setScale(0.5);
 		this.greenBall1.setOrigin(0, 0);
-		this.greenBall2 = this.add.image(446, 33 , "greenball").setScale(0.5);
+		this.greenBall2 = this.add.image(430, 36, "greenball").setScale(0.5);
 		this.greenBall2.setOrigin(0, 0);
-		this.greenBall3 = this.add.image(490, 33 , "greenball").setScale(0.5);
+		this.greenBall3 = this.add.image(474, 36, "greenball").setScale(0.5);
 		this.greenBall3.setOrigin(0, 0);
-		this.greenBall4 = this.add.image(534, 33 , "greenball").setScale(0.5);
+		this.greenBall4 = this.add.image(518, 36, "greenball").setScale(0.5);
 		this.greenBall4.setOrigin(0, 0);
 		// status green ball
 		this.greenBall4.statusRight = true;
@@ -43,14 +43,14 @@ class Scene3 extends Phaser.Scene {
 		// sound
 		this.initSpeaker();
 		// track
-		//this.track1 = this.add.sprite(50, config.height*3/4, "duong-ray").setFrame(4);
-		this.track2 = this.add.sprite(250, config.height*3/4, "duong-ray").setFrame(4);
-		this.track3 = this.add.sprite(450, config.height*3/4, "duong-ray").setFrame(4);
-		this.track4 = this.add.sprite(650, config.height*3/4, "duong-ray").setFrame(4);
-		this.track5 = this.add.sprite(850, config.height*3/4 , "duong-ray").setFrame(4);
-		this.track6 = this.add.sprite(1050, config.height*3/4, "duong-ray").setFrame(4);
-		this.track7 = this.add.sprite(1250, config.height*3/4, "duong-ray").setFrame(4);
-		//this.track8 = this.add.sprite(1450, config.height*3/4, "duong-ray").setFrame(4);
+		//this.track1 = this.add.sprite(50, DEFAULT_HEIGHT*3/4, "duong-ray").setFrame(4);
+		this.track2 = this.add.sprite(250, DEFAULT_HEIGHT*3/4, "duong-ray").setFrame(4);
+		this.track3 = this.add.sprite(450, DEFAULT_HEIGHT*3/4, "duong-ray").setFrame(4);
+		this.track4 = this.add.sprite(650, DEFAULT_HEIGHT*3/4, "duong-ray").setFrame(4);
+		this.track5 = this.add.sprite(850, DEFAULT_HEIGHT*3/4 , "duong-ray").setFrame(4);
+		this.track6 = this.add.sprite(1050, DEFAULT_HEIGHT*3/4, "duong-ray").setFrame(4);
+		this.track7 = this.add.sprite(1250, DEFAULT_HEIGHT*3/4, "duong-ray").setFrame(4);
+		//this.track8 = this.add.sprite(1450, DEFAULT_HEIGHT*3/4, "duong-ray").setFrame(4);
 		//this.track1.setScale(0.4);
 		this.track2.setScale(0.4);
 		this.track3.setScale(0.4);
@@ -59,10 +59,11 @@ class Scene3 extends Phaser.Scene {
 		this.track6.setScale(0.4);
 		this.track7.setScale(0.4);
 		//this.track8.setScale(0.4);
+
 		//init
 		this.initial();
 
-		//
+		//disable interactive object
 		this.time.addEvent({
 			delay: 0,
 			callback: () => {
@@ -79,7 +80,7 @@ class Scene3 extends Phaser.Scene {
 		this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				this.startBackground = this.add.image(106, 85, "start");
+				this.startBackground = this.add.image(90, 85, "start");
 				this.startBackground.setOrigin(0, 0);
 				this.startButton = this.add.sprite(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, "buttonstart").setInteractive({cursor: 'pointer'});
 				this.startButton.on('pointerover', () => this.startButton.setFrame(1));
@@ -122,11 +123,11 @@ class Scene3 extends Phaser.Scene {
 				this.number4 = Phaser.Math.Between(4, 7);
 				this.number5 = Phaser.Math.Between(1, 3);
 				// train body
-				this.trainBody5 = this.add.image(Phaser.Math.Between(200, config.width-200), Phaser.Math.Between(200, config.height/2), "body-train" + this.number5).setInteractive({cursor:'pointer'});
-				this.trainBody4 = this.add.image(Phaser.Math.Between(200, config.width-200), Phaser.Math.Between(200, config.height/2), "body-train" + this.number4).setInteractive({cursor:'pointer'});
-				this.trainBody3 = this.add.image(Phaser.Math.Between(200, config.width-200), Phaser.Math.Between(200, config.height/2), "body-train" + this.number3).setInteractive({cursor:'pointer'});
-				this.trainBody2 = this.add.image(Phaser.Math.Between(200, config.width-200), Phaser.Math.Between(200, config.height/2), "body-train" + this.number2).setInteractive({cursor:'pointer'});
-				this.trainBody1 = this.add.image(Phaser.Math.Between(200, config.width-200), Phaser.Math.Between(200, config.height/2), "body-train" + this.number1).setInteractive({cursor:'pointer'});
+				this.trainBody5 = this.add.image(Phaser.Math.Between(414, 626), Phaser.Math.Between(200, 220), "body-train" + this.number5).setInteractive({cursor:'pointer'});
+				this.trainBody4 = this.add.image(Phaser.Math.Between(626, 838), Phaser.Math.Between(400, DEFAULT_HEIGHT/2+30), "body-train" + this.number4).setInteractive({cursor:'pointer'});
+				this.trainBody3 = this.add.image(Phaser.Math.Between(838, 1050), Phaser.Math.Between(200, 220), "body-train" + this.number3).setInteractive({cursor:'pointer'});
+				this.trainBody2 = this.add.image(Phaser.Math.Between(1050, 1262), Phaser.Math.Between(400, DEFAULT_HEIGHT/2+30), "body-train" + this.number2).setInteractive({cursor:'pointer'});
+				this.trainBody1 = this.add.image(Phaser.Math.Between(202, 414), Phaser.Math.Between(400, DEFAULT_HEIGHT/2+30), "body-train" + this.number1).setInteractive({cursor:'pointer'});
 				this.trainBody1.setScale(0.8);
 				this.trainBody2.setScale(0.8);
 				this.trainBody3.setScale(0.8);
@@ -139,7 +140,7 @@ class Scene3 extends Phaser.Scene {
 				this.trainBody4.status = false;
 				this.trainBody5.status = false;
 				// train head
-				this.trainHead20 = this.add.image(237, config.height*3/4 - 95, "head-train20");
+				this.trainHead20 = this.add.image(237, DEFAULT_HEIGHT*3/4 - 95, "head-train20");
 				this.trainHead20.setScale(0.8);
 				
 				this.end = false;
@@ -149,7 +150,7 @@ class Scene3 extends Phaser.Scene {
 	}
 
 	initSpeaker() {
-		this.speaker = this.add.image(200, 60, "loa").setScale(0.2);
+		this.speaker = this.add.image(230, 85, "loa").setScale(0.1);
 		this.speaker.setOrigin(0, 0);
 		this.speaker.setInteractive({cursor: 'pointer'});
 		this.music = this.sound.add('sound3');
@@ -193,7 +194,7 @@ class Scene3 extends Phaser.Scene {
 		if (this.dragObject != null) {
 			// position 1
 			if (this.trainBody1.status == true) {
-				if (this.dragObject.x > 350 && this.dragObject.x <= 550 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3) {
+				if (this.dragObject.x > 350 && this.dragObject.x <= 550 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3) {
 					this.track3.setFrame(2);
 				} 
 				else {
@@ -202,7 +203,7 @@ class Scene3 extends Phaser.Scene {
 			}
 			// position 2
 			if (this.trainBody2.status == true) {
-				if (this.dragObject.x > 550 && this.dragObject.x <= 725 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3) {
+				if (this.dragObject.x > 550 && this.dragObject.x <= 725 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3) {
 					this.track4.setFrame(2);
 				}
 				else {
@@ -211,7 +212,7 @@ class Scene3 extends Phaser.Scene {
 			}
 			// position 3
 			if (this.trainBody3.status == true) {
-				if (this.dragObject.x > 725 && this.dragObject.x <= 940 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3) {
+				if (this.dragObject.x > 725 && this.dragObject.x <= 940 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3) {
 					this.track5.setFrame(2);
 				}
 				else {
@@ -220,7 +221,7 @@ class Scene3 extends Phaser.Scene {
 			}
 			// position 4
 			if (this.trainBody4.status == true) {
-				if (this.dragObject.x > 940 && this.dragObject.x <= 1120 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3) {
+				if (this.dragObject.x > 940 && this.dragObject.x <= 1120 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3) {
 					this.track6.setFrame(2);
 				}
 				else{
@@ -229,7 +230,7 @@ class Scene3 extends Phaser.Scene {
 			}
 			// position 5
 			if (this.trainBody5.status == true) {
-				if (this.dragObject.x > 1120 && this.dragObject.x <= 1320 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3) {
+				if (this.dragObject.x > 1120 && this.dragObject.x <= 1320 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3) {
 					this.track7.setFrame(2);
 				}
 				else {
@@ -243,23 +244,23 @@ class Scene3 extends Phaser.Scene {
 	checkResult() {
 		if (this.dragObject != null) {
 			// position 1
-			if (this.dragObject.x > 350 && this.dragObject.x <= 550 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3 && this.trainBody1.status == true) {
+			if (this.dragObject.x > 350 && this.dragObject.x <= 550 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.trainBody1.status == true) {
 				this.checkTurn(1, this.trainBody1, this.trainBody2, this.track3, this.track4, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
 			}
 			// position 2
-			if (this.dragObject.x > 550 && this.dragObject.x <= 725 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3 && this.trainBody2.status == true) {
+			if (this.dragObject.x > 550 && this.dragObject.x <= 725 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.trainBody2.status == true) {
 				this.checkTurn(2, this.trainBody2, this.trainBody3, this.track4, this.track5, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
 			}
 			// position 3
-			if (this.dragObject.x > 725 && this.dragObject.x <= 940 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3 && this.trainBody3.status == true) {
+			if (this.dragObject.x > 725 && this.dragObject.x <= 940 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.trainBody3.status == true) {
 				this.checkTurn(3, this.trainBody3, this.trainBody4, this.track5, this.track6, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
 			}
 			// position 4
-			if (this.dragObject.x > 940 && this.dragObject.x <= 1120 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3 && this.trainBody4.status == true) {
+			if (this.dragObject.x > 940 && this.dragObject.x <= 1120 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.trainBody4.status == true) {
 				this.checkTurn(4, this.trainBody4, this.trainBody5, this.track6, this.track7, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
 			}
 			// position 5
-			if (this.dragObject.x > 1120 && this.dragObject.x <= 1320 && this.dragObject.y > config.height/2+50 && this.dragObject.y < config.height/4*3 && this.trainBody5.status == true) {
+			if (this.dragObject.x > 1120 && this.dragObject.x <= 1320 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.trainBody5.status == true) {
 				if (this.dragObject == this.trainBody5) {
 					if (this.count > 0) this.count --;
 					this.checkFalse = true;
@@ -268,7 +269,7 @@ class Scene3 extends Phaser.Scene {
 					this.trainBody5.y = 495;
 					this.trainBody5.disableInteractive();
 					this.trainBody5.status = false;
-					this.explosion = this.add.sprite(120, config.height*3/4-150,"explosion").setScale(2.5);
+					this.explosion = this.add.sprite(140, DEFAULT_HEIGHT*3/4-150,"explosion").setScale(2.5);
 					this.explosion.play('explode');
 					this.time.addEvent({
 						delay: 1000,
@@ -455,13 +456,13 @@ class Scene3 extends Phaser.Scene {
 			delay: 0,
 			callback: () => { 
 				if (i == 4 || i == 3) {
-					if (ball.x > 992 - (4-i)*50) run.remove();
+					if (ball.x > 976 - (4-i)*50) run.remove();
 				}
 				else if (i == 2) {
-					if (ball.x > 900) run.remove();
+					if (ball.x > 884) run.remove();
 				}
 				else if (i == 1) {
-					if (ball.x > 860) run.remove();
+					if (ball.x > 844) run.remove();
 				}
 				ball.x += 10;
 			},
@@ -472,15 +473,15 @@ class Scene3 extends Phaser.Scene {
 	greenBallMoveLeft(ball, i){
 		var run = this.time.addEvent({
 			delay: 0,
-			callback: function () {
+			callback: () => {
 				if (i == 4) {
-					if (ball.x < 550) run.remove();
+					if (ball.x < 534) run.remove();
 				}
 				else if (i == 3) {
-					if (ball.x < 510) run.remove();
+					if (ball.x < 494) run.remove();
 				}
 				else if (i == 2) {
-					if (ball.x < 460) run.remove();
+					if (ball.x < 444) run.remove();
 				}
 				
 				ball.x -= 10;
@@ -488,6 +489,5 @@ class Scene3 extends Phaser.Scene {
 			loop: true
 		});
 	}
-
 
 }
