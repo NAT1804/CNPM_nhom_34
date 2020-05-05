@@ -44,7 +44,7 @@ class Scene0 extends Phaser.Scene {
 		this.load.image("start", "../assets/images/startButton.png");
 		this.load.image("background", "../assets/images/background.png");
 		this.load.image("backgroundBonus", "../assets/images/banva.png");
-		this.load.spritesheet("startlabel", "../assets/images/startlabel3.png",{
+		this.load.spritesheet("startlabel", "../assets/images/startLabel3.png",{
 			frameWidth: 300,
 			frameHeight: 300
 		});
