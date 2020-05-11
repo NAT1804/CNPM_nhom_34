@@ -1,0 +1,25 @@
+{
+  "name": "dragonlearn_numberandcountingfrom11to20_practice",
+  "version": "1.0.0",
+  "description": "- Đây là một web app mô phỏng lại một phần của bài học trong web [Dragonlearn](https://dragonlearn.in/). Chính xác là phần bài tập dành cho học sinh lớp 1 trong Progamme > Numbers > Numbers and counting from 11 to 20 > Practice [URL](https://dragonlearn.in/teachers/g/61435/subjects/1/course_programs/1/lessons/16305).\r - Tài liệu về những yêu cầu chi tiết và thông số kỹ thuật thiết kế hệ thống của phần mềm ở [đây](https://docs.google.com/document/d/1Z0CBu1Y-sb4CmYMHbiAlBcE8lzbSeC_xZUGhhBQNQ9U/edit#heading=h.hgyob1j16u7m).",
+  "main": "phaser.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "e2e" : "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NAT1804/Dragonlearn_NumberAndCountingFrom11To20_Practice.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NAT1804/Dragonlearn_NumberAndCountingFrom11To20_Practice/issues"
+  },
+  "homepage": "https://github.com/NAT1804/Dragonlearn_NumberAndCountingFrom11To20_Practice#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "cypress": "^4.5.0",
+    "mocha": "^7.1.2"
+  }
+}

@@ -49,50 +49,6 @@ class Scene0 extends Phaser.Scene {
 			frameHeight: 300
 		});
 
-		// module 1 and module 3
-		for (var i=1; i<=20; i++) {
-			this.load.image("body-train"+i, "../assets/images/body-train"+i+".png");
-		}
-
-		this.load.image("head-train0", "../assets/images/head-train0.png");
-		this.load.image("head-train20", "../assets/images/head-train20.png");
-
-		for (var j=1; j<=20; j++) {
-			this.load.image("body-train"+j, "../assets/images/body-train"+j+".png");
-		}
-
-		this.load.spritesheet("duong-ray", "../assets/images/duong-ray.png",{
-			frameWidth: 570,
-			frameHeight: 93
-		});
-		
-		this.load.spritesheet("buttonback", "../assets/images/buttonback.png", {
-			frameWidth: 60,
-			frameHeight: 13
-		});
-		this.load.spritesheet("buttonstart", "../assets/images/buttonstart.png", {
-			frameWidth: 74,
-			frameHeight: 24
-		});
-
-		// module 2
-		this.load.image("numberline", "../assets/images/numberline.png");
-		for (var k = 1; k <= 19; k++) {
-			if (k % 5 != 0) {
-				this.load.spritesheet("ball"+k, "../assets/images/Ball"+k+".png", {
-					frameWidth: 33,
-					frameHeight: 166
-				});
-			}	
-		}
-		this.load.spritesheet("buttonback", "../assets/images/buttonback.png", {
-			frameWidth: 60,
-			frameHeight: 13
-		});
-		this.load.spritesheet("buttonstart", "../assets/images/buttonstart.png", {
-			frameWidth: 74,
-			frameHeight: 24
-		});
 	}
 
 	create() {

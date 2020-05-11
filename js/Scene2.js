@@ -5,6 +5,27 @@ class Scene2 extends Phaser.Scene {
 		var status;
 	} 
 
+	preload() {
+		// module 2
+		this.load.image("numberline", "../assets/images/numberline.png");
+		for (var k = 1; k <= 19; k++) {
+			if (k % 5 != 0) {
+				this.load.spritesheet("ball"+k, "../assets/images/Ball"+k+".png", {
+					frameWidth: 33,
+					frameHeight: 166
+				});
+			}	
+		}
+		this.load.spritesheet("buttonback", "../assets/images/buttonback.png", {
+			frameWidth: 60,
+			frameHeight: 13
+		});
+		this.load.spritesheet("buttonstart", "../assets/images/buttonstart.png", {
+			frameWidth: 74,
+			frameHeight: 24
+		});
+	}
+
 	create() {
 		//background
 		this.background = this.add.image(0, 0, "background").setOrigin(0, 0);
