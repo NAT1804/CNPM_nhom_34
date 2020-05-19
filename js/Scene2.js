@@ -31,7 +31,7 @@ class Scene2 extends Phaser.Scene {
 		this.background = this.add.image(0, 0, "background").setOrigin(0, 0);
 
 		//box
-		this.box = this.add.image(90, 30, "khungtrang");
+		this.box = this.add.image(90, 30, "khungtrang"); // 90 và 30 là vị trí của box
 		this.box.setOrigin(0, 0);
 		// header
 		this.add.text(404, 85, "Place the ball on the number line", {
@@ -41,11 +41,14 @@ class Scene2 extends Phaser.Scene {
 			strokeThickness: 3 
 		});
 		//back button
-		this.backButton = this.add.sprite(140, 50, "buttonback").setInteractive({cursor: 'pointer'});
+		this.backButton = this.add.sprite(140, 50, "buttonback").setInteractive({cursor: 'pointer'}); // 140 và 50 là vị trí của nút quay lại
 		this.backButton.on('pointerover', () => this.backButton.setFrame(1));
 		this.backButton.on('pointerout', () => this.backButton.setFrame(0));
 		this.backButton.on('pointerdown', () => this.scene.start("screenMain"));
 		//bar
+		/*
+		hard code trong đoạn này là vị trí của thanh chạy và những quả bóng xanh
+		*/
 		this.bar = this.add.image(384, 33, "thanhbar").setScale(0.5);
 		this.bar.setOrigin(0, 0);
 		this.greenBall1 = this.add.image(386, 36, "greenball").setScale(0.5);
@@ -83,7 +86,7 @@ class Scene2 extends Phaser.Scene {
 		this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				this.startBackground = this.add.image(90, 85, "start");
+				this.startBackground = this.add.image(90, 85, "start"); // 90 và 85 là vị trí của nút bắt đầu
 				this.startBackground.setOrigin(0, 0);
 				this.startButton = this.add.sprite(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, "startlabel").setInteractive({cursor: 'pointer'}).setFrame(1);
 				this.startButton.on('pointerover', () => this.startButton.setFrame(0));
@@ -108,7 +111,7 @@ class Scene2 extends Phaser.Scene {
 		    	// number of correct sentences
 		    	this.countCorrect = 0;
 		        // number line
-				this.numberLine = this.add.image(123, 300, "numberline");
+				this.numberLine = this.add.image(123, 300, "numberline"); // 123 và 300 là vị trí của trục số
 				this.numberLine.setOrigin(0, 0);
 				//random number
 				 this.randomNumber();
@@ -122,32 +125,33 @@ class Scene2 extends Phaser.Scene {
 	}
 
 	randomNumber() {
+		var posY = 250;
 		if (this.countCorrect == 0) {
 			let posX  = Phaser.Math.Between(100, DEFAULT_WIDTH-100);
 			do {
 				this.number = Phaser.Math.Between(1,7);
 			} while (this.number % 5 == 0);
-			this.numberObj1 = this.add.sprite(posX, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
+			this.numberObj1 = this.add.sprite(posX, posY, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		if (this.countCorrect == 1) {
 			let posX  = Phaser.Math.Between(100, DEFAULT_WIDTH-100);
 			do {
 				this.number = Phaser.Math.Between(8,13);
 			} while (this.number % 5 == 0);
-			this.numberObj2 = this.add.sprite(posX, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
+			this.numberObj2 = this.add.sprite(posX, posY, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		if (this.countCorrect == 2) {
 			let posX  = Phaser.Math.Between(100, DEFAULT_WIDTH-100);
 			do {
 				this.number = Phaser.Math.Between(14,19);
 			} while (this.number % 5 == 0);
-			this.numberObj3 = this.add.sprite(posX, 250, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
+			this.numberObj3 = this.add.sprite(posX, posY, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
 		}
 		
 	}
 
 	initSpeaker() {
-		this.speaker = this.add.image(320, 85, "loa").setScale(0.1);
+		this.speaker = this.add.image(320, 85, "loa").setScale(0.1); // 320 và 85 là vị trí của loa
 		this.speaker.setOrigin(0, 0);
 		this.speaker.setInteractive({cursor: 'pointer'});
 		this.music = this.sound.add('sound2');
@@ -177,10 +181,6 @@ class Scene2 extends Phaser.Scene {
 				this.dragObj.x = pointer.x;
 				this.dragObj.y = 250;
 			}
-			else {
-				this.dragObj.x = 100;
-				this.dragObj.y = 250;
-			}
 		}
 	}
 
@@ -195,6 +195,9 @@ class Scene2 extends Phaser.Scene {
 	fillNumber() {
 		
 		if (this.dragObj != null && this.dragObj != this.speaker) {
+			/*
+			hard code trong hàm này là vị trí thích hợp để đưa quả bóng vàng vào
+			*/
 			// vi tri cua so 0
 			if (this.dragObj.x > 155 && this.dragObj.x <= 200) {
 				this.wrongAnswer();
@@ -335,8 +338,7 @@ class Scene2 extends Phaser.Scene {
 					this.numberObj1.y -= 2;
 					if (this.numberObj1.y < DEFAULT_HEIGHT/4-70) {
 						this.move.remove();
-						this.numberObj1.destroy();
-						//this.numberLine.destroy();
+						this.numberObj1.destroy();	
 						this.initial();
 					}
 				}
@@ -346,7 +348,6 @@ class Scene2 extends Phaser.Scene {
 						this.move.remove();
 						this.numberObj1.destroy();
 						this.numberObj2.destroy();
-						//this.numberLine.destroy();
 						this.initial();
 					}
 				}
@@ -357,7 +358,6 @@ class Scene2 extends Phaser.Scene {
 						this.numberObj1.destroy();
 						this.numberObj2.destroy();
 						this.numberObj3.destroy();
-						//this.numberLine.destroy();
 						this.initial();
 					}
 				}
@@ -385,7 +385,7 @@ class Scene2 extends Phaser.Scene {
 						this.move.remove();
 						this.numberObj1.disableInteractive();
 						this.numberObj1.y = DEFAULT_HEIGHT/2+190;
-						this.numberObj1.x = 227 + 50*(this.number - 1);
+						this.numberObj1.x = 227 + 50*(this.number - 1); // vị trí của của quả bóng vàng khi chọn đúng vị trí
 						status = "";
 						this.statusLabel.text = "STATUS: "+status;
 					}
