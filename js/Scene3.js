@@ -277,31 +277,31 @@ class Scene3 extends Phaser.Scene {
 	checkResult() {
 		if (this.dragObject != null) {
 			// position 1
-			if (this.dragObject.x > 350 && this.dragObject.x <= 550 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.trainBody1.status == true) {
-				this.checkTurn(1, this.trainBody1, this.trainBody2, this.track3, this.track4, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
+			if (this.dragObject.x > 350 && this.dragObject.x <= 550 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.track2.status == true) {
+				this.checkTurn(1, this.trainBody1, this.trainBody2, this.track2, this.track3, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
 			}
 			// position 2
-			if (this.dragObject.x > 550 && this.dragObject.x <= 725 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.trainBody2.status == true) {
-				this.checkTurn(2, this.trainBody2, this.trainBody3, this.track4, this.track5, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
+			if (this.dragObject.x > 550 && this.dragObject.x <= 725 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.track3.status == true) {
+				this.checkTurn(2, this.trainBody2, this.trainBody3, this.track3, this.track4, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
 			}
 			// position 3
-			if (this.dragObject.x > 725 && this.dragObject.x <= 940 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.trainBody3.status == true) {
-				this.checkTurn(3, this.trainBody3, this.trainBody4, this.track5, this.track6, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
+			if (this.dragObject.x > 725 && this.dragObject.x <= 940 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.track4.status == true) {
+				this.checkTurn(3, this.trainBody3, this.trainBody4, this.track4, this.track5, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
 			}
 			// position 4
-			if (this.dragObject.x > 940 && this.dragObject.x <= 1120 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.trainBody4.status == true) {
-				this.checkTurn(4, this.trainBody4, this.trainBody5, this.track6, this.track7, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
+			if (this.dragObject.x > 940 && this.dragObject.x <= 1120 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.track5.status == true) {
+				this.checkTurn(4, this.trainBody4, this.trainBody5, this.track5, this.track6, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
 			}
 			// position 5
-			if (this.dragObject.x > 1120 && this.dragObject.x <= 1320 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.trainBody5.status == true) {
+			if (this.dragObject.x > 1120 && this.dragObject.x <= 1320 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.track6.status == true) {
 				if (this.dragObject == this.trainBody5) {
 					if (this.count > 0) this.count --;
 					this.checkFalse = true;
-					this.track7.setFrame(0);
+					this.track6.setFrame(0);
 					this.trainBody5.x = 1210; // vị trí của toa tàu cuối cùng vào đúng vị trí
 					this.trainBody5.y = 495;
 					this.trainBody5.disableInteractive();
-					this.trainBody5.status = false;
+					this.track6.status = false;
 					this.explosion = this.add.sprite(140, DEFAULT_HEIGHT*3/4-150,"explosion").setScale(2.5);
 					this.explosion.play('explode');
 					this.time.addEvent({
@@ -311,7 +311,7 @@ class Scene3 extends Phaser.Scene {
 							this.track4.setFrame(4);
 							this.track5.setFrame(4);
 							this.track6.setFrame(4);
-							this.track7.setFrame(4);
+							this.track2.setFrame(4);
 							if (this.count == 0) {
 								
 								if (this.greenBall1.statusRight == true)  {
@@ -364,21 +364,7 @@ class Scene3 extends Phaser.Scene {
 							
 						},
 						loop: false
-					});
-
-					
-				} else {
-					this.track7.setFrame(1);
-					this.dragObject.x = 1210; // vị trí của toa tàu khi đưa vào khu vực đường ray bị sai
-					this.dragObject.y = 495;
-					this.time.addEvent({
-						delay: 1000,
-						callback: () => {
-							this.dragObject.y -= 100; // toa tàu bị dịch chuyển lên trên
-							this.track7.setFrame(0);
-						},
-						loop: false
-					});
+					});				
 				}
 			}
 
@@ -387,13 +373,13 @@ class Scene3 extends Phaser.Scene {
 
 	checkTurn(numberOfTurn, trainBody, trainBody2, track, track2, greenBall4, greenBall3, greenBall2, greenBall1) {
 		if (this.dragObject == trainBody) {
-				track.setFrame(0);
-				trainBody.x = 430 + 195*(numberOfTurn-1); // vị trí của toa tàu khi vào đúng đường ray
-				trainBody.y = 495;
-				trainBody.disableInteractive();
-				track2.setFrame(0);
-				track.status = false;
-				track2.status = true;
+			track.setFrame(0);
+			trainBody.x = 430 + 195*(numberOfTurn-1); // vị trí của toa tàu khi vào đúng đường ray
+			trainBody.y = 495;
+			trainBody.disableInteractive();
+			track2.setFrame(0);
+			track.status = false;
+			track2.status = true;
 		} else {
 			this.imageWrong = this.add.image(430 + 195*(numberOfTurn-1), 700, "imagewrong"); // vị trí của thông báo đặt toa tàu sai vị trí
 			this.speaker = this.add.image(200 + 195*(numberOfTurn-1), 665, "loa").setScale(0.2); // hình ảnh của loa khi toa tàu đặt sai vị trí
