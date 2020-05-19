@@ -6,17 +6,17 @@ class Scene0 extends Phaser.Scene {
 
 	preload() {
 		// general
-		this.load.image("khungmain", "../assets/images/khungmain.png");
-		this.load.image("khungtrang", "../assets/images/khungtrang2.png");
-		this.load.spritesheet("khung1","../assets/images/khung1.png", {
+		this.load.image("khungmain", "assets/images/khungmain.png");
+		this.load.image("khungtrang", "assets/images/khungtrang2.png");
+		this.load.spritesheet("khung1","assets/images/khung1.png", {
 			frameWidth: 343,
 			frameHeight: 382
 		});
-		this.load.spritesheet("khung2","../assets/images/khung2.png", {
+		this.load.spritesheet("khung2","assets/images/khung2.png", {
 			frameWidth: 343,
 			frameHeight: 382
 		});
-		this.load.spritesheet("khung3","../assets/images/khung3.png", {
+		this.load.spritesheet("khung3","assets/images/khung3.png", {
 			frameWidth: 343,
 			frameHeight: 382
 		});
@@ -81,6 +81,14 @@ class Scene0 extends Phaser.Scene {
 			repeat: 0,
 			hideOnComplete: true
 		});
+	}
+
+	checkCreateObject() {
+		let imageModule1 = this.imageModule1;
+		let imageModule2 = this.imageModule2;
+		let imageModule3 = this.imageModule3;
+		if (imageModule1 !== null && imageModule2 !== null && imageModule3 !== null) return true;
+		return false;
 	}
 
 }
