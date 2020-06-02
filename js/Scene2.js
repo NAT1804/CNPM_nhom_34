@@ -27,8 +27,24 @@ class Scene2 extends Phaser.Scene {
 	}
 
 	create() {
-		//background
-		this.background = this.add.image(0, 0, "background").setOrigin(0, 0);
+		// background
+        var grad = this.add.image(0, 0, 'grad').setOrigin(0, 0).setScale(3.0);
+
+        for (let i=0; i<8; ++i) {
+            for (let j=0; j<8; ++j) {
+                var stuff = this.add.image(250*j, 150*i, 'stuff').setOrigin(0, 0);
+            }
+        }
+        for (let i=0; i<30; ++i) {
+            for (let j=0; j<16; ++j) {
+                var cell = this.add.image(50*j, 50*i, 'cell').setOrigin(0, 0);
+            }
+        }
+        for (let i=0; i<2; ++i) {
+            for (let j=0; j<2; ++j) {
+                var color = this.add.image(0+1000*j, 0+1000*i, 'color').setOrigin(0, 0);
+            }
+        }
 
 		//box
 		this.box = this.add.image(90, 30, "khungtrang"); // 90 và 30 là vị trí của box
