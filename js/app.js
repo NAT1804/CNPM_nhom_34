@@ -1,5 +1,5 @@
 const ratio = Math.max(window.innerWidth / window.innerHeight, window.innerHeight / window.innerWidth);
-const DEFAULT_HEIGHT = 780;
+const DEFAULT_HEIGHT = 774.4;
 const DEFAULT_WIDTH = ratio * DEFAULT_HEIGHT;
 
 var config = {
@@ -11,8 +11,8 @@ var config = {
 		width: DEFAULT_WIDTH,
 		height: DEFAULT_HEIGHT
 	},
-	backgroundColor: '#182d3b',
-	scene: [Scene0, Scene1, Scene2, Scene3],
+	backgroundColor: '#ffffff',
+	scene: [Scene0, Scene1, Scene2, Scene3, Scene4],
 	pixelArt: true,
 	physics: {
 		default: "arcade",

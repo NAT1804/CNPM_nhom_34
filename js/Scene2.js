@@ -1,7 +1,7 @@
 //jshint esversion: 6
 class Scene2 extends Phaser.Scene {
 	constructor() {
-		super("screenPlay1");
+		super("screenPlay2");
 		var status;
 	} 
 
@@ -444,13 +444,7 @@ class Scene2 extends Phaser.Scene {
 				this.time.addEvent({
 					delay: 3000,
 					callback: () => {
-						this.speaker.disableInteractive();
-						this.finishScreen = this.add.image(0, 30, "khungfinish");
-						this.finishScreen.setOrigin(0, 0);
-						this.finishButton = this.add.sprite(770, 500, "finishbutton").setInteractive({cursor: 'pointer'});
-						this.finishButton.on('pointerover', () => this.finishButton.setFrame(1));
-						this.finishButton.on('pointerout', () => this.finishButton.setFrame(0));
-						this.finishButton.on('pointerdown', () => this.scene.start("screenMain"));
+						this.scene.start("screenFinish");
 					}
 				});
 			}

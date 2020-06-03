@@ -338,14 +338,7 @@ class Scene3 extends Phaser.Scene {
 									this.time.addEvent({
 										delay: 5000,
 										callback: () => {
-											this.speaker.disableInteractive();
-											this.finishScreen = this.add.image(0, 30, "khungfinish");
-											this.finishScreen.setPosition(this.cameras.main.centerX, this.cameras.main.centerY-58);
-											this.finishButton = this.add.sprite(770, 500, "finishbutton").setInteractive({cursor: 'pointer'});
-											this.finishButton.setPosition(this.cameras.main.centerX, this.cameras.main.centerY);
-											this.finishButton.on('pointerover', () => this.finishButton.setFrame(1));
-											this.finishButton.on('pointerout', () => this.finishButton.setFrame(0));
-											this.finishButton.on('pointerdown', () => this.scene.start("screenMain"));
+											this.scene.start("screenFinish");
 										}
 									});
 									
