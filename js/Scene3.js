@@ -1,197 +1,262 @@
-/*jshint esversion: 6 */
+// jshint esversion: 6
+
+var arrayBody;
+var arrayCircle;
+var arrayNumber;
+var arrContainer;
+var containerHead;
+var posXContainer;
+var posYContainer;
+var numberOfContainer = 5;
+var numberOfGreenBall = 5;
+
 class Scene3 extends Phaser.Scene {
 	constructor(){
-		super("screenPlay3");
-	}
-
-	preload() {
-		// module 1 and module 3
-		for (var i=1; i<=20; i++) {
-			this.load.image("body-train"+i, "../assets/images/body-train"+i+".png");
-		}
-
-		this.load.image("head-train0", "../assets/images/head-train0.png");
-		this.load.image("head-train20", "../assets/images/head-train20.png");
-
-		for (var j=1; j<=20; j++) {
-			this.load.image("body-train"+j, "../assets/images/body-train"+j+".png");
-		}
-
-		this.load.spritesheet("duong-ray", "../assets/images/duong-ray.png",{
-			frameWidth: 570,
-			frameHeight: 93
-		});
-		
-		this.load.spritesheet("buttonback", "../assets/images/buttonback.png", {
-			frameWidth: 60,
-			frameHeight: 13
-		});
-		this.load.spritesheet("buttonstart", "../assets/images/buttonstart.png", {
-			frameWidth: 74,
-			frameHeight: 24
-		});
+		super('screenPlay3');
 	}
 
 	create() {
 		// background
-        var grad = this.add.image(0, 0, 'grad').setOrigin(0, 0).setScale(3.0);
+		var grad = this.add.image(0, 0, 'grad').setOrigin(0, 0).setScale(3.0);
 
-        for (let i=0; i<8; ++i) {
-            for (let j=0; j<8; ++j) {
-                var stuff = this.add.image(250*j, 150*i, 'stuff').setOrigin(0, 0);
-            }
-        }
-        for (let i=0; i<30; ++i) {
-            for (let j=0; j<16; ++j) {
-                var cell = this.add.image(50*j, 50*i, 'cell').setOrigin(0, 0);
-            }
-        }
-        for (let i=0; i<2; ++i) {
-            for (let j=0; j<2; ++j) {
-                var color = this.add.image(0+1000*j, 0+1000*i, 'color').setOrigin(0, 0);
-            }
-        }
+		for (let i=0; i<8; ++i) {
+			for (let j=0; j<8; ++j) {
+				var stuff = this.add.image(250*j, 150*i, 'stuff').setOrigin(0, 0);
+			}
+		}
+		for (let i=0; i<30; ++i) {
+			for (let j=0; j<16; ++j) {
+				var cell = this.add.image(50*j, 50*i, 'cell').setOrigin(0, 0);
+			}
+		}
+		for (let i=0; i<2; ++i) {
+			for (let j=0; j<2; ++j) {
+				var color = this.add.image(0+1000*j, 0+1000*i, 'color').setOrigin(0, 0);
+			}
+		}
 
 		//box
-		this.box = this.add.image(90, 30, "khungtrang");
-		this.box.setOrigin(0, 0);
-		//header
-		this.add.text(284, 85, "Put the train cars from the greatest to the smallest", {
-			color: '#000000',
-			fontSize: '30px',
-			stroke: '#000',
-			strokeThickness: 3 
+		this.box = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY-75, "mainBox"); // 90 va 30 la vi tri cua box
+		
+		// back button
+		this.backButton = this.add.text(277, 23, '< Back', {
+			fontFamily: 'Noto Sans',
+			color: '#5280b7',
+			fontSize: '18px'
+		}).setInteractive({cursor: 'pointer'});
+		var color1 = '#83d5d4';
+		var color2 = '#5280b7';
+		this.backButton.on('pointerover', () => { this.backButton.setColor(color1); });
+		this.backButton.on('pointerout', () => { this.backButton.setColor(color2); });
+		this.backButton.on('pointerdown', () => { 
+			this.scene.start('screenMain');
 		});
-		//back button
-		this.backButton = this.add.sprite(140, 50, "buttonback").setInteractive({cursor: 'pointer'});
-		this.backButton.on('pointerover', () => this.backButton.setFrame(1));
-		this.backButton.on('pointerout', () => this.backButton.setFrame(0));
-		this.backButton.on('pointerdown', () => this.scene.start("screenMain"));
-		//bar
-		this.bar = this.add.image(384, 33, "thanhbar").setScale(0.5);
-		this.bar.setOrigin(0, 0);
-		this.greenBall1 = this.add.image(386, 36, "greenball").setScale(0.5);
-		this.greenBall1.setOrigin(0, 0);
-		this.greenBall2 = this.add.image(430, 36, "greenball").setScale(0.5);
-		this.greenBall2.setOrigin(0, 0);
-		this.greenBall3 = this.add.image(474, 36, "greenball").setScale(0.5);
-		this.greenBall3.setOrigin(0, 0);
-		this.greenBall4 = this.add.image(518, 36, "greenball").setScale(0.5);
-		this.greenBall4.setOrigin(0, 0);
+
+		// bar
+		this.bar = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY-356, 'bar');
+
+		// green ball
+		var posXGreenBall1 = 468;
+		var posYGreenBall = 21;
+		this.arrayGreenBall = new Array('greenBall');
+		for (let i=0; i<numberOfGreenBall; ++i) {
+			this.arrayGreenBall[i] = this.add.image(posXGreenBall1 += 23, posYGreenBall, 'greenBall').setOrigin(0, 0);
+		}
+
 		// status green ball
-		this.greenBall4.statusRight = true;
-		this.greenBall3.statusRight = false;
-		this.greenBall2.statusRight = false;
-		this.greenBall1.statusRight = false;
-		this.greenBall4.statusLeft = false;
-		this.greenBall3.statusLeft = false;
-		this.greenBall2.statusLeft = false;
-		this.greenBall1.statusLeft = false;
+		for (let i=0; i<numberOfGreenBall; ++i) {
+			this.arrayGreenBall[i].statusRight = false;
+			this.arrayGreenBall[i].statusLeft = false;
+			if (i == numberOfContainer-1) this.arrayGreenBall[i].statusRight = true;
+		}
+
+		// language
+		this.language = this.add.text(1110, 23, 'English', {
+			fontFamily: 'Noto Sans',
+			color: '#5280b7',
+			fontSize: '18px'
+		});
+		this.language.on('pointerover', () => { this.language.setColor(color1); }).setInteractive({cursor: 'pointer'});
+		this.language.on('pointerout', () => { this.language.setColor(color2); }).setInteractive({cursor: 'pointer'});
+		
 		// sound
 		this.initSpeaker();
-		// track
-		this.track1 = this.add.sprite(250, DEFAULT_HEIGHT*3/4, "duong-ray").setFrame(4);
-		this.track2 = this.add.sprite(450, DEFAULT_HEIGHT*3/4, "duong-ray").setFrame(4);
-		this.track3 = this.add.sprite(650, DEFAULT_HEIGHT*3/4, "duong-ray").setFrame(4);
-		this.track4 = this.add.sprite(850, DEFAULT_HEIGHT*3/4 , "duong-ray").setFrame(4);
-		this.track5 = this.add.sprite(1050, DEFAULT_HEIGHT*3/4, "duong-ray").setFrame(4);
-		this.track6 = this.add.sprite(1250, DEFAULT_HEIGHT*3/4, "duong-ray").setFrame(4);
-		
-		this.track1.setScale(0.4);
-		this.track2.setScale(0.4);
-		this.track3.setScale(0.4);
-		this.track4.setScale(0.4);
-		this.track5.setScale(0.4);
-		this.track6.setScale(0.4);
 
-		//init
+		// init
 		this.initial();
 
+		// drag object
+		this.input.on('pointerdown', this.startDrag, this);
+		
+		// this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+		//     gameObject.x = dragX;
+		//     gameObject.y = dragY;
+		// });
+
+		// explosion animation 
+		this.anims.create({
+			key: "explode",
+			frames: this.anims.generateFrameNumbers("explosion"),
+			frameRate: 5, // 5 frames per second
+			repeat: 0,
+			hideOnComplete: true
+		});
+		
 		//disable interactive object
 		this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				this.trainBody1.disableInteractive();
-				this.trainBody2.disableInteractive();
-				this.trainBody3.disableInteractive();
-				this.trainBody4.disableInteractive();
-				this.trainBody5.disableInteractive();
-				this.speaker.disableInteractive();
-			}
-		});
-		
-		// start button
-		this.time.addEvent({
-			delay: 0,
-			callback: () => {
-				this.startBackground = this.add.image(90, 85, "start"); // 90 và 85 là vị trí của nút bắt đầu
-				this.startBackground.setOrigin(0, 0);
-				this.startButton = this.add.sprite(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, "startlabel").setInteractive({cursor: 'pointer'}).setFrame(1);
-				this.startButton.on('pointerover', () => this.startButton.setFrame(0));
-				this.startButton.on('pointerout', () => this.startButton.setFrame(1));
-				this.startButton.on('pointerdown', () => {
-					this.startBackground.destroy();
-					this.startButton.destroy();
-					this.trainBody1.setInteractive({cursor: 'pointer'});
-					this.trainBody2.setInteractive({cursor: 'pointer'});
-					this.trainBody3.setInteractive({cursor: 'pointer'});
-					this.trainBody4.setInteractive({cursor: 'pointer'});
-					this.trainBody5.setInteractive({cursor: 'pointer'});
-					this.speaker.setInteractive({cursor: 'pointer'});
-				});
+				for (let i=0; i<numberOfContainer; ++i) {
+					arrContainer[i].disableInteractive();
+				}
 			}
 		});
 
-		//drag object
-		this.input.on('pointerdown', this.startDrag, this);
+		// start button
+		this.time.addEvent({
+			delay: 0,
+			
+			callback: () => {
+				var graphics = this.add.graphics();
+				graphics.fillStyle(0xfdf8fc, 0.7);
+				graphics.fillCircle(this.cameras.main.centerX, this.cameras.main.centerY-90, 160);
+				graphics.fillStyle(0xf8e5f5, 0.7);
+				graphics.fillCircle(this.cameras.main.centerX, this.cameras.main.centerY-90, 120);
+
+				this.startButton = this.add.sprite(this.cameras.main.centerX+20, this.cameras.main.centerY-90, 'start').setInteractive({
+					cursor: 'pointer',
+					hitArea: new Phaser.Geom.Circle(0, 0, 160),
+					hitAreaCallback: Phaser.Geom.Circle.Contains
+				});
+				this.textStart = this.add.text(this.cameras.main.centerX-20, this.cameras.main.centerY-100, 'start', {
+					fontFamily: 'PT Sans',
+					color: '#ffffff',
+					fontSize: '20px'
+				});
+				
+		
+				this.startButton.on('pointerover', () => {
+					graphics.clear();
+					this.startButton.setFrame(1);
+					graphics.fillStyle(0xfdf8fc, 0.7);
+					graphics.fillCircle(this.cameras.main.centerX, this.cameras.main.centerY-90, 170);
+					graphics.fillStyle(0xf8e5f5, 0.7);
+					graphics.fillCircle(this.cameras.main.centerX, this.cameras.main.centerY-90, 130);
+				});
+				this.startButton.on('pointerout', () => {
+					graphics.clear();
+					this.startButton.setFrame(0);
+					graphics.fillStyle(0xfdf8fc, 0.7);
+					graphics.fillCircle(this.cameras.main.centerX, this.cameras.main.centerY-90, 160);
+					graphics.fillStyle(0xf8e5f5, 0.7);
+					graphics.fillCircle(this.cameras.main.centerX, this.cameras.main.centerY-90, 120);
+				});
+				this.startButton.on('pointerdown', () => {
+					graphics.clear();
+					this.textStart.destroy();
+					this.startButton.destroy();
+					for (let i=0; i<5; ++i) {
+						arrContainer[i].setInteractive(new Phaser.Geom.Circle(50, 50, 60), Phaser.Geom.Circle.Contains);
+					}
+				});
+			}
+		});
+		
 	}
 
 	initial() {
 		this.time.addEvent({
 			delay: 0,
 			callback: () => {
+				//header
+				this.header = this.add.text(497, 72, "Put the train cars from the greatest", { 
+					color: '#000000',
+					fontSize: '32px',
+					fontFamily: 'PT Sans'
+				});
+				this.header2 = this.add.text(632, 120, "to the smallest", {
+					color: '#000000',
+					fontSize: '32px',
+					fontFamily: 'PT Sans'
+				});
 				// The number of turns it takes for a green ball to run to the right
 				this.count = 0;
 				// if checkFalse = true green ball can run to the left else green ball can't run to the left
 				this.checkFalse = true;
+				
+				//track
+				this.track1 = this.add.image(this.cameras.main.centerX-180, this.cameras.main.centerY+120, 'track');
+				this.track2 = this.add.image(this.cameras.main.centerX+180, this.cameras.main.centerY+120, 'track');
 
-				// track
-				this.track2.setFrame(0);
-				this.track3.setFrame(3);
-				this.track4.setFrame(3);
-				this.track5.setFrame(3);
-				this.track6.setFrame(3);
-				// status track
-				this.track2.status = true;
-				this.track3.status = false;
-				this.track4.status = false;
-				this.track5.status = false;
-				this.track6.status = false;
+				// color track 
+				var posXColorTrack = 357;
+				var posYColorTrack = 488;
+				this.arrayColorTrack = new Array('colortrack');
+				for (let i=0; i<numberOfContainer; ++i) {
+					this.arrayColorTrack[i] = this.add.sprite(posXColorTrack += 127, posYColorTrack, 'colortrack').setOrigin(0, 0);
+				}
+				this.arrayColorTrack[0].setFrame(0);
+				for (let i=1; i<numberOfContainer; ++i) {
+					this.arrayColorTrack[i].setFrame(2);
+				}
 
-				// number of train body
-				this.number1 = Phaser.Math.Between(16, 19);
-				this.number2 = Phaser.Math.Between(12, 15);
-				this.number3 = Phaser.Math.Between(8, 11);
-				this.number4 = Phaser.Math.Between(4, 7);
-				this.number5 = Phaser.Math.Between(1, 3);
+				//status color track
+				/*
+				trạng thái của các đường ray
+				nếu là true thì đường ray hiện tại cần được thêm toa tàu 
+				false thì ngược lại
+				*/
+				this.arrayColorTrack[0].status = true;
+				for (let i=1; i<numberOfContainer; ++i) {
+					this.arrayColorTrack[i].status = false;
+				}
+
 				// train body
-				this.trainBody5 = this.add.image(Phaser.Math.Between(414, 626), Phaser.Math.Between(200, 220), "body-train" + this.number5).setInteractive({cursor:'pointer'});
-				this.trainBody4 = this.add.image(Phaser.Math.Between(626, 838), Phaser.Math.Between(400, DEFAULT_HEIGHT/2+30), "body-train" + this.number4).setInteractive({cursor:'pointer'});
-				this.trainBody3 = this.add.image(Phaser.Math.Between(838, 1050), Phaser.Math.Between(200, 220), "body-train" + this.number3).setInteractive({cursor:'pointer'});
-				this.trainBody2 = this.add.image(Phaser.Math.Between(1050, 1262), Phaser.Math.Between(400, DEFAULT_HEIGHT/2+30), "body-train" + this.number2).setInteractive({cursor:'pointer'});
-				this.trainBody1 = this.add.image(Phaser.Math.Between(202, 414), Phaser.Math.Between(400, DEFAULT_HEIGHT/2+30), "body-train" + this.number1).setInteractive({cursor:'pointer'});
-				this.trainBody1.setScale(0.8);
-				this.trainBody2.setScale(0.8);
-				this.trainBody3.setScale(0.8);
-				this.trainBody4.setScale(0.8);
-				this.trainBody5.setScale(0.8);
+				/*
+				phan hard code bên dưới là khoảng vị trí ngẫu nhiên mà các toa tàu sẽ xuất hiện
+				*/
+				arrayBody = new Array('body');
+				for (let i=0; i<numberOfContainer; ++i) {
+					arrayBody[i] = this.add.image(20, 82, 'body');
+				}
+
+				// elip of train body
+				arrayCircle = new Array('circle');
+				for (let i=0; i<numberOfContainer; ++i) {
+					arrayCircle[i] = this.add.image(20, 22, 'circle');
+				}
+			
+				// number of train body
+				arrayNumber = [];
+				for (let i=0; i<numberOfContainer; ++i) {
+					arrayNumber[i] = this.add.text(0, 0, Phaser.Math.Between(19-3*i, 16-3*i), {
+						color: '#000000',
+						fontSize: '39px',
+						fontFamily: 'PT Sans'
+					});
+				}
+
+				// container
+				//posXContainer = [330, 510, 690, 870, 1050];
+				posXContainer = [870, 510, 330, 690, 1050];
+				posYContainer = [275, 275, 162, 162, 162];
+				arrContainer = new Array();
+				for (let i=numberOfContainer-1; i>=0; --i) {
+					arrContainer[i] = this.add.container(posXContainer[i], posYContainer[i], [arrayBody[i], arrayCircle[i], arrayNumber[i]] );
+					arrContainer[i].setInteractive(new Phaser.Geom.Circle(30, 50, 60), Phaser.Geom.Circle.Contains); 
+					this.input.setDraggable(arrContainer[i]);
+				}
 				
-				// train head
-				this.trainHead20 = this.add.image(237, DEFAULT_HEIGHT*3/4 - 95, "head-train20");
-				this.trainHead20.setScale(0.8);
-				//background bonus
-				this.backgroundBonus = this.add.image(0, 360, "backgroundBonus").setOrigin(0, 0).setScale(0.78);
-				
+				//train head
+				var head = this.add.image(-8, 85, 'head');
+				var circle1 = this.add.image(10, 22, 'circle1');
+				var headNumber = this.add.text(-12, 0, '20', {
+					color: '#000000',
+					fontSize: '45px',
+					fontFamily: 'PT Sans'
+				});
+				containerHead = this.add.container(424, 387, [head, circle1, headNumber]);
+
 				this.end = false;
 			},
 			loop: false
@@ -199,19 +264,14 @@ class Scene3 extends Phaser.Scene {
 	}
 
 	initSpeaker() {
-		this.speaker = this.add.image(230, 85, "loa").setScale(0.1);
+		this.speaker = this.add.sprite(450, 67, "speaker").setScale(0.35);
 		this.speaker.setOrigin(0, 0);
 		this.speaker.setInteractive({cursor: 'pointer'});
-		this.music = this.sound.add('sound3');
+		this.music = this.sound.add('sound1');
+		this.speaker.on('pointerover', () => this.speaker.setFrame(1));
+		this.speaker.on('pointerout', () => this.speaker.setFrame(0));
 		this.speaker.on('pointerdown', () => {
 			this.music.play();
-			this.speaker.destroy();
-			this.time.addEvent({
-				delay: 3600,
-				callback: () => {
-					this.initSpeaker();
-				}
-			});
 		});
 	}
 
@@ -224,10 +284,9 @@ class Scene3 extends Phaser.Scene {
 
 	doDrag(pointer) {
 		if (this.dragObject != null) {
-			this.dragObject.x = pointer.x;
-			this.dragObject.y = pointer.y;
+			this.dragObject.x = pointer.x-30;
+			this.dragObject.y = pointer.y-50;
 		}
-
 		this.changeColor();
 	}
 
@@ -241,214 +300,158 @@ class Scene3 extends Phaser.Scene {
 
 	changeColor() {
 		if (this.dragObject != null) {
-			// position 1
-			if (this.track2.status == true) {
-				if (this.dragObject.x > 350 && this.dragObject.x <= 550 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3) {
-					this.track2.setFrame(2);
-				} 
-				else {
-					this.track2.setFrame(0);
+			for (let i=0; i<numberOfContainer; ++i) {
+				if (this.arrayColorTrack[i].status == true) {
+					if (this.dragObject.x >= 435+135*i && this.dragObject.x <= 570+135*i && this.dragObject.y > 350 && this.dragObject.y < 520) {
+						this.arrayColorTrack[i].setFrame(1);
+					} 
+					else {
+						this.arrayColorTrack[i].setFrame(0);    
+					}
 				}
 			}
-			// position 2
-			if (this.track3.status == true) {
-				if (this.dragObject.x > 550 && this.dragObject.x <= 725 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3) {
-					this.track3.setFrame(2);
-				}
-				else {
-					this.track3.setFrame(0);
-				}				
-			}
-			// position 3
-			if (this.track4.status == true) {
-				if (this.dragObject.x > 725 && this.dragObject.x <= 940 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3) {
-					this.track4.setFrame(2);
-				}
-				else {
-					this.track4.setFrame(0);
-				}	
-			}
-			// position 4
-			if (this.track5.status == true) {
-				if (this.dragObject.x > 940 && this.dragObject.x <= 1120 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3) {
-					this.track5.setFrame(2);
-				}
-				else{
-					this.track5.setFrame(0);
-				}	
-			}
-			// position 5
-			if (this.track6.status == true) {
-				if (this.dragObject.x > 1120 && this.dragObject.x <= 1320 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3) {
-					this.track6.setFrame(2);
-				}
-				else {
-					this.track6.setFrame(0);
-				}
-			}
-			
 		}
 	}
 
 	checkResult() {
 		if (this.dragObject != null) {
-			// position 1
-			if (this.dragObject.x > 350 && this.dragObject.x <= 550 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.track2.status == true) {
-				this.checkTurn(1, this.trainBody1, this.trainBody2, this.track2, this.track3, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
-			}
-			// position 2
-			if (this.dragObject.x > 550 && this.dragObject.x <= 725 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.track3.status == true) {
-				this.checkTurn(2, this.trainBody2, this.trainBody3, this.track3, this.track4, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
-			}
-			// position 3
-			if (this.dragObject.x > 725 && this.dragObject.x <= 940 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.track4.status == true) {
-				this.checkTurn(3, this.trainBody3, this.trainBody4, this.track4, this.track5, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
-			}
-			// position 4
-			if (this.dragObject.x > 940 && this.dragObject.x <= 1120 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.track5.status == true) {
-				this.checkTurn(4, this.trainBody4, this.trainBody5, this.track5, this.track6, this.greenBall4, this.greenBall3, this.greenBall2, this.greenBall1);
-			}
-			// position 5
-			if (this.dragObject.x > 1120 && this.dragObject.x <= 1320 && this.dragObject.y > DEFAULT_HEIGHT/2+50 && this.dragObject.y < DEFAULT_HEIGHT/4*3 && this.track6.status == true) {
-				if (this.dragObject == this.trainBody5) {
-					if (this.count > 0) this.count --;
-					this.checkFalse = true;
-					this.track6.setFrame(0);
-					this.trainBody5.x = 1210; // vị trí của toa tàu cuối cùng vào đúng vị trí
-					this.trainBody5.y = 495;
-					this.trainBody5.disableInteractive();
-					this.track6.status = false;
-					this.explosion = this.add.sprite(140, DEFAULT_HEIGHT*3/4-150,"explosion").setScale(2.5);
-					this.explosion.play('explode');
-					this.time.addEvent({
-						delay: 1000,
-						callback: () => {
-							this.track3.setFrame(4);
-							this.track4.setFrame(4);
-							this.track5.setFrame(4);
-							this.track6.setFrame(4);
-							this.track2.setFrame(4);
-							if (this.count == 0) {
-								
-								if (this.greenBall1.statusRight == true)  {
-
-									this.greenBallMoveRight(this.greenBall1, 1);
-									this.greenBall1.statusRight = false;
-									this.end = true;
-									this.time.addEvent({
-										delay: 5000,
-										callback: () => {
-											this.scene.start("screenFinish");
+			for (let i=0; i<numberOfContainer; ++i) {
+				
+				if (this.dragObject.x >= 435+135*i && this.dragObject.x <= 570+135*i && this.dragObject.y > 350 && this.dragObject.y < 520 && this.arrayColorTrack[i].status == true) {
+					if (i != numberOfContainer-1) {
+						this.checkTurn(i+1, arrContainer[i], this.arrayColorTrack[i], this.arrayColorTrack[i+1]);
+					}
+					else {
+						if (this.count > 0) this.count--;
+						this.checkFalse = true;
+						this.arrayColorTrack[i].setFrame(0);
+						arrContainer[i].x = 1023; 
+						arrContainer[i].y = 390;
+						
+						arrContainer[i].disableInteractive();
+						this.arrayColorTrack[i].status = false;
+						this.explosion = this.add.sprite(368, 400,"explosion").setScale(2.0);
+						this.explosion.play('explode');
+						for (let i=0; i<numberOfContainer; ++i) {
+							this.arrayColorTrack[i].destroy();
+						}
+						this.time.addEvent({
+							delay: 1000,
+							callback: () => {				
+								if (this.count == 0) {
+									for (let i=0; i<numberOfGreenBall; ++i) {
+										if (this.arrayGreenBall[i].statusRight) {
+											console.log(i);
+											if (i == 0) {
+												this.greenBallMoveRight(this.arrayGreenBall[i], i);
+												this.arrayGreenBall[i].statusRight = false;
+												this.arrayGreenBall[i].statusLeft = true;
+												this.end = true;
+												this.time.addEvent({
+													delay: 5000,
+													callback: () => {
+														this.scene.start('screenFinish');
+													}
+												});
+											} else if (i == numberOfGreenBall-1) {
+												this.greenBallMoveRight(this.arrayGreenBall[i], i);
+												this.arrayGreenBall[i].statusRight = false;
+												this.arrayGreenBall[i].statusLeft = true;
+												this.arrayGreenBall[i-1].statusRight = true;
+												this.arrayGreenBall[i-1].statusLeft = false;
+											} else {
+												this.greenBallMoveRight(this.arrayGreenBall[i], i);
+												this.arrayGreenBall[i].statusRight = false;
+												this.arrayGreenBall[i].statusLeft = true;
+												this.arrayGreenBall[i+1].statusLeft = false;
+												this.arrayGreenBall[i-1].statusRight = true;
+											}
 										}
-									});
-									
-								}	
-								if (this.greenBall2.statusRight == true)  {
-									this.greenBallMoveRight(this.greenBall2, 2);
-									this.greenBall1.statusRight = true;
-									this.greenBall1.statusLeft = false;
-									this.greenBall2.statusRight = false;
-									this.greenBall2.statusLeft = true;
-									this.greenBall3.statusLeft = false;
-								}	
-								if (this.greenBall3.statusRight == true)  {
-									this.greenBallMoveRight(this.greenBall3, 3);
-									this.greenBall2.statusRight = true;
-									this.greenBall2.statusLeft = false;
-									this.greenBall3.statusRight = false;
-									this.greenBall3.statusLeft = true;
-									this.greenBall4.statusLeft = false;			
+									}
 								}
-								if (this.greenBall4.statusRight == true)  {
-									this.greenBallMoveRight(this.greenBall4, 4);
-									this.greenBall3.statusRight = true;
-									this.greenBall3.statusLeft = false;
-									this.greenBall4.statusRight = false;
-									this.greenBall4.statusLeft = true;
-									
-								}
-
-							}
-							this.trainMove();
-							
-						},
-						loop: false
-					});				
+								this.trainMove();
+								
+							},
+							loop: false
+						}); 
+						
+					}
 				}
 			}
 
 		}
 	}
 
-	checkTurn(numberOfTurn, trainBody, trainBody2, track, track2, greenBall4, greenBall3, greenBall2, greenBall1) {
-		if (this.dragObject == trainBody) {
-			track.setFrame(0);
-			trainBody.x = 430 + 195*(numberOfTurn-1); // vị trí của toa tàu khi vào đúng đường ray
-			trainBody.y = 495;
-			trainBody.disableInteractive();
-			track2.setFrame(0);
-			track.status = false;
-			track2.status = true;
+	checkTurn(numberOfTurn, container, colorTrack, colorTrack2/*greenBall4, greenBall3, greenBall2, greenBall1*/) {
+		if (this.dragObject == container) {
+			colorTrack.setFrame(0);
+			container.x = 523 + 125*(numberOfTurn-1); // vị trí của toa tàu được đạt vào đường ray khi chọn đúng toa tàu
+			container.y = 390;
+			container.disableInteractive();
+			colorTrack2.setFrame(0);
+			colorTrack.status = false;
+			colorTrack2.status = true;
 		} else {
-			this.imageWrong = this.add.image(430 + 195*(numberOfTurn-1), 700, "imagewrong"); // vị trí của thông báo đặt toa tàu sai vị trí
-			this.speaker = this.add.image(200 + 195*(numberOfTurn-1), 665, "loa").setScale(0.2); // hình ảnh của loa khi toa tàu đặt sai vị trí
+			this.imageWrong = this.add.image(539 + 195*(numberOfTurn-1), 570, "imagewrong").setScale(0.6); // vị trí của thông báo đặt toa tàu sai vị trí
+			this.speaker = this.add.sprite(406 + 195*(numberOfTurn-1), 555, "speaker").setScale(0.35); // hình ảnh của loa khi toa tàu đặt sai vị trí
 			this.speaker.setOrigin(0, 0);
 			this.speaker.setInteractive({cursor: 'pointer'});
+			this.speaker.on('pointerover', () => this.speaker.setFrame(1));
+			this.speaker.on('pointerout', () => this.speaker.setFrame(0));
 			this.soundWrong = this.sound.add('sound4');
 			this.speaker.on('pointerdown', () => {
 				this.soundWrong.play();
-				this.speaker.destroy();
-				this.imageWrong.destroy();
 			});
-			if (this.count < 1) this.count+=2;
+			this.deleteSpeaker = this.time.addEvent({
+				delay: 2000,
+				callback: () => {
+					this.speaker.destroy();
+					this.imageWrong.destroy();
+				},
+				loop: false
+			});
+			if (this.count == 0) this.count+=2;
 			if (this.checkFalse == true) {
-				if (greenBall4.statusLeft == true) {
-					this.greenBallMoveLeft(greenBall4, 4);
-					greenBall4.statusLeft = false;
-					greenBall4.statusRight = true;
-					greenBall3.statusRight = false;
+				for (let i = numberOfGreenBall-1; i>=1; --i) {
+					if (this.arrayGreenBall[i].statusLeft) {
+						this.greenBallMoveLeft(this.arrayGreenBall[i], i);
+						this.arrayGreenBall[i].statusLeft = false;
+						this.arrayGreenBall[i].statusRight = true;
+						this.arrayGreenBall[i-1].statusRight = false;
+					}
 				}
-				if (greenBall3.statusLeft == true) {
-					this.greenBallMoveLeft(greenBall3, 3);
-					greenBall3.statusLeft = false;
-					greenBall3.statusRight = true;
-					greenBall2.statusRight = false;
-				}
-				if (greenBall2.statusLeft == true) {
-					this.greenBallMoveLeft(greenBall2, 2);
-					greenBall2.statusLeft = false;
-					greenBall2.statusRight = true;
-					greenBall1.statusRight = false;
-				}
-				if (greenBall1.statusLeft == true) {
-					this.greenBallMoveLeft(greenBall1, 1);
-					greenBall1.statusLeft = false;
-					greenBall1.statusRight = true;
-				}
-				this.checkFalse = false;
+				
+				this.checkFalse = false; // sai nhieu lan trong 1 luot nhung chi co 1 qua bong xanh bi di chuyen tu trai sang phai
 			}
-			track.setFrame(1);
-			this.dragObject.x = 430 + 195*(numberOfTurn-1); // vị trí của toa tàu khi vào đúng khu vực của đường ray
-			this.dragObject.y = 495;
+			colorTrack.setFrame(3);
+			this.dragObject.x = 523 + 125*(numberOfTurn-1);
+			this.dragObject.y = 390;
+
+			var posX = 523 + 125*(numberOfTurn-1);
+			var posY = 390;
 
 			var objectTurnBack = this.time.addEvent({
 				delay: 1000,
 				callback: () => {
-					this.dragObject.y -= 100; // toa tàu bị dịch chuyển lên khi sai vị trí đường ray
-					
+					for (let i=0; i<numberOfContainer; ++i) {
+						if (this.dragObject === arrContainer[i]) { // tro ve vi tri ban dau
+							this.dragObject.x += (posXContainer[i]-posX);
+							this.dragObject.y += (posYContainer[i]-posY);
+							//colorTrack.setFrame(0);
+						}
+					}
 				},
 				loop: false
 			});
 
-			var deleteNotification = this.time.addEvent({
+			var colorTrackTurnBack = this.time.addEvent({
 				delay: 2000,
 				callback: () => {
-					track.setFrame(0);
-					this.imageWrong.destroy();
-					this.speaker.destroy();
+					colorTrack.setFrame(0);
 				},
 				loop: false
 			});
+
 		}
 	}
 
@@ -456,28 +459,24 @@ class Scene3 extends Phaser.Scene {
 		var move = this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				if (this.trainBody5.x < -100) {
+				if (arrContainer[numberOfContainer-1].x < -100) {
 					move.remove();
 					this.stopTrain();
 				}
-				this.trainHead20.x -= 5; // 5 la van toc di chuyen
-				this.trainBody1.x -= 5; // 5 la van toc di chuyen
-				this.trainBody2.x -= 5; // 5 la van toc di chuyen
-				this.trainBody3.x -= 5; // 5 la van toc di chuyen
-				this.trainBody4.x -= 5; // 5 la van toc di chuyen
-				this.trainBody5.x -= 5; // 5 la van toc di chuyen
+				containerHead.x -= 5;   // 5 la van toc di chuyen 
+				for (let i=0; i<numberOfContainer; ++i) {
+					arrContainer[i].x -= 5; // 5 la van toc di chuyen
+				}
 			},
 			loop: true
 		});
 	}
 
 	stopTrain() {
-		this.trainHead20.destroy();
-		this.trainBody1.destroy();
-		this.trainBody2.destroy();
-		this.trainBody3.destroy();
-		this.trainBody4.destroy();
-		this.trainBody5.destroy();
+		containerHead.destroy();
+		for (let i=0; i<numberOfContainer; ++i) {
+			arrContainer[i].destroy();
+		}
 		if(this.end == false) this.initial();
 	}
 
@@ -485,15 +484,7 @@ class Scene3 extends Phaser.Scene {
 		var run = this.time.addEvent({
 			delay: 0,
 			callback: () => { 
-				if (i == 4 || i == 3) {
-					if (ball.x > 976 - (4-i)*50) run.remove(); // giới hạn dừng lại của quả bóng xanh
-				}
-				else if (i == 2) {
-					if (ball.x > 884) run.remove(); // giới hạn dừng lại của quả bóng xanh
-				}
-				else if (i == 1) {
-					if (ball.x > 844) run.remove(); // giới hạn dừng lại của quả bóng xanh
-				}
+				if (ball.x > 909 - (numberOfGreenBall-1-i)*23) run.remove(); // giới hạn dừng lại của quả bóng xanh
 				ball.x += 10;
 			},
 			loop: true
@@ -504,16 +495,7 @@ class Scene3 extends Phaser.Scene {
 		var run = this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				if (i == 4) {
-					if (ball.x < 534) run.remove(); // giới hạn dừng lại của quả bóng xanh
-				}
-				else if (i == 3) {
-					if (ball.x < 494) run.remove(); // giới hạn dừng lại của quả bóng xanh
-				}
-				else if (i == 2) {
-					if (ball.x < 444) run.remove(); // giới hạn dừng lại của quả bóng xanh
-				}
-				
+				if (ball.x < 602 - (numberOfGreenBall-1-i)*23) run.remove(); // giới hạn dừng lại của quả bóng xanh
 				ball.x -= 10;
 			},
 			loop: true

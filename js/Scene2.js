@@ -24,6 +24,9 @@ class Scene2 extends Phaser.Scene {
 			frameWidth: 74,
 			frameHeight: 24
 		});
+
+
+
 	}
 
 	create() {
@@ -47,15 +50,8 @@ class Scene2 extends Phaser.Scene {
         }
 
 		//box
-		this.box = this.add.image(90, 30, "khungtrang"); // 90 và 30 là vị trí của box
-		this.box.setOrigin(0, 0);
-		// header
-		this.add.text(404, 85, "Place the ball on the number line", {
-			color: '#000000',
-			fontSize: '30px',
-			stroke: '#000',
-			strokeThickness: 3 
-		});
+		this.box = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY-75, "mainBox");
+
 		//back button
 		this.backButton = this.add.sprite(140, 50, "buttonback").setInteractive({cursor: 'pointer'}); // 140 và 50 là vị trí của nút quay lại
 		this.backButton.on('pointerover', () => this.backButton.setFrame(1));
@@ -126,6 +122,12 @@ class Scene2 extends Phaser.Scene {
 		    callback: ()=>{
 		    	// number of correct sentences
 		    	this.countCorrect = 0;
+		    	// header
+				this.add.text(404, 85, "Place the ball on the number line", {
+					color: '#000000',
+					fontSize: '45px',
+					fontFamily: 'PT Sans' 
+				});
 		        // number line
 				this.numberLine = this.add.image(123, 300, "numberline"); // 123 và 300 là vị trí của trục số
 				this.numberLine.setOrigin(0, 0);

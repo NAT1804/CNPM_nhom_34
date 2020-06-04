@@ -25,6 +25,7 @@ class Scene0 extends Phaser.Scene {
 		    }
 		};
 		this.load.rexWebFont(configFont);
+
 		// general
 		this.load.image("khungmain", "../assets/images/khungmain.png");
 		this.load.image("khungtrang", "../assets/images/khungtrang2.png");
@@ -52,13 +53,13 @@ class Scene0 extends Phaser.Scene {
 			frameWidth: 492,
 			frameHeight: 87
 		});
-		this.load.image("imagewrong", "../assets/images/imagewrong.png");
-		this.load.audio("sound", ["../assets/sounds/pickup.ogg","../assets/sounds/pickup.mp3"]);
-		this.load.audio("sound1", "../assets/sounds/sound1.mp3");
-		this.load.audio("sound2", "../assets/sounds/sound2.mp3");
-		this.load.audio("sound3", "../assets/sounds/sound3.mp3");
-		this.load.audio("sound4", "../assets/sounds/sound4.mp3");
+		this.load.spritesheet('start', '../assets/images/buttonstart.png', {
+			frameWidth: 112,
+			frameHeight: 113
+		});
+		this.load.image('dragon', '../assets/images/dragon.png');
 
+		// module 1 and 3
 		this.load.image('cell', '../assets/images/background4.png');
 		this.load.image('color', '../assets/images/background3.png');
 		this.load.image('grad', '../assets/images/background1.jpg');
@@ -75,12 +76,18 @@ class Scene0 extends Phaser.Scene {
 			frameWidth: 133,
 			frameHeight: 33
 		});
-		this.load.spritesheet('start', '../assets/images/buttonstart.png', {
-			frameWidth: 112,
-			frameHeight: 113
+		this.load.image("imagewrong", "../assets/images/imagewrong.png");
+		this.load.audio("sound", ["../assets/sounds/pickup.ogg","../assets/sounds/pickup.mp3"]);
+		this.load.audio("sound1", "../assets/sounds/sound1.mp3");
+		this.load.audio("sound3", "../assets/sounds/sound3.mp3");
+		this.load.audio("sound4", "../assets/sounds/sound4.mp3");
+		
+		// module 2
+		this.load.spritesheet('ball', '../assets/images/ball.png', {
+			frameWidth: 76,
+			frameHeight: 76
 		});
-		this.load.image('dragon', '../assets/images/dragon.png');
-
+		this.load.audio("sound2", "../assets/sounds/sound2.mp3");
 	}
 
 	create() {

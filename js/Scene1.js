@@ -36,7 +36,7 @@ class Scene1 extends Phaser.Scene {
 		}
 
 		//box
-		this.box = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY-75, "mainBox"); // 90 va 30 la vi tri cua box
+		this.box = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY-75, "mainBox");
 		
 		// back button
 		this.backButton = this.add.text(277, 23, '< Back', {
