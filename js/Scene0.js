@@ -29,16 +29,16 @@ class Scene0 extends Phaser.Scene {
 		// general
 		this.load.image("khungmain", "../assets/images/khungmain.png");
 		this.load.spritesheet("khung1","../assets/images/khung1.png", {
-			frameWidth: 343,
-			frameHeight: 382
+			frameWidth: 402,
+			frameHeight: 483
 		});
 		this.load.spritesheet("khung2","../assets/images/khung2.png", {
-			frameWidth: 343,
-			frameHeight: 382
+			frameWidth: 402,
+			frameHeight: 483
 		});
 		this.load.spritesheet("khung3","../assets/images/khung3.png", {
-			frameWidth: 343,
-			frameHeight: 382
+			frameWidth: 402,
+			frameHeight: 477
 		});
 		this.load.spritesheet("speaker", "../assets/images/speaker.png", {
 			frameWidth: 100,
@@ -64,7 +64,7 @@ class Scene0 extends Phaser.Scene {
 		this.load.image('grad', '../assets/images/background1.jpg');
 		this.load.image('stuff', '../assets/images/background2.png');
 		this.load.image('mainBox', '../assets/images/mainBox.png');
-		this.load.image('greenBall', '../assets/images/greenBall.png');
+		this.load.image('greenBall', '../assets/images/greenball.png');
 		this.load.image('bar', '../assets/images/bar.png');
 		this.load.image('head', '../assets/images/head.png');
 		this.load.image('body', '../assets/images/body.png');
@@ -95,7 +95,7 @@ class Scene0 extends Phaser.Scene {
 			frameWidth: 8,
 			frameHeight: 125
 		});
-		this.load.image("numberline", "../assets/images/numberLine.png");
+		this.load.image("numberline", "../assets/images/numberline.png");
 	}
 
 	create() {
@@ -121,19 +121,19 @@ class Scene0 extends Phaser.Scene {
 		this.box = this.add.image(0, 0, "khungmain");
 		this.box.setPosition(this.cameras.main.centerX, this.cameras.main.centerY);
 
-		this.imageModule2 = this.add.sprite(0, 0,"khung1").setInteractive({cursor: 'pointer'});
+		this.imageModule2 = this.add.sprite(0, 0,"khung3").setInteractive({cursor: 'pointer'});
 		this.imageModule2.setPosition(this.cameras.main.centerX, this.cameras.main.centerY+30);
 		this.imageModule2.on('pointerover', () => this.imageModule2.setFrame(1));
 		this.imageModule2.on('pointerout', () => this.imageModule2.setFrame(0));
 		this.imageModule2.on('pointerdown', () => this.scene.start('screenPlay2'));
 
-		this.imageModule1 = this.add.sprite(0, 0,"khung2").setInteractive({cursor: 'pointer'});
+		this.imageModule1 = this.add.sprite(0, 0,"khung1").setInteractive({cursor: 'pointer'});
 		this.imageModule1.setPosition(this.cameras.main.centerX/2-80, this.cameras.main.centerY+30);
 		this.imageModule1.on('pointerover', () => this.imageModule1.setFrame(1));
 		this.imageModule1.on('pointerout', () => this.imageModule1.setFrame(0));
 		this.imageModule1.on('pointerdown', () => this.scene.start('screenPlay1'));
 
-		this.imageModule3 = this.add.sprite(0, 0,"khung3").setInteractive({cursor: 'pointer'}); 
+		this.imageModule3 = this.add.sprite(0, 0,"khung2").setInteractive({cursor: 'pointer'}); 
 		this.imageModule3.setPosition(this.cameras.main.centerX*3/2+80, this.cameras.main.centerY+30);		
 		this.imageModule3.on('pointerover', () => this.imageModule3.setFrame(1));
 		this.imageModule3.on('pointerout', () => this.imageModule3.setFrame(0));

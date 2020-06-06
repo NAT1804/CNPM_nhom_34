@@ -307,9 +307,9 @@ class Scene2 extends Phaser.Scene {
 			delay: 0,
 			callback: () => {
 			
-				if (!line[this.countCorrect]) {
-					line[this.countCorrect].destroy();
-				}
+				// if (!line[this.countCorrect]) {
+				// 	line[this.countCorrect].destroy();
+				// }
 				
 				container[this.countCorrect].y -= 2;
 				if (container[this.countCorrect].y < 55) {

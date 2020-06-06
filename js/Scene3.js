@@ -229,15 +229,15 @@ class Scene3 extends Phaser.Scene {
 				// number of train body
 				arrayNumber = [];
 				for (let i=0; i<numberOfContainer; ++i) {
-					this.number = Phaser.Math.Between(1+4*i, 4+4*i);
+					this.number = Phaser.Math.Between(19-3*i, 16-3*i);
 					if (this.number >= 10) {
-						arrayNumber[i] = this.add.text(0, 0, Phaser.Math.Between(19-3*i, 16-3*i), {
+						arrayNumber[i] = this.add.text(0, 0, this.number, {
 							color: '#000000',
 							fontSize: '39px',
 							fontFamily: 'PT Sans'
 						});
 					} else {
-						arrayNumber[i] = this.add.text(10, 0, Phaser.Math.Between(19-3*i, 16-3*i), {
+						arrayNumber[i] = this.add.text(10, 0, this.number, {
 							color: '#000000',
 							fontSize: '39px',
 							fontFamily: 'PT Sans'
