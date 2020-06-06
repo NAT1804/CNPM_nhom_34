@@ -28,7 +28,6 @@ class Scene0 extends Phaser.Scene {
 
 		// general
 		this.load.image("khungmain", "../assets/images/khungmain.png");
-		this.load.image("khungtrang", "../assets/images/khungtrang2.png");
 		this.load.spritesheet("khung1","../assets/images/khung1.png", {
 			frameWidth: 343,
 			frameHeight: 382
@@ -87,7 +86,16 @@ class Scene0 extends Phaser.Scene {
 			frameWidth: 76,
 			frameHeight: 76
 		});
+		this.load.spritesheet('balloon', '../assets/images/balloon.png', {
+			frameWidth: 76,
+			frameHeight: 76
+		});
 		this.load.audio("sound2", "../assets/sounds/sound2.mp3");
+		this.load.spritesheet('line', '../assets/images/line.png', {
+			frameWidth: 8,
+			frameHeight: 125
+		});
+		this.load.image("numberline", "../assets/images/numberLine.png");
 	}
 
 	create() {

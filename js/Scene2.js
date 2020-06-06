@@ -1,32 +1,14 @@
 //jshint esversion: 6
+
+var numberOfGreenBall = 4;
+var container = new Array();
+var numberInBall = new Array();
+var ball = new Array('ball');
+var line = new Array();
+
 class Scene2 extends Phaser.Scene {
 	constructor() {
 		super("screenPlay2");
-		var status;
-	} 
-
-	preload() {
-		// module 2
-		this.load.image("numberline", "../assets/images/numberline.png");
-		for (var k = 1; k <= 19; k++) {
-			if (k % 5 != 0) {
-				this.load.spritesheet("ball"+k, "../assets/images/Ball"+k+".png", {
-					frameWidth: 33,
-					frameHeight: 166
-				});
-			}	
-		}
-		this.load.spritesheet("buttonback", "../assets/images/buttonback.png", {
-			frameWidth: 60,
-			frameHeight: 13
-		});
-		this.load.spritesheet("buttonstart", "../assets/images/buttonstart.png", {
-			frameWidth: 74,
-			frameHeight: 24
-		});
-
-
-
 	}
 
 	create() {
@@ -52,36 +34,50 @@ class Scene2 extends Phaser.Scene {
 		//box
 		this.box = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY-75, "mainBox");
 
-		//back button
-		this.backButton = this.add.sprite(140, 50, "buttonback").setInteractive({cursor: 'pointer'}); // 140 và 50 là vị trí của nút quay lại
-		this.backButton.on('pointerover', () => this.backButton.setFrame(1));
-		this.backButton.on('pointerout', () => this.backButton.setFrame(0));
-		this.backButton.on('pointerdown', () => this.scene.start("screenMain"));
-		//bar
-		/*
-		hard code trong đoạn này là vị trí của thanh chạy và những quả bóng xanh
-		*/
-		this.bar = this.add.image(384, 33, "thanhbar").setScale(0.5);
-		this.bar.setOrigin(0, 0);
-		this.greenBall1 = this.add.image(386, 36, "greenball").setScale(0.5);
-		this.greenBall1.setOrigin(0, 0);
-		this.greenBall2 = this.add.image(430, 36, "greenball").setScale(0.5);
-		this.greenBall2.setOrigin(0, 0);
-		this.greenBall3 = this.add.image(474, 36, "greenball").setScale(0.5);
-		this.greenBall3.setOrigin(0, 0);
-		this.greenBall4 = this.add.image(518, 36, "greenball").setScale(0.5);
-		this.greenBall4.setOrigin(0, 0);
+		// back button
+		this.backButton = this.add.text(277, 23, '< Back', {
+			fontFamily: 'Noto Sans',
+			color: '#5280b7',
+			fontSize: '18px'
+		}).setInteractive({cursor: 'pointer'});
+		var color1 = '#83d5d4';
+		var color2 = '#5280b7';
+		this.backButton.on('pointerover', () => { this.backButton.setColor(color1); });
+		this.backButton.on('pointerout', () => { this.backButton.setColor(color2); });
+		this.backButton.on('pointerdown', () => { 
+			this.scene.start('screenMain');
+		});
+
+		// bar
+		this.bar = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY-356, 'bar');
+
+		// green ball
+		var posXGreenBall1 = 468;
+		var posYGreenBall = 21;
+		this.arrayGreenBall = new Array('greenBall');
+		for (let i=0; i<numberOfGreenBall; ++i) {
+			this.arrayGreenBall[i] = this.add.image(posXGreenBall1 += 23, posYGreenBall, 'greenBall').setOrigin(0, 0);
+		}
+
 		// status green ball
-		this.greenBall4.statusRight = true;
-		this.greenBall3.statusRight = false;
-		this.greenBall2.statusRight = false;
-		this.greenBall1.statusRight = false;
-		this.greenBall4.statusLeft = false;
-		this.greenBall3.statusLeft = false;
-		this.greenBall2.statusLeft = false;
-		this.greenBall1.statusLeft = false;
+		for (let i=0; i<numberOfGreenBall; ++i) {
+			this.arrayGreenBall[i].statusRight = false;
+			this.arrayGreenBall[i].statusLeft = false;
+			if (i == numberOfContainer-1) this.arrayGreenBall[i].statusRight = true;
+		}
+
+		// language
+		this.language = this.add.text(1110, 23, 'English', {
+			fontFamily: 'Noto Sans',
+			color: '#5280b7',
+			fontSize: '18px'
+		});
+		this.language.on('pointerover', () => { this.language.setColor(color1); }).setInteractive({cursor: 'pointer'});
+		this.language.on('pointerout', () => { this.language.setColor(color2); }).setInteractive({cursor: 'pointer'});
+
 		// sound
 		this.initSpeaker();
+
 		// init
 		this.initial();
 
@@ -89,25 +85,57 @@ class Scene2 extends Phaser.Scene {
 		this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				this.numberObj1.disableInteractive();
-				this.speaker.disableInteractive();
+				//for (let i=0; i<3; ++i) {
+					container[0].disableInteractive();
+				//}
 			}
 		});
-		
+
 		// start button
 		this.time.addEvent({
 			delay: 0,
+			
 			callback: () => {
-				this.startBackground = this.add.image(90, 85, "start"); // 90 và 85 là vị trí của nút bắt đầu
-				this.startBackground.setOrigin(0, 0);
-				this.startButton = this.add.sprite(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, "startlabel").setInteractive({cursor: 'pointer'}).setFrame(1);
-				this.startButton.on('pointerover', () => this.startButton.setFrame(0));
-				this.startButton.on('pointerout', () => this.startButton.setFrame(1));
+				var graphics = this.add.graphics();
+				graphics.fillStyle(0xfdf8fc, 0.7);
+				graphics.fillCircle(this.cameras.main.centerX, this.cameras.main.centerY-90, 160);
+				graphics.fillStyle(0xf8e5f5, 0.7);
+				graphics.fillCircle(this.cameras.main.centerX, this.cameras.main.centerY-90, 120);
+
+				this.startButton = this.add.sprite(this.cameras.main.centerX+20, this.cameras.main.centerY-90, 'start').setInteractive({
+					cursor: 'pointer',
+					hitArea: new Phaser.Geom.Circle(0, 0, 160),
+					hitAreaCallback: Phaser.Geom.Circle.Contains
+				});
+				this.textStart = this.add.text(this.cameras.main.centerX-20, this.cameras.main.centerY-100, 'start', {
+					fontFamily: 'PT Sans',
+					color: '#ffffff',
+					fontSize: '20px'
+				});
+				
+		
+				this.startButton.on('pointerover', () => {
+					graphics.clear();
+					this.startButton.setFrame(1);
+					graphics.fillStyle(0xfdf8fc, 0.7);
+					graphics.fillCircle(this.cameras.main.centerX, this.cameras.main.centerY-90, 170);
+					graphics.fillStyle(0xf8e5f5, 0.7);
+					graphics.fillCircle(this.cameras.main.centerX, this.cameras.main.centerY-90, 130);
+				});
+				this.startButton.on('pointerout', () => {
+					graphics.clear();
+					this.startButton.setFrame(0);
+					graphics.fillStyle(0xfdf8fc, 0.7);
+					graphics.fillCircle(this.cameras.main.centerX, this.cameras.main.centerY-90, 160);
+					graphics.fillStyle(0xf8e5f5, 0.7);
+					graphics.fillCircle(this.cameras.main.centerX, this.cameras.main.centerY-90, 120);
+				});
 				this.startButton.on('pointerdown', () => {
-					this.startBackground.destroy();
+					graphics.clear();
+					this.textStart.destroy();
 					this.startButton.destroy();
-					this.numberObj1.setInteractive({cursor:'pointer'});
-					this.speaker.setInteractive({cursor: 'pointer'});
+					container[0].setInteractive(new Phaser.Geom.Circle(50, 50, 60), Phaser.Geom.Circle.Contains);
+					
 				});
 			}
 		});
@@ -123,18 +151,19 @@ class Scene2 extends Phaser.Scene {
 		    	// number of correct sentences
 		    	this.countCorrect = 0;
 		    	// header
-				this.add.text(404, 85, "Place the ball on the number line", {
+				var header = this.add.text(420, 85, "Place the ball on the number line", {
 					color: '#000000',
 					fontSize: '45px',
 					fontFamily: 'PT Sans' 
 				});
 		        // number line
-				this.numberLine = this.add.image(123, 300, "numberline"); // 123 và 300 là vị trí của trục số
-				this.numberLine.setOrigin(0, 0);
+				this.numberLine = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY-72, "numberline");
+
 				//random number
 				 this.randomNumber();
 				//status
-				this.statusLabel = this.add.bitmapText(DEFAULT_WIDTH/2-100, DEFAULT_HEIGHT*3/4-25, "pixelFont", "STATUS: ", 30);
+				// this.statusLabel = this.add.bitmapText(DEFAULT_WIDTH/2-100, DEFAULT_HEIGHT*3/4-25, "pixelFont", "STATUS: ", 30);
+				
 				this.end = false;
 				
 		    },
@@ -143,45 +172,50 @@ class Scene2 extends Phaser.Scene {
 	}
 
 	randomNumber() {
-		var posY = 250;
-		if (this.countCorrect == 0) {
-			let posX  = Phaser.Math.Between(100, DEFAULT_WIDTH-100);
-			do {
-				this.number = Phaser.Math.Between(1,7);
-			} while (this.number % 5 == 0);
-			this.numberObj1 = this.add.sprite(posX, posY, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
+		var posY = 160;
+		var posX  = Phaser.Math.Between(300, DEFAULT_WIDTH-300);
+		
+		do {
+			this.number = Phaser.Math.Between(1+6*this.countCorrect,6+5*this.countCorrect);
+		} while (this.number % 5 == 0);
+		if(this.number >= 10) {
+			numberInBall[this.countCorrect] = this.add.text(-10, 0, this.number, {
+				fontFamily: 'PT Sans',
+				fontSize: '45px',
+				color: '#000000'
+			});
+		} else {
+			numberInBall[this.countCorrect] = this.add.text(0, 0, this.number, {
+				fontFamily: 'PT Sans',
+				fontSize: '45px',
+				color: '#000000'
+			});
 		}
-		if (this.countCorrect == 1) {
-			let posX  = Phaser.Math.Between(100, DEFAULT_WIDTH-100);
-			do {
-				this.number = Phaser.Math.Between(8,13);
-			} while (this.number % 5 == 0);
-			this.numberObj2 = this.add.sprite(posX, posY, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
-		}
-		if (this.countCorrect == 2) {
-			let posX  = Phaser.Math.Between(100, DEFAULT_WIDTH-100);
-			do {
-				this.number = Phaser.Math.Between(14,19);
-			} while (this.number % 5 == 0);
-			this.numberObj3 = this.add.sprite(posX, posY, "ball"+this.number).setFrame(0).setScale(1.5).setInteractive({cursor: 'pointer'});
-		}
+		
+		ball[this.countCorrect] = this.add.sprite(13, 22, 'balloon').setFrame(1);
+		container[this.countCorrect] = this.add.container(posX, posY, [ball[this.countCorrect], numberInBall[this.countCorrect]]);	
+		container[this.countCorrect].setInteractive(new Phaser.Geom.Circle(0, 0, 60), Phaser.Geom.Circle.Contains); 
+		this.input.setDraggable(container[this.countCorrect]);
+		container[this.countCorrect].on('pointerover', () => {
+			container[this.countCorrect].list[0].setFrame(2);
+		});
+		container[this.countCorrect].on('pointerout', () => {
+			//container[this.countCorrect].list[0].setFrame(1);
+			ball[this.countCorrect].setFrame(1);
+		});
+		
 		
 	}
 
 	initSpeaker() {
-		this.speaker = this.add.image(320, 85, "loa").setScale(0.1); // 320 và 85 là vị trí của loa
+		this.speaker = this.add.sprite(370, 90, "speaker").setScale(0.35);
 		this.speaker.setOrigin(0, 0);
 		this.speaker.setInteractive({cursor: 'pointer'});
 		this.music = this.sound.add('sound2');
+		this.speaker.on('pointerover', () => this.speaker.setFrame(1));
+		this.speaker.on('pointerout', () => this.speaker.setFrame(0));
 		this.speaker.on('pointerdown', () => {
 			this.music.play();
-			this.speaker.destroy();
-			this.time.addEvent({
-				delay: 2000,
-				callback: () => {
-					this.initSpeaker();
-				}
-			});
 		});
 	}
 
@@ -194,10 +228,15 @@ class Scene2 extends Phaser.Scene {
 
 	doDrag(pointer) {
 		if (this.dragObj != null) {
-			this.dragObj.setFrame(1);
-			if (this.dragObj.x > 100 || this.dragObj.x < DEFAULT_WIDTH - 100) {
+			//line[this.countCorrect] = this.add.sprite(12, 76, 'line');
+			//container[this.countCorrect].add(line[this.countCorrect]);
+
+			if (this.dragObj.x > 220 || this.dragObj.x < DEFAULT_WIDTH - 220) {
 				this.dragObj.x = pointer.x;
-				this.dragObj.y = 250;
+				this.dragObj.y = 160;
+			} else {
+				this.dragObj.x = 220;
+				this.dragObj.y = 160;
 			}
 		}
 	}
@@ -213,99 +252,12 @@ class Scene2 extends Phaser.Scene {
 	fillNumber() {
 		
 		if (this.dragObj != null && this.dragObj != this.speaker) {
-			/*
-			hard code trong hàm này là vị trí thích hợp để đưa quả bóng vàng vào
-			*/
-			// vi tri cua so 0
-			if (this.dragObj.x > 155 && this.dragObj.x <= 200) {
-				this.wrongAnswer();
-				return;
-			}
-			// vi tri cua so 1
-			if (this.dragObj.x > 200 && this.dragObj.x <= 250) {
-				this.check(this.number, 1);
-			}
-			// vi tri cua so 2
-			if (this.dragObj.x > 250 && this.dragObj.x <= 300) {
-				this.check(this.number, 2);	
-			}
-			// vi tri cua so 3
-			if (this.dragObj.x > 300 && this.dragObj.x <= 350) {
-				this.check(this.number, 3);	
-			}
-			// vi tri cua so 4
-			if (this.dragObj.x > 350 && this.dragObj.x <= 400) {
-				this.check(this.number, 4);	
-			}
-			// vi tri cua so 5
-			if (this.dragObj.x > 400 && this.dragObj.x <= 450) {
-				this.wrongAnswer();
-				return;
-			}
-			// vi tri cua so 6
-			if (this.dragObj.x > 450 && this.dragObj.x <= 500) {
-				this.check(this.number, 6);	
-			}
-			// vi tri cua so 7
-			if (this.dragObj.x > 500 && this.dragObj.x <= 550) {
-				this.check(this.number, 7);	
-			}
-			// vi tri cua so 8
-			if (this.dragObj.x > 550 && this.dragObj.x <= 600) {
-				this.check(this.number, 8);
-			}
-			// vi tri cua so 9
-			if (this.dragObj.x > 600 && this.dragObj.x <= 650) {
-				this.check(this.number, 9);	
-			}
-			// vi tri cua so 10
-			if (this.dragObj.x > 650 && this.dragObj.x <= 700) {
-				this.wrongAnswer();
-				return;
-			}
-			// vi tri cua so 11
-			if (this.dragObj.x > 700 && this.dragObj.x <= 750) {
-				this.check(this.number, 11);	
-			}
-			// vi tri cua so 12
-			if (this.dragObj.x > 750 && this.dragObj.x <= 800) {
-				this.check(this.number, 12);	
-			}
-			// vi tri cua so 13
-			if (this.dragObj.x > 800 && this.dragObj.x <= 850) {
-				this.check(this.number, 13);	
-			}
-			// vi tri cua so 14
-			if (this.dragObj.x > 850 && this.dragObj.x <= 900) {
-				this.check(this.number, 14);	
-			}
-			// vi tri cua so 15
-			if (this.dragObj.x > 900 && this.dragObj.x <= 950) {
-				this.wrongAnswer();
-				return;
-			}
-			// vi tri cua so 16
-			if (this.dragObj.x > 950 && this.dragObj.x <= 1000) {
-				this.check(this.number, 16);	
-			}
-			// vi tri cua so 17
-			if (this.dragObj.x > 1000 && this.dragObj.x <= 1050) {
-				this.check(this.number, 17);	
-			}
-			// vi tri cua so 18
-			if (this.dragObj.x > 1050 && this.dragObj.x <= 1100) {
-				this.check(this.number, 18);	
-			}
-			// vi tri cua so 19
-			if (this.dragObj.x > 1100 && this.dragObj.x <= 1150) {
-				this.check(this.number, 19);	
-			}
-			// vi tri cua so 20
-			if (this.dragObj.x > 1150 && this.dragObj.x <= 1200) {
-				this.wrongAnswer();
-				return;
-			}
 
+			for (let i=0; i<=20; ++i) {
+				if (this.dragObj.x > 278+39*i && this.dragObj.x < 317+39*i) {
+					this.check(this.number, i);
+				}
+			}
 		}
 			
 	}
@@ -313,71 +265,61 @@ class Scene2 extends Phaser.Scene {
 	check(number, tmp) {
 		if (number == tmp) {
 			this.correctAnswer();
+			console.log('correct');
 			return;
 		} else {
 			this.wrongAnswer();
+			console.log('wrong');
 			return;
 		}
 	}
 
-	wrongAnswer() {
-		if (this.countCorrect == 0) this.numberObj1.setFrame(3);
-		if (this.countCorrect == 1) this.numberObj2.setFrame(3);
-		if (this.countCorrect == 2) this.numberObj3.setFrame(3);
-		status = "WRONG";
-		this.statusLabel.text = "STATUS: "+status;
-		
-		
-		if (this.greenBall4.statusLeft) {
-			this.greenBallMoveLeft(this.greenBall4, 4);
-			this.greenBall4.statusLeft = false;
-			this.greenBall3.statusRight = false;
-			this.greenBall4.statusRight = true;
-		}
-		if (this.greenBall3.statusLeft) {
-			this.greenBallMoveLeft(this.greenBall3, 3);
-			this.greenBall3.statusLeft = false;
-			this.greenBall2.statusRight = false;
-			this.greenBall4.statusLeft = true;
-			this.greenBall3.statusRight = true;
-		}
-		if (this.greenBall2.statusLeft) {
-			this.greenBallMoveLeft(this.greenBall2, 2);
-			this.greenBall2.statusLeft = false;
-			this.greenBall1.statusRight = false;
-			this.greenBall3.statusLeft = true;
-			this.greenBall2.statusRight = true;
-		}
+	wrongAnswer() { 
 
+		container[this.countCorrect].list[0].setFrame(3);
+		// container[this.countCorrect].list[2].setFrame(2);
+		container[this.countCorrect].on('pointerover', () => {
+			container[this.countCorrect].list[0].setFrame(3);
+		});
+		container[this.countCorrect].on('pointerout', () => {
+			container[this.countCorrect].list[0].setFrame(3);
+		});
+		// ball[this.countCorrect].setFrame(3);
+		//line[this.countCorrect].setFrame(1);
+		
+		for (let i = numberOfGreenBall-1; i>=1; --i) {
+			if (this.arrayGreenBall[i].statusLeft) {
+				this.greenBallMoveLeft(this.arrayGreenBall[i], i);
+				this.arrayGreenBall[i].statusLeft = false;
+				this.arrayGreenBall[i].statusRight = true;
+				this.arrayGreenBall[i-1].statusRight = false;
+				if(i != numberOfGreenBall-1) {
+					this.arrayGreenBall[i+1].statusLeft = true;
+				}
+			}
+		}
+		
+		//container[this.countCorrect].remove('line', true);
+		
+		//line[this.countCorrect].setVisible(flase);
+		//console.log(container[this.countCorrect].list[2]);
 		this.move = this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				if (this.countCorrect == 0) {
-					this.numberObj1.y -= 2;
-					if (this.numberObj1.y < DEFAULT_HEIGHT/4-70) {
-						this.move.remove();
-						this.numberObj1.destroy();	
-						this.initial();
-					}
+			
+				if (!line[this.countCorrect]) {
+					line[this.countCorrect].destroy();
 				}
-				if (this.countCorrect == 1) {
-					this.numberObj2.y -= 2;
-					if (this.numberObj2.y < DEFAULT_HEIGHT/4-70) {
-						this.move.remove();
-						this.numberObj1.destroy();
-						this.numberObj2.destroy();
-						this.initial();
+				
+				container[this.countCorrect].y -= 2;
+				if (container[this.countCorrect].y < 55) {
+					console.log('delete');
+					this.move.remove();
+					for(let i = this.countCorrect; i>=0; --i) {
+						container[i].destroy();
 					}
-				}
-				if (this.countCorrect == 2) {
-					this.numberObj3.y -= 2;
-					if (this.numberObj3.y < DEFAULT_HEIGHT/4-70) {
-						this.move.remove();
-						this.numberObj1.destroy();
-						this.numberObj2.destroy();
-						this.numberObj3.destroy();
-						this.initial();
-					}
+						
+					this.initial();
 				}
 				
 			},
@@ -387,99 +329,80 @@ class Scene2 extends Phaser.Scene {
 	}
 
 	correctAnswer() {
-		if (this.countCorrect == 0) this.numberObj1.setFrame(2);
-		if (this.countCorrect == 1) this.numberObj2.setFrame(2);
-		if (this.countCorrect == 2) this.numberObj3.setFrame(2);
-		this.countCorrect++;
-		status = "CORRECT";
-		this.statusLabel.text = "STATUS: "+status;
+		container[this.countCorrect].on('pointerover', () => {
+			container[this.countCorrect].list[0].setFrame(0);
+		});
+		container[this.countCorrect].on('pointerout', () => {
+			container[this.countCorrect].list[0].setFrame(0);
+		});
+		container[this.countCorrect].list[0].setFrame(0);
+		//container[this.countCorrect].list[2].setFrame(2);
 
 		this.move = this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				if (this.countCorrect == 1) {
-					this.numberObj1.y += 15;
-					if (this.numberObj1.y > DEFAULT_HEIGHT/2+190) {
-						this.move.remove();
-						this.numberObj1.disableInteractive();
-						this.numberObj1.y = DEFAULT_HEIGHT/2+190;
-						this.numberObj1.x = 227 + 50*(this.number - 1); // vị trí của của quả bóng vàng khi chọn đúng vị trí
-						status = "";
-						this.statusLabel.text = "STATUS: "+status;
-					}
-				}
-				if (this.countCorrect == 2) {
-					this.numberObj2.y += 15;
-					if (this.numberObj2.y > DEFAULT_HEIGHT/2+190) {
-						this.move.remove();
-						this.numberObj2.disableInteractive();
-						this.numberObj2.y = DEFAULT_HEIGHT/2+190;
-						this.numberObj2.x = 227 + 50*(this.number - 1);
-						status = "";
-						this.statusLabel.text = "STATUS: "+status;
-					}
-				}
-				if (this.countCorrect == 3) {
-					this.numberObj3.y += 15;
-					if (this.numberObj3.y > DEFAULT_HEIGHT/2+190) {
-						this.move.remove();
-						this.numberObj3.disableInteractive();
-						this.numberObj3.y = DEFAULT_HEIGHT/2+190;
-						this.numberObj3.x = 227 + 50*(this.number - 1);
-						status = "";
-						this.statusLabel.text = "STATUS: "+status;
-					}
+				container[this.countCorrect].y += 4;
+				if (container[this.countCorrect].y > DEFAULT_HEIGHT/2-63) {
+					this.move.remove();
+					container[this.countCorrect].setScale(0.5);
+					//container[this.countCorrect].list[0].setColor('#e8e9bb');
+					container[this.countCorrect].disableInteractive();
+					container[this.countCorrect].y = DEFAULT_HEIGHT/2-63;
+					container[this.countCorrect].x = 304 + 39*(this.number); // vị trí của của quả bóng vàng khi chọn đúng vị trí
+					
+					this.countCorrect++;
+					// var graphics = this.add.graphics();
+					// graphics.fillStyle('#e8e9bb',0.8);
+					// graphics.fillCircle(298 + 39*(this.number), DEFAULT_HEIGHT/2, 50);
+
 				}
 				
 			},
 			loop: true
 		});
 
-		if (this.countCorrect == 3) {
-			
-			if (this.greenBall1.statusRight) {
-				this.greenBallMoveRight(this.greenBall1, 1);
-				this.greenBall1.statusRight = false;
-				this.greenBall1.statusLeft = true;
+		
 
-				this.end = true;
-				this.time.addEvent({
-					delay: 3000,
-					callback: () => {
-						this.scene.start("screenFinish");
+		if (this.countCorrect == 2) {
+			for (let i=0; i<numberOfGreenBall; ++i) {
+				if (this.arrayGreenBall[i].statusRight) {
+					console.log(i);
+					if (i == 0) {
+						this.greenBallMoveRight(this.arrayGreenBall[i], i);
+						this.arrayGreenBall[i].statusRight = false;
+						this.arrayGreenBall[i].statusLeft = true;
+						this.end = true;
+						this.time.addEvent({
+							delay: 2000,
+							callback: () => {
+								this.scene.start('screenFinish');
+							}
+						});
+					} else if (i == numberOfGreenBall-1) {
+						this.greenBallMoveRight(this.arrayGreenBall[i], i);
+						this.arrayGreenBall[i].statusRight = false;
+						this.arrayGreenBall[i].statusLeft = true;
+						this.arrayGreenBall[i-1].statusRight = true;
+						this.arrayGreenBall[i-1].statusLeft = false;
+					} else {
+						this.greenBallMoveRight(this.arrayGreenBall[i], i);
+						this.arrayGreenBall[i].statusRight = false;
+						this.arrayGreenBall[i].statusLeft = true;
+						this.arrayGreenBall[i+1].statusLeft = false;
+						this.arrayGreenBall[i-1].statusRight = true;
 					}
-				});
+				}
 			}
-			if (this.greenBall2.statusRight) {
-				this.greenBallMoveRight(this.greenBall2, 2);
-				this.greenBall2.statusRight = false;
-				this.greenBall2.statusLeft = true;
-				this.greenBall1.statusRight = true;
-				this.greenBall3.statusLeft = false;
-			}
-			if (this.greenBall3.statusRight) {
-				this.greenBallMoveRight(this.greenBall3, 3);
-				this.greenBall3.statusRight = false;
-				this.greenBall3.statusLeft = true;
-				this.greenBall2.statusRight = true;
-				this.greenBall4.statusLeft = false;
-			}
-			if (this.greenBall4.statusRight) {
-				this.greenBallMoveRight(this.greenBall4, 4);
-				this.greenBall4.statusRight = false;
-				this.greenBall4.statusLeft = true;
-				this.greenBall3.statusRight = true;
-			}
+
 
 			if (!this.end) {
 
 				this.time.addEvent({
 					delay: 1500,
 					callback: () => {
-						this.numberObj1.destroy();
-						this.numberObj2.destroy();
-						this.numberObj3.destroy();
-						//this.numberLine.destroy();
+						for (let i=0; i<3; ++i) {
+							container[i].destroy();
+						}
 						this.initial();
 					},
 					loop: false
@@ -489,7 +412,7 @@ class Scene2 extends Phaser.Scene {
 		}
 		else {
 			this.time.addEvent({
-				delay: 1000,
+				delay: 1500,
 				callback: () => {
 					this.randomNumber();
 				},
@@ -503,15 +426,7 @@ class Scene2 extends Phaser.Scene {
 		var run = this.time.addEvent({
 			delay: 0,
 			callback: () => { 
-				if (i == 4 || i == 3) {
-					if (ball.x > 976 - (4-i)*50) run.remove();
-				}
-				else if (i == 2) {
-					if (ball.x > 884) run.remove();
-				}
-				else if (i == 1) {
-					if (ball.x > 844) run.remove();
-				}
+				if (ball.x > 909 - (numberOfGreenBall-1-i)*23) run.remove(); // giới hạn dừng lại của quả bóng xanh
 				ball.x += 10;
 			},
 			loop: true
@@ -522,21 +437,11 @@ class Scene2 extends Phaser.Scene {
 		var run = this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				if (i == 4) {
-					if (ball.x < 534) run.remove();
-				}
-				else if (i == 3) {
-					if (ball.x < 494) run.remove();
-				}
-				else if (i == 2) {
-					if (ball.x < 444) run.remove();
-				}
-				
+				if (ball.x < 602 - (numberOfGreenBall-1-i)*23) run.remove(); // giới hạn dừng lại của quả bóng xanh
 				ball.x -= 10;
 			},
 			loop: true
 		});
 	}
-
 
 }

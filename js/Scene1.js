@@ -87,11 +87,6 @@ class Scene1 extends Phaser.Scene {
 
 		// drag object
 		this.input.on('pointerdown', this.startDrag, this);
-		
-		// this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-		//     gameObject.x = dragX;
-		//     gameObject.y = dragY;
-		// });
 
 		// explosion animation 
 		this.anims.create({
@@ -156,7 +151,7 @@ class Scene1 extends Phaser.Scene {
 					this.textStart.destroy();
 					this.startButton.destroy();
 					for (let i=0; i<5; ++i) {
-						arrContainer[i].setInteractive(new Phaser.Geom.Circle(50, 50, 60), Phaser.Geom.Circle.Contains);
+						arrContainer[i].setInteractive(new Phaser.Geom.Circle(30, 50, 60), Phaser.Geom.Circle.Contains);
 					}
 				});
 			}
@@ -228,12 +223,23 @@ class Scene1 extends Phaser.Scene {
 			
 				// number of train body
 				arrayNumber = [];
+				
 				for (let i=0; i<numberOfContainer; ++i) {
-					arrayNumber[i] = this.add.text(0, 0, Phaser.Math.Between(1+4*i, 4+4*i), {
-						color: '#000000',
-						fontSize: '39px',
-						fontFamily: 'PT Sans'
-					});
+					this.number = Phaser.Math.Between(1+4*i, 4+4*i);
+					if (this.number >= 10) {
+						arrayNumber[i] = this.add.text(0, 0, this.number, {
+							color: '#000000',
+							fontSize: '39px',
+							fontFamily: 'PT Sans'
+						});
+					} else {
+						arrayNumber[i] = this.add.text(10, 0, this.number, {
+							color: '#000000',
+							fontSize: '39px',
+							fontFamily: 'PT Sans'
+						});
+					}
+					
 				}
 
 				// container
@@ -341,7 +347,7 @@ class Scene1 extends Phaser.Scene {
 								if (this.count == 0) {
 									for (let i=0; i<numberOfGreenBall; ++i) {
 										if (this.arrayGreenBall[i].statusRight) {
-											console.log(i);
+											//console.log(i);
 											if (i == 0) {
 												this.greenBallMoveRight(this.arrayGreenBall[i], i);
 												this.arrayGreenBall[i].statusRight = false;
