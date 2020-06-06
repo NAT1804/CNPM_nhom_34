@@ -87,8 +87,8 @@ class Scene0 extends Phaser.Scene {
 			frameHeight: 76
 		});
 		this.load.spritesheet('balloon', '../assets/images/balloon.png', {
-			frameWidth: 76,
-			frameHeight: 76
+			frameWidth: 75,
+			frameHeight: 73
 		});
 		this.load.audio("sound2", "../assets/sounds/sound2.mp3");
 		this.load.spritesheet('line', '../assets/images/line.png', {
