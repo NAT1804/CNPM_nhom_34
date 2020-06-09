@@ -13,7 +13,7 @@ class Scene2 extends Phaser.Scene {
 
 	create() {
 		// background
-        var grad = this.add.image(0, 0, 'grad').setOrigin(0, 0).setScale(3.0);
+        var grad = this.add.image(0, 0, 'grad').setOrigin(0, 0).setScale(3.5);
 
         for (let i=0; i<8; ++i) {
             for (let j=0; j<8; ++j) {
@@ -35,7 +35,7 @@ class Scene2 extends Phaser.Scene {
 		this.box = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY-75, "mainBox");
 
 		// back button
-		this.backButton = this.add.text(277, 23, '< Back', {
+		this.backButton = this.add.text(DEFAULT_WIDTH/4-50, 23, '< Back', {
 			fontFamily: 'Noto Sans',
 			color: '#5280b7',
 			fontSize: '18px'
@@ -52,7 +52,7 @@ class Scene2 extends Phaser.Scene {
 		this.bar = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY-356, 'bar');
 
 		// green ball
-		var posXGreenBall1 = 468;
+		var posXGreenBall1 =  DEFAULT_WIDTH/3+10;
 		var posYGreenBall = 21;
 		this.arrayGreenBall = new Array('greenBall');
 		for (let i=0; i<numberOfGreenBall; ++i) {
@@ -67,7 +67,7 @@ class Scene2 extends Phaser.Scene {
 		}
 
 		// language
-		this.language = this.add.text(1110, 23, 'English', {
+		this.language = this.add.text(DEFAULT_WIDTH*3/4, 23, 'English', {
 			fontFamily: 'Noto Sans',
 			color: '#5280b7',
 			fontSize: '18px'
@@ -85,9 +85,9 @@ class Scene2 extends Phaser.Scene {
 		this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				//for (let i=0; i<3; ++i) {
-					container[0].disableInteractive();
-				//}
+				
+				container[0].disableInteractive();
+				this.speaker.disableInteractive();
 			}
 		});
 
@@ -135,7 +135,13 @@ class Scene2 extends Phaser.Scene {
 					this.textStart.destroy();
 					this.startButton.destroy();
 					container[0].setInteractive(new Phaser.Geom.Circle(50, 50, 60), Phaser.Geom.Circle.Contains);
-					
+					this.speaker.setInteractive({cursor: 'pointer'});
+					this.music = this.sound.add('sound2');
+					this.speaker.on('pointerover', () => this.speaker.setFrame(1));
+					this.speaker.on('pointerout', () => this.speaker.setFrame(0));
+					this.speaker.on('pointerdown', () => {
+						this.music.play();
+					});
 				});
 			}
 		});
@@ -151,7 +157,7 @@ class Scene2 extends Phaser.Scene {
 		    	// number of correct sentences
 		    	this.countCorrect = 0;
 		    	// header
-				var header = this.add.text(420, 85, "Place the ball on the number line", {
+				var header = this.add.text(DEFAULT_WIDTH/25*8, 85, "Place the ball on the number line", {
 					color: '#000000',
 					fontSize: '45px',
 					fontFamily: 'PT Sans' 
@@ -173,7 +179,7 @@ class Scene2 extends Phaser.Scene {
 
 	randomNumber() {
 		var posY = 160;
-		var posX  = Phaser.Math.Between(300, DEFAULT_WIDTH-300);
+		var posX  = Phaser.Math.Between(DEFAULT_WIDTH/5, DEFAULT_WIDTH/5*4);
 		
 		do {
 			this.number = Phaser.Math.Between(1+6*this.countCorrect,6+5*this.countCorrect);
@@ -208,7 +214,7 @@ class Scene2 extends Phaser.Scene {
 	}
 
 	initSpeaker() {
-		this.speaker = this.add.sprite(370, 90, "speaker").setScale(0.35);
+		this.speaker = this.add.sprite(DEFAULT_WIDTH/25*7.3, 90, "speaker").setScale(0.35);
 		this.speaker.setOrigin(0, 0);
 		this.speaker.setInteractive({cursor: 'pointer'});
 		this.music = this.sound.add('sound2');
@@ -254,7 +260,7 @@ class Scene2 extends Phaser.Scene {
 		if (this.dragObj != null && this.dragObj != this.speaker) {
 
 			for (let i=0; i<=20; ++i) {
-				if (this.dragObj.x > 278+39*i && this.dragObj.x < 317+39*i) {
+				if (this.dragObj.x > DEFAULT_WIDTH/25*5.65+39*i && this.dragObj.x < DEFAULT_WIDTH/25*5.65+39+39*i) {
 					this.check(this.number, i);
 				}
 			}
@@ -348,7 +354,7 @@ class Scene2 extends Phaser.Scene {
 					//container[this.countCorrect].list[0].setColor('#e8e9bb');
 					container[this.countCorrect].disableInteractive();
 					container[this.countCorrect].y = DEFAULT_HEIGHT/2-63;
-					container[this.countCorrect].x = 304 + 39*(this.number); // vị trí của của quả bóng vàng khi chọn đúng vị trí
+					container[this.countCorrect].x = DEFAULT_WIDTH/25*5.65 + 19 + 39*(this.number); // vị trí của của quả bóng vàng khi chọn đúng vị trí
 					
 					this.countCorrect++;
 					// var graphics = this.add.graphics();
@@ -426,8 +432,8 @@ class Scene2 extends Phaser.Scene {
 		var run = this.time.addEvent({
 			delay: 0,
 			callback: () => { 
-				if (ball.x > 909 - (numberOfGreenBall-1-i)*23) run.remove(); // giới hạn dừng lại của quả bóng xanh
-				ball.x += 10;
+				if (ball.x > DEFAULT_WIDTH/10*6.2175 - (numberOfGreenBall-1-i)*23) run.remove(); // giới hạn dừng lại của quả bóng xanh
+				ball.x += 9;
 			},
 			loop: true
 		});
@@ -437,8 +443,8 @@ class Scene2 extends Phaser.Scene {
 		var run = this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				if (ball.x < 602 - (numberOfGreenBall-1-i)*23) run.remove(); // giới hạn dừng lại của quả bóng xanh
-				ball.x -= 10;
+				if (ball.x < DEFAULT_WIDTH/3*1.27 - (numberOfGreenBall-1-i)*23) run.remove(); // giới hạn dừng lại của quả bóng xanh
+				ball.x -= 9;
 			},
 			loop: true
 		});

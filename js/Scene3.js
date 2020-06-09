@@ -17,7 +17,7 @@ class Scene3 extends Phaser.Scene {
 
 	create() {
 		// background
-		var grad = this.add.image(0, 0, 'grad').setOrigin(0, 0).setScale(3.0);
+		var grad = this.add.image(0, 0, 'grad').setOrigin(0, 0).setScale(3.5);
 
 		for (let i=0; i<8; ++i) {
 			for (let j=0; j<8; ++j) {
@@ -39,7 +39,7 @@ class Scene3 extends Phaser.Scene {
 		this.box = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY-75, "mainBox"); // 90 va 30 la vi tri cua box
 		
 		// back button
-		this.backButton = this.add.text(277, 23, '< Back', {
+		this.backButton = this.add.text(DEFAULT_WIDTH/4-50, 23, '< Back', {
 			fontFamily: 'Noto Sans',
 			color: '#5280b7',
 			fontSize: '18px'
@@ -56,7 +56,7 @@ class Scene3 extends Phaser.Scene {
 		this.bar = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY-356, 'bar');
 
 		// green ball
-		var posXGreenBall1 = 468;
+		var posXGreenBall1 =  DEFAULT_WIDTH/3+10;
 		var posYGreenBall = 21;
 		this.arrayGreenBall = new Array('greenBall');
 		for (let i=0; i<numberOfGreenBall; ++i) {
@@ -71,7 +71,7 @@ class Scene3 extends Phaser.Scene {
 		}
 
 		// language
-		this.language = this.add.text(1110, 23, 'English', {
+		this.language = this.add.text(DEFAULT_WIDTH*3/4, 23, 'English', {
 			fontFamily: 'Noto Sans',
 			color: '#5280b7',
 			fontSize: '18px'
@@ -109,6 +109,7 @@ class Scene3 extends Phaser.Scene {
 				for (let i=0; i<numberOfContainer; ++i) {
 					arrContainer[i].disableInteractive();
 				}
+				this.speaker.disableInteractive();
 			}
 		});
 
@@ -158,6 +159,13 @@ class Scene3 extends Phaser.Scene {
 					for (let i=0; i<5; ++i) {
 						arrContainer[i].setInteractive(new Phaser.Geom.Circle(50, 50, 60), Phaser.Geom.Circle.Contains);
 					}
+					this.speaker.setInteractive({cursor: 'pointer'});
+					this.music = this.sound.add('sound3');
+					this.speaker.on('pointerover', () => this.speaker.setFrame(1));
+					this.speaker.on('pointerout', () => this.speaker.setFrame(0));
+					this.speaker.on('pointerdown', () => {
+						this.music.play();
+					});
 				});
 			}
 		});
@@ -169,12 +177,12 @@ class Scene3 extends Phaser.Scene {
 			delay: 0,
 			callback: () => {
 				//header
-				this.header = this.add.text(497, 72, "Put the train cars from the greatest", { 
+				this.header = this.add.text(DEFAULT_WIDTH/3+15, 72, "Put the train cars from the greatest", { 
 					color: '#000000',
 					fontSize: '32px',
 					fontFamily: 'PT Sans'
 				});
-				this.header2 = this.add.text(632, 120, "to the smallest", {
+				this.header2 = this.add.text(DEFAULT_WIDTH/2.5+50, 120, "to the smallest", {
 					color: '#000000',
 					fontSize: '32px',
 					fontFamily: 'PT Sans'
@@ -189,7 +197,7 @@ class Scene3 extends Phaser.Scene {
 				this.track2 = this.add.image(this.cameras.main.centerX+180, this.cameras.main.centerY+120, 'track');
 
 				// color track 
-				var posXColorTrack = 357;
+				var posXColorTrack = DEFAULT_WIDTH/40*11;
 				var posYColorTrack = 488;
 				this.arrayColorTrack = new Array('colortrack');
 				for (let i=0; i<numberOfContainer; ++i) {
@@ -248,7 +256,7 @@ class Scene3 extends Phaser.Scene {
 
 				// container
 				//posXContainer = [330, 510, 690, 870, 1050];
-				posXContainer = [870, 510, 330, 690, 1050];
+				posXContainer = [DEFAULT_WIDTH/4 + 180*3, DEFAULT_WIDTH/4 + 180, DEFAULT_WIDTH/4, DEFAULT_WIDTH/4 + 180*2, DEFAULT_WIDTH/4 + 180*4];
 				posYContainer = [275, 275, 162, 162, 162];
 				arrContainer = new Array();
 				for (let i=numberOfContainer-1; i>=0; --i) {
@@ -265,7 +273,7 @@ class Scene3 extends Phaser.Scene {
 					fontSize: '45px',
 					fontFamily: 'PT Sans'
 				});
-				containerHead = this.add.container(424, 387, [head, circle1, headNumber]);
+				containerHead = this.add.container(DEFAULT_WIDTH/40*13, 387, [head, circle1, headNumber]);
 
 				this.end = false;
 			},
@@ -274,10 +282,10 @@ class Scene3 extends Phaser.Scene {
 	}
 
 	initSpeaker() {
-		this.speaker = this.add.sprite(450, 67, "speaker").setScale(0.35);
+		this.speaker = this.add.sprite(DEFAULT_WIDTH/3-40, 67, "speaker").setScale(0.35);
 		this.speaker.setOrigin(0, 0);
 		this.speaker.setInteractive({cursor: 'pointer'});
-		this.music = this.sound.add('sound1');
+		this.music = this.sound.add('sound3');
 		this.speaker.on('pointerover', () => this.speaker.setFrame(1));
 		this.speaker.on('pointerout', () => this.speaker.setFrame(0));
 		this.speaker.on('pointerdown', () => {
@@ -312,7 +320,7 @@ class Scene3 extends Phaser.Scene {
 		if (this.dragObject != null) {
 			for (let i=0; i<numberOfContainer; ++i) {
 				if (this.arrayColorTrack[i].status == true) {
-					if (this.dragObject.x >= 435+135*i && this.dragObject.x <= 570+135*i && this.dragObject.y > 350 && this.dragObject.y < 520) {
+					if (this.dragObject.x >= DEFAULT_WIDTH/40*13.5+135*i && this.dragObject.x <= DEFAULT_WIDTH/40*16.5+135*i && this.dragObject.y > 350 && this.dragObject.y < 520) {
 						this.arrayColorTrack[i].setFrame(1);
 					} 
 					else {
@@ -327,7 +335,7 @@ class Scene3 extends Phaser.Scene {
 		if (this.dragObject != null) {
 			for (let i=0; i<numberOfContainer; ++i) {
 				
-				if (this.dragObject.x >= 435+135*i && this.dragObject.x <= 570+135*i && this.dragObject.y > 350 && this.dragObject.y < 520 && this.arrayColorTrack[i].status == true) {
+				if (this.dragObject.x >= DEFAULT_WIDTH/40*13.5+135*i && this.dragObject.x <= DEFAULT_WIDTH/40*16.5+135*i && this.dragObject.y > 350 && this.dragObject.y < 520 && this.arrayColorTrack[i].status == true) {
 					if (i != numberOfContainer-1) {
 						this.checkTurn(i+1, arrContainer[i], this.arrayColorTrack[i], this.arrayColorTrack[i+1]);
 					}
@@ -335,12 +343,12 @@ class Scene3 extends Phaser.Scene {
 						if (this.count > 0) this.count--;
 						this.checkFalse = true;
 						this.arrayColorTrack[i].setFrame(0);
-						arrContainer[i].x = 1023; 
+						arrContainer[i].x = DEFAULT_WIDTH/40*15.4+125*4; 
 						arrContainer[i].y = 390;
 						
 						arrContainer[i].disableInteractive();
 						this.arrayColorTrack[i].status = false;
-						this.explosion = this.add.sprite(368, 400,"explosion").setScale(2.0);
+						this.explosion = this.add.sprite(DEFAULT_WIDTH/40*11.7, 400,"explosion").setScale(2.0);
 						this.explosion.play('explode');
 						for (let i=0; i<numberOfContainer; ++i) {
 							this.arrayColorTrack[i].destroy();
@@ -395,15 +403,15 @@ class Scene3 extends Phaser.Scene {
 	checkTurn(numberOfTurn, container, colorTrack, colorTrack2/*greenBall4, greenBall3, greenBall2, greenBall1*/) {
 		if (this.dragObject == container) {
 			colorTrack.setFrame(0);
-			container.x = 523 + 125*(numberOfTurn-1); // vị trí của toa tàu được đạt vào đường ray khi chọn đúng toa tàu
+			container.x = DEFAULT_WIDTH/40*15.4 + 125*(numberOfTurn-1); // vị trí của toa tàu được đạt vào đường ray khi chọn đúng toa tàu
 			container.y = 390;
 			container.disableInteractive();
 			colorTrack2.setFrame(0);
 			colorTrack.status = false;
 			colorTrack2.status = true;
 		} else {
-			this.imageWrong = this.add.image(539 + 195*(numberOfTurn-1), 570, "imagewrong").setScale(0.6); // vị trí của thông báo đặt toa tàu sai vị trí
-			this.speaker = this.add.sprite(406 + 195*(numberOfTurn-1), 555, "speaker").setScale(0.35); // hình ảnh của loa khi toa tàu đặt sai vị trí
+			this.imageWrong = this.add.image(DEFAULT_WIDTH/40*16 + 195*(numberOfTurn-1), 570, "imagewrong").setScale(0.6); // vị trí của thông báo đặt toa tàu sai vị trí
+			this.speaker = this.add.sprite(DEFAULT_WIDTH/40*12.7 + 195*(numberOfTurn-1), 555, "speaker").setScale(0.35); // hình ảnh của loa khi toa tàu đặt sai vị trí
 			this.speaker.setOrigin(0, 0);
 			this.speaker.setInteractive({cursor: 'pointer'});
 			this.speaker.on('pointerover', () => this.speaker.setFrame(1));
@@ -434,10 +442,10 @@ class Scene3 extends Phaser.Scene {
 				this.checkFalse = false; // sai nhieu lan trong 1 luot nhung chi co 1 qua bong xanh bi di chuyen tu trai sang phai
 			}
 			colorTrack.setFrame(3);
-			this.dragObject.x = 523 + 125*(numberOfTurn-1);
+			this.dragObject.x = DEFAULT_WIDTH/40*15.4 + 125*(numberOfTurn-1);
 			this.dragObject.y = 390;
 
-			var posX = 523 + 125*(numberOfTurn-1);
+			var posX = DEFAULT_WIDTH/40*15.4 + 125*(numberOfTurn-1);
 			var posY = 390;
 
 			var objectTurnBack = this.time.addEvent({
@@ -494,8 +502,8 @@ class Scene3 extends Phaser.Scene {
 		var run = this.time.addEvent({
 			delay: 0,
 			callback: () => { 
-				if (ball.x > 909 - (numberOfGreenBall-1-i)*23) run.remove(); // giới hạn dừng lại của quả bóng xanh
-				ball.x += 10;
+				if (ball.x > DEFAULT_WIDTH/10*6.2175 - (numberOfGreenBall-1-i)*23) run.remove(); // giới hạn dừng lại của quả bóng xanh
+				ball.x += 9;
 			},
 			loop: true
 		});
@@ -505,8 +513,8 @@ class Scene3 extends Phaser.Scene {
 		var run = this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				if (ball.x < 602 - (numberOfGreenBall-1-i)*23) run.remove(); // giới hạn dừng lại của quả bóng xanh
-				ball.x -= 10;
+				if (ball.x < DEFAULT_WIDTH/3*1.27 - (numberOfGreenBall-1-i)*23) run.remove(); // giới hạn dừng lại của quả bóng xanh
+				ball.x -= 9;
 			},
 			loop: true
 		});

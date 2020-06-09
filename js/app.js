@@ -6,7 +6,7 @@ var config = {
 	type: Phaser.AUTO,
 	scale: {
 		mode: Phaser.Scale.FIT,
-		parent: 'phaser-example',
+		parent: 'game',
 		autoCenter: Phaser.Scale.CENTER_BOTH,
 		width: DEFAULT_WIDTH,
 		height: DEFAULT_HEIGHT
