@@ -13,7 +13,7 @@ var config = {
 	},
 	backgroundColor: '#ffffff',
 	scene: [Scene0, Scene1, Scene2, Scene3, Scene4],
-	pixelArt: true,
+	//pixelArt: true,
 	physics: {
 		default: "arcade",
 		arcade: {
@@ -21,6 +21,7 @@ var config = {
 		}
 	}
 };
+
 var game = new Phaser.Game(config);
 
 function checkInit (game) {
