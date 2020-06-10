@@ -5,6 +5,7 @@ var container = new Array();
 var numberInBall = new Array();
 var ball = new Array('ball');
 var line = new Array();
+var cont = new Array();
 
 class Scene2 extends Phaser.Scene {
 	constructor() {
@@ -113,6 +114,11 @@ class Scene2 extends Phaser.Scene {
 					fontSize: '20px'
 				});
 				
+				// blur object
+				this.header.alpha = 0.2;
+				this.numberLine.alpha = 0.2;
+				container[this.countCorrect].alpha = 0.2;
+				this.speaker.alpha = 0.2;
 		
 				this.startButton.on('pointerover', () => {
 					graphics.clear();
@@ -142,6 +148,12 @@ class Scene2 extends Phaser.Scene {
 					this.speaker.on('pointerdown', () => {
 						this.music.play();
 					});
+
+					// disable blur object
+					this.header.alpha = 1;
+					this.numberLine.alpha = 1;
+					container[this.countCorrect].alpha = 1;
+					this.speaker.alpha = 1;
 				});
 			}
 		});
@@ -157,7 +169,7 @@ class Scene2 extends Phaser.Scene {
 		    	// number of correct sentences
 		    	this.countCorrect = 0;
 		    	// header
-				var header = this.add.text(DEFAULT_WIDTH/25*8, 85, "Place the ball on the number line", {
+				this.header = this.add.text(DEFAULT_WIDTH/25*8, 85, "Place the ball on the number line", {
 					color: '#000000',
 					fontSize: '45px',
 					fontFamily: 'PT Sans' 
@@ -167,8 +179,6 @@ class Scene2 extends Phaser.Scene {
 
 				//random number
 				 this.randomNumber();
-				//status
-				// this.statusLabel = this.add.bitmapText(DEFAULT_WIDTH/2-100, DEFAULT_HEIGHT*3/4-25, "pixelFont", "STATUS: ", 30);
 				
 				this.end = false;
 				
@@ -234,8 +244,8 @@ class Scene2 extends Phaser.Scene {
 
 	doDrag(pointer) {
 		if (this.dragObj != null) {
-			//line[this.countCorrect] = this.add.sprite(12, 76, 'line');
-			//container[this.countCorrect].add(line[this.countCorrect]);
+			line[this.countCorrect] = this.add.sprite(12, 95, 'line');
+			container[this.countCorrect].add(line[this.countCorrect]);
 
 			if (this.dragObj.x > 220 || this.dragObj.x < DEFAULT_WIDTH - 220) {
 				this.dragObj.x = pointer.x;
@@ -281,9 +291,8 @@ class Scene2 extends Phaser.Scene {
 	}
 
 	wrongAnswer() { 
-
 		container[this.countCorrect].list[0].setFrame(3);
-		// container[this.countCorrect].list[2].setFrame(2);
+		container[this.countCorrect].list[2].setFrame(1);
 		container[this.countCorrect].on('pointerover', () => {
 			container[this.countCorrect].list[0].setFrame(3);
 		});
@@ -291,7 +300,7 @@ class Scene2 extends Phaser.Scene {
 			container[this.countCorrect].list[0].setFrame(3);
 		});
 		// ball[this.countCorrect].setFrame(3);
-		//line[this.countCorrect].setFrame(1);
+		line[this.countCorrect].setFrame(1);
 		
 		for (let i = numberOfGreenBall-1; i>=1; --i) {
 			if (this.arrayGreenBall[i].statusLeft) {
@@ -305,7 +314,10 @@ class Scene2 extends Phaser.Scene {
 			}
 		}
 		
-		//container[this.countCorrect].remove('line', true);
+		// container[this.countCorrect].removeAt(2, true);
+		// container[this.countCorrect].list[2].alpha = 0;
+		// line[this.countCorrect].destroy();
+		//container[this.countCorrect].removeAll(true);
 		
 		//line[this.countCorrect].setVisible(flase);
 		//console.log(container[this.countCorrect].list[2]);
@@ -342,26 +354,53 @@ class Scene2 extends Phaser.Scene {
 			container[this.countCorrect].list[0].setFrame(0);
 		});
 		container[this.countCorrect].list[0].setFrame(0);
-		//container[this.countCorrect].list[2].setFrame(2);
+		line[this.countCorrect].setFrame(2);
 
+		// var tmp = 1;
+		// var posX = container[this.countCorrect].x;
+		// var posY = container[this.countCorrect].y;
+		// container[this.countCorrect].destroy();
 		this.move = this.time.addEvent({
 			delay: 0,
 			callback: () => {
+				// if (tmp == 1) {
+					
+				// 	container[this.countCorrect] = this.add.container(posX, posY, [ball[this.countCorrect], numberInBall[this.countCorrect]]);
+				// 	console.log('init successful');
+				// 	tmp = 0;
+				// }
+
 				container[this.countCorrect].y += 4;
 				if (container[this.countCorrect].y > DEFAULT_HEIGHT/2-63) {
 					this.move.remove();
 					container[this.countCorrect].setScale(0.5);
 					//container[this.countCorrect].list[0].setColor('#e8e9bb');
+					container[this.countCorrect].destroy();
+					//line[this.countCorrect].destroy();
 					container[this.countCorrect].disableInteractive();
-					container[this.countCorrect].y = DEFAULT_HEIGHT/2-63;
-					container[this.countCorrect].x = DEFAULT_WIDTH/25*5.65 + 19 + 39*(this.number); // vị trí của của quả bóng vàng khi chọn đúng vị trí
+					// container[this.countCorrect].y = DEFAULT_HEIGHT/2-63;
+					// container[this.countCorrect].x = DEFAULT_WIDTH/25*5.65 + 19 + 39*(this.number); // vị trí của của quả bóng vàng khi chọn đúng vị trí
+					if(this.number >= 10) {
+						numberInBall[this.countCorrect] = this.add.text(-10, 0, this.number, {
+							fontFamily: 'PT Sans',
+							fontSize: '45px',
+							color: '#000000'
+						});
+					} else {
+						numberInBall[this.countCorrect] = this.add.text(0, 0, this.number, {
+							fontFamily: 'PT Sans',
+							fontSize: '45px',
+							color: '#000000'
+						});
+					}
 					
+					ball[this.countCorrect] = this.add.sprite(13, 22, 'balloon').setFrame(0);
+					cont[this.countCorrect] = this.add.container(DEFAULT_WIDTH/25*5.65 + 19 + 39*(this.number), DEFAULT_HEIGHT/2-63, [ball[this.countCorrect], numberInBall[this.countCorrect]]).setScale(0.5);
 					this.countCorrect++;
-					// var graphics = this.add.graphics();
-					// graphics.fillStyle('#e8e9bb',0.8);
-					// graphics.fillCircle(298 + 39*(this.number), DEFAULT_HEIGHT/2, 50);
 
 				}
+
+				
 				
 			},
 			loop: true

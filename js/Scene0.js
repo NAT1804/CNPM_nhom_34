@@ -93,7 +93,7 @@ class Scene0 extends Phaser.Scene {
 		this.load.audio("sound2", "../assets/sounds/sound2.mp3");
 		this.load.spritesheet('line', '../assets/images/line.png', {
 			frameWidth: 8,
-			frameHeight: 125
+			frameHeight: 87
 		});
 		this.load.image("numberline", "../assets/images/numberline.png");
 	}

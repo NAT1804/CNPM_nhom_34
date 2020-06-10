@@ -4,7 +4,7 @@ class Scene4 extends Phaser.Scene {
 	}
 	
 	create() {
-		this.text = this.add.text(485, 140, 'Well done! You completed the card!', {
+		this.text = this.add.text(560, 140, 'Well done! You completed the card!', {
 			fontFamily: 'PT Sans',
 			fontSize: '30px',
 			color: '#000000'

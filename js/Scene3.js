@@ -135,7 +135,18 @@ class Scene3 extends Phaser.Scene {
 					fontSize: '20px'
 				});
 				
-		
+				// blur object
+				this.header.alpha = 0.2;
+				this.header2.alpha = 0.2;
+				for (let i = 0; i<numberOfContainer; ++i) {
+					arrContainer[i].alpha = 0.2;
+					this.arrayColorTrack[i].alpha = 0.2;
+				}
+				containerHead.alpha = 0.2;
+				this.track1.alpha = 0.2;
+				this.track2.alpha = 0.2;
+				this.speaker.alpha = 0.2;
+
 				this.startButton.on('pointerover', () => {
 					graphics.clear();
 					this.startButton.setFrame(1);
@@ -166,6 +177,17 @@ class Scene3 extends Phaser.Scene {
 					this.speaker.on('pointerdown', () => {
 						this.music.play();
 					});
+					// disable blur object
+					this.header.alpha = 1;
+					this.header2.alpha = 1;
+					for (let i = 0; i<numberOfContainer; ++i) {
+						arrContainer[i].alpha = 1;
+						this.arrayColorTrack[i].alpha = 1;
+					}
+					containerHead.alpha = 1;
+					this.track1.alpha = 1;
+					this.track2.alpha = 1;
+					this.speaker.alpha = 1;
 				});
 			}
 		});
@@ -477,7 +499,7 @@ class Scene3 extends Phaser.Scene {
 		var move = this.time.addEvent({
 			delay: 0,
 			callback: () => {
-				if (arrContainer[numberOfContainer-1].x < -100) {
+				if (arrContainer[numberOfContainer-1].x < 0) {
 					move.remove();
 					this.stopTrain();
 				}
@@ -485,6 +507,20 @@ class Scene3 extends Phaser.Scene {
 				for (let i=0; i<numberOfContainer; ++i) {
 					arrContainer[i].x -= 5; // 5 la van toc di chuyen
 				}
+				if (containerHead.x < 300) {
+					containerHead.alpha = 0;
+				}
+				for (let i=0; i<numberOfContainer; ++i) {
+					if (arrContainer[i].x < 300) {
+						arrContainer[i].alpha = 0;
+					}
+				}
+				containerHead.alpha -= 0.018;
+				arrContainer[0].alpha -= 0.015;
+				arrContainer[1].alpha -= 0.012;
+				arrContainer[2].alpha -= 0.009;
+				arrContainer[3].alpha -= 0.006;
+				arrContainer[4].alpha -= 0.003;
 			},
 			loop: true
 		});
